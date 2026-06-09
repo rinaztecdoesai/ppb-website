@@ -31,13 +31,15 @@ NAV = """<header class="site-nav">
     <a class="nav-brand" href="/lp/pp-cash-offer/" aria-label="Prime Property Buyers — home">
       <img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" width="130" height="42">
     </a>
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24"><use href="#i-menu"></use></svg></button>
-    <ul class="nav-menu">
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><svg class="nav-ico-open" viewBox="0 0 24 24"><use href="#i-menu"></use></svg><svg class="nav-ico-close" viewBox="0 0 24 24"><use href="#i-x"></use></svg></button>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="/lp/pp-cash-offer/"%HOME%>Home</a></li>
       <li><a href="/important-advice/"%/important-advice/%>Important Advice</a></li>
       <li><a href="/why-us/"%/why-us/%>Why Us</a></li>
       <li><a href="/faqs/"%/faqs/%>FAQs</a></li>
       <li><a href="/contact/"%/contact/%>Contact</a></li>
+      <li class="nav-menu-cta"><a class="btn btn-primary btn-lg" href="/lp/pp-cash-offer/" data-open-modal="leadModal">Get my cash offer <svg class="icon"><use href="#i-arrow"></use></svg></a></li>
+      <li class="nav-menu-cta"><a class="btn btn-call btn-lg" href="tel:08000122239"><svg class="icon"><use href="#i-phone"></use></svg> Call 0800 0122 239</a></li>
     </ul>
     <div class="nav-actions">
       <a class="nav-phone" href="tel:08000122239"><svg class="icon"><use href="#i-phone"></use></svg><span class="num">0800 0122 239<small>7 days a week · 8am–8pm</small></span></a>

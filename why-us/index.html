@@ -83,7 +83,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=6">
+<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=7">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=2">
 <link rel="stylesheet" href="/lp/shared/offer-modal.css?v=1">
 <link rel="stylesheet" href="/lp/shared/widgets.css?v=6">
@@ -118,13 +118,15 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     <a class="nav-brand" href="/lp/pp-cash-offer/" aria-label="Prime Property Buyers — home">
       <img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" width="130" height="42">
     </a>
-    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24"><use href="#i-menu"></use></svg></button>
-    <ul class="nav-menu">
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><svg class="nav-ico-open" viewBox="0 0 24 24"><use href="#i-menu"></use></svg><svg class="nav-ico-close" viewBox="0 0 24 24"><use href="#i-x"></use></svg></button>
+    <ul class="nav-menu" id="navMenu">
       <li><a href="/lp/pp-cash-offer/">Home</a></li>
       <li><a href="/important-advice/">Important Advice</a></li>
       <li><a href="/why-us/" aria-current="page">Why Us</a></li>
       <li><a href="/faqs/">FAQs</a></li>
       <li><a href="/contact/">Contact</a></li>
+      <li class="nav-menu-cta"><a class="btn btn-primary btn-lg" href="/lp/pp-cash-offer/" data-open-modal="leadModal">Get my cash offer <svg class="icon"><use href="#i-arrow"></use></svg></a></li>
+      <li class="nav-menu-cta"><a class="btn btn-call btn-lg" href="tel:08000122239"><svg class="icon"><use href="#i-phone"></use></svg> Call 0800 0122 239</a></li>
     </ul>
     <div class="nav-actions">
       <a class="nav-phone" href="tel:08000122239"><svg class="icon"><use href="#i-phone"></use></svg><span class="num">0800 0122 239<small>7 days a week · 8am–8pm</small></span></a>
@@ -367,7 +369,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <script src="/lp/shared/offer-modal.js?v=1"></script>
 <script src="/lp/shared/widgets.js?v=2"></script>
 <script src="/lp/shared/script.js?v=24"></script>
-<script src="/lp/shared/pp-pages.js?v=2" defer></script>
+<script src="/lp/shared/pp-pages.js?v=3" defer></script>
 <noscript><style>.reveal{opacity:1 !important; transform:none !important;}</style></noscript>
 </body>
 </html>

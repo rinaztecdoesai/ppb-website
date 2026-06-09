@@ -14,20 +14,26 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
-  // ---- Mobile nav toggle ----
+  // ---- Mobile nav: full-screen overlay ----
   var nav = document.querySelector('.site-nav');
   var toggle = nav && nav.querySelector('.nav-toggle');
   if (nav && toggle) {
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
+    function setMenu(open) {
+      nav.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.classList.toggle('nav-open', open);   // lock scroll while open
+    }
+    toggle.addEventListener('click', function () {
+      setMenu(!nav.classList.contains('open'));
     });
-    // close the menu when a link is tapped
+    // close when any menu item is tapped (links + the CTAs)
     nav.querySelectorAll('.nav-menu a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        nav.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
+      a.addEventListener('click', function () { setMenu(false); });
+    });
+    // close on Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('open')) setMenu(false);
     });
   }
 

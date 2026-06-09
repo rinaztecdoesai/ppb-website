@@ -64,17 +64,57 @@ em{font-style:normal; color:var(--navy); font-weight:600;}
 .nav-phone .num{display:inline-flex; align-items:baseline; gap:.5rem; line-height:1.15; font-weight:800; font-size:.9rem; color:var(--navy); letter-spacing:.02em;}
 .nav-phone small{font-weight:500; font-size:.62rem; color:var(--text-muted); letter-spacing:.04em; text-transform:uppercase;}
 .nav-cta{flex:0 0 auto;}
+.nav-menu-cta{display:none;}                 /* CTAs appear only inside the mobile overlay */
 .nav-toggle{display:none; flex:0 0 auto; margin-left:auto; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; cursor:pointer; align-items:center; justify-content:center; color:var(--navy);}
 .nav-toggle svg{width:22px; height:22px;}
+.nav-ico-close{display:none;}
 @media (max-width:1000px){
-  .nav-toggle{display:flex; order:3; margin-left:.1rem;}
-  /* dropdown anchors to the bottom of the header automatically (top:100%) and
-     collapses via max-height, so it adapts to any header height */
-  .nav-menu{position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; background:#fff; border-bottom:1px solid var(--border); margin:0; padding:0 1.5rem; box-shadow:var(--shadow-md); overflow:hidden; max-height:0; transition:max-height .32s ease, padding .32s ease; z-index:49;}
-  .site-nav.open .nav-menu{max-height:80vh; padding:.4rem 1.5rem 1.1rem;}
-  .nav-menu a{padding:.7rem 0; border-bottom:1px solid var(--border-soft); font-size:1.02rem;}
-  .nav-menu a[aria-current="page"]::after{display:none;}
+  /* toggle stays clickable above the overlay; flips to a white X when open */
+  .nav-toggle{display:flex; order:3; margin-left:.1rem; position:relative; z-index:110; transition:color .2s ease, border-color .2s ease, background .2s ease;}
+  .site-nav.open .nav-toggle{background:transparent; border-color:rgba(255,255,255,.45); color:#fff;}
+  .site-nav.open .nav-ico-open{display:none;}
+  .site-nav.open .nav-ico-close{display:block;}
+
+  /* ---- full-screen overlay menu ---- */
+  .nav-menu{
+    position:fixed; inset:0; z-index:100;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:.1rem; margin:0; padding:5.5rem 1.5rem 2.5rem; list-style:none; overflow-y:auto;
+    background:radial-gradient(125% 80% at 50% 0%, var(--navy) 0%, var(--navy-dark) 78%);
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:opacity .3s ease, transform .35s ease, visibility 0s linear .35s;
+  }
+  .site-nav.open .nav-menu{opacity:1; visibility:visible; transform:none;
+    transition:opacity .3s ease, transform .35s ease;}
+
+  /* big centred links */
+  .nav-menu li{width:100%; max-width:340px; text-align:center;}
+  .nav-menu li:not(.nav-menu-cta) a{display:block; padding:.72rem 0; font-size:1.5rem; font-weight:700;
+    color:#fff; letter-spacing:.01em; border-bottom:1px solid rgba(255,255,255,.09);}
+  .nav-menu li:not(.nav-menu-cta) a:hover,
+  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]{color:var(--lime);}
+  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
+
+  /* CTAs at the foot of the overlay (reuse the brand button styles) */
+  .nav-menu-cta{display:block; max-width:340px; margin-top:.65rem;}
+  .nav-menu-cta:nth-child(6){margin-top:1.6rem;}        /* first CTA — extra gap from the links */
+  .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; font-size:1.05rem;}
+
+  /* staggered entrance for every item (links + CTAs) */
+  .nav-menu > li > a{opacity:0; transform:translateY(16px); transition:opacity .45s ease, transform .45s ease;}
+  .site-nav.open .nav-menu > li > a{opacity:1; transform:none;}
+  .site-nav.open .nav-menu > li:nth-child(1) > a{transition-delay:.07s;}
+  .site-nav.open .nav-menu > li:nth-child(2) > a{transition-delay:.12s;}
+  .site-nav.open .nav-menu > li:nth-child(3) > a{transition-delay:.17s;}
+  .site-nav.open .nav-menu > li:nth-child(4) > a{transition-delay:.22s;}
+  .site-nav.open .nav-menu > li:nth-child(5) > a{transition-delay:.27s;}
+  .site-nav.open .nav-menu > li:nth-child(6) > a{transition-delay:.34s;}
+  .site-nav.open .nav-menu > li:nth-child(7) > a{transition-delay:.4s;}
 }
+@media (max-width:1000px) and (prefers-reduced-motion:reduce){
+  .nav-menu, .nav-menu > li > a{transition:opacity .15s ease !important; transform:none !important;}
+}
+body.nav-open{overflow:hidden;}
 /* Desktop: LP-style two-row right side — logo left (spans both rows),
    phone pill top-right, menu row right-aligned directly beneath it. */
 @media (min-width:1001px){
