@@ -1941,7 +1941,7 @@ h2 {
 .testimonial {
   flex: none;
   width: 380px;
-  margin-right: 1.25rem;
+  margin-right: .9rem;
   background: white;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
