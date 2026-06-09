@@ -43,6 +43,8 @@ em{font-style:normal; color:var(--navy); font-weight:600;}
 .btn-outline:hover{background:var(--navy); color:#fff;}
 .btn-call{background:rgba(255,255,255,.1); color:#fff; border:2px solid rgba(255,255,255,.4);}
 .btn-call:hover{background:rgba(255,255,255,.18);}
+.btn-wa{background:#25D366; color:#fff; box-shadow:0 6px 18px rgba(37,211,102,.35);}
+.btn-wa:hover{background:#20bd5a; transform:translateY(-2px);}
 .btn-lg{padding:.95rem 1.9rem; font-size:1.05rem;}
 .btn-wide{width:100%;}
 
@@ -95,10 +97,17 @@ em{font-style:normal; color:var(--navy); font-weight:600;}
   .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]{color:var(--lime);}
   .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
 
-  /* CTAs at the foot of the overlay (reuse the brand button styles) */
-  .nav-menu-cta{display:block; max-width:340px; margin-top:.65rem;}
-  .nav-menu-cta:nth-child(6){margin-top:1.6rem;}        /* first CTA — extra gap from the links */
-  .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; font-size:1.05rem;}
+  /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
+  .nav-menu-cta{display:block; max-width:340px; margin-top:.7rem;}
+  .nav-menu-cta:nth-child(6){margin-top:1.7rem;}        /* first CTA — extra gap from the links */
+  .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; gap:.55rem; font-size:1.05rem; font-weight:800; padding:.95rem 1.4rem;}
+  .nav-menu-cta a.btn .icon{width:20px; height:20px;}
+  /* solid white "Call" button — scoped, so the dark CTA band's .btn-call is untouched */
+  .nav-menu-cta a.btn-call{background:#fff; color:var(--navy); border:none; box-shadow:0 6px 18px rgba(0,0,0,.22);}
+  .nav-menu-cta a.btn-call .icon{color:var(--navy);}
+  /* keep each button's own text colour (beats the base .nav-menu a colour) */
+  .nav-menu-cta a.btn-primary{color:var(--navy-dark);}
+  .nav-menu-cta a.btn-wa{color:#fff;}
 
   /* staggered entrance for every item (links + CTAs) */
   .nav-menu > li > a{opacity:0; transform:translateY(16px); transition:opacity .45s ease, transform .45s ease;}
@@ -110,6 +119,7 @@ em{font-style:normal; color:var(--navy); font-weight:600;}
   .site-nav.open .nav-menu > li:nth-child(5) > a{transition-delay:.27s;}
   .site-nav.open .nav-menu > li:nth-child(6) > a{transition-delay:.34s;}
   .site-nav.open .nav-menu > li:nth-child(7) > a{transition-delay:.4s;}
+  .site-nav.open .nav-menu > li:nth-child(8) > a{transition-delay:.46s;}
 }
 @media (max-width:1000px) and (prefers-reduced-motion:reduce){
   .nav-menu, .nav-menu > li > a{transition:opacity .15s ease !important; transform:none !important;}
