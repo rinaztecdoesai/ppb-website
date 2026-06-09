@@ -119,6 +119,7 @@ section.block.navy h2, section.block.navy h3{color:#fff;}
 .sec-head h2{font-size:clamp(1.6rem,3.5vw,2.2rem); font-weight:800; letter-spacing:-.01em; margin-bottom:.7rem;}
 .sec-head p{color:var(--text-soft); margin:0;}
 section.block.navy .sec-head p{color:rgba(255,255,255,.82);}
+section.block.navy .sec-head{margin-bottom:2.6rem;}  /* a bit more space before the icon grid */
 
 /* ---- Check grid (questions / lists) ---- */
 .check-grid{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
@@ -189,8 +190,8 @@ table.compare .col-good{border-left:1px solid var(--border-soft);}
 .faq-a p:last-child{margin:0;}
 
 /* ---- Feature icon grid (Why homeowners choose / benefits) ---- */
-.feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem;}
-.feature-card{display:flex; gap:.9rem; align-items:flex-start;}
+.feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.7rem 1.4rem; max-width:980px; margin:0 auto;}
+.feature-card{display:flex; gap:.9rem; align-items:center;}
 .feature-card .f-ico{flex:0 0 auto; width:46px; height:46px; border-radius:12px; background:rgba(165,200,68,.16); color:var(--lime-dark); display:flex; align-items:center; justify-content:center;}
 .feature-card .f-ico .icon{width:24px; height:24px;}
 .feature-card h3{font-size:1.08rem; margin:0 0 .25rem;}
