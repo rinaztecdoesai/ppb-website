@@ -190,6 +190,7 @@ table.compare tbody tr:last-child td.col-good{
 
 /* ---- FAQ accordion ---- */
 .faq-list{display:grid; gap:.75rem; max-width:860px;}
+.faq-list.center{margin-left:auto; margin-right:auto;}  /* centre the list when the heading is centred */
 .faq-item{background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm);}
 .faq-item summary{list-style:none; cursor:pointer; padding:1.1rem 1.3rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; font-weight:700; color:var(--navy); font-size:1.05rem;}
 .faq-item summary::-webkit-details-marker{display:none;}
