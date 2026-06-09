@@ -1925,6 +1925,10 @@ h2 {
 .testimonials-carousel:hover .testimonials-track {
   animation-play-state: paused;
 }
+/* drag/swipe enhancement (JS adds .js-carousel and drives the scroll) */
+.testimonials-carousel.js-carousel { cursor: grab; touch-action: pan-y; user-select: none; }
+.testimonials-carousel.js-carousel.is-grabbing { cursor: grabbing; }
+.testimonials-carousel.js-carousel .testimonials-track { animation: none; }
 /* margin-right on each card (instead of gap on the track) means every
    card has identical width-including-trailing-gap. With 2 identical
    sets back-to-back, translate3d(-50%) lands set 2 precisely where set

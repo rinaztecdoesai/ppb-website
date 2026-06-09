@@ -2479,3 +2479,71 @@ function setupChatbot() {
       .replace(/'/g, "&#039;");
   }
 }
+
+/* ===================================================================
+   Testimonials carousel — JS marquee + drag / swipe.
+   Progressive enhancement, shared by every page that has a
+   .testimonials-carousel (content pages + landing pages). It adds
+   `.js-carousel` (CSS then disables the keyframe animation) and drives
+   the scroll itself, so the user can grab / swipe to scroll. No-ops
+   when the element is absent or the user prefers reduced motion (CSS
+   keeps a static, readable layout in that case).
+   =================================================================== */
+(function () {
+  function initTestimonialsDrag() {
+    var carousels = document.querySelectorAll(".testimonials-carousel");
+    if (!carousels.length) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    carousels.forEach(function (carousel) {
+      var track = carousel.querySelector(".testimonials-track");
+      if (!track) return;
+      carousel.classList.add("js-carousel");        // CSS then turns off the keyframe animation
+
+      var x = 0, half = 0, speed = 0.35, paused = false;
+      var dragging = false, startX = 0, startPos = 0, moved = 0;
+
+      function measure() { half = track.scrollWidth / 2; }  // content is duplicated 2× → loop at half
+      measure();
+      if (window.ResizeObserver) { new ResizeObserver(measure).observe(track); }
+      else { window.addEventListener("resize", measure); }
+
+      function wrap() { if (half) { if (x <= -half) x += half; else if (x > 0) x -= half; } }
+      function render() { track.style.transform = "translate3d(" + x + "px,0,0)"; }
+
+      function tick() {
+        if (!dragging && !paused && half) { x -= speed; wrap(); render(); }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      carousel.addEventListener("mouseenter", function () { paused = true; });
+      carousel.addEventListener("mouseleave", function () { paused = false; });
+
+      carousel.addEventListener("pointerdown", function (e) {
+        dragging = true; moved = 0; startX = e.clientX; startPos = x;
+        carousel.classList.add("is-grabbing");
+        if (carousel.setPointerCapture) { try { carousel.setPointerCapture(e.pointerId); } catch (err) {} }
+      });
+      carousel.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        var d = e.clientX - startX;
+        if (Math.abs(d) > moved) moved = Math.abs(d);
+        x = startPos + d; wrap(); render();
+      });
+      function endDrag() { dragging = false; carousel.classList.remove("is-grabbing"); }
+      carousel.addEventListener("pointerup", endDrag);
+      carousel.addEventListener("pointercancel", endDrag);
+
+      // a genuine drag must not also fire a click on a card / link inside
+      carousel.addEventListener("click", function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); } }, true);
+      track.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTestimonialsDrag);
+  } else {
+    initTestimonialsDrag();
+  }
+})();
