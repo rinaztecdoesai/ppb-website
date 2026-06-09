@@ -1,0 +1,25 @@
+/* =====================================================================
+   Prime Property Buyers — shared SITE FOOTER.
+   Used on EVERY page (landing + content) so the footer is one template.
+   Markup is propagated by build.py; this is the single CSS source.
+   Also reserves the bottom slot for the fixed slide-up CTA bar.
+   ===================================================================== */
+.site-footer{background:var(--navy); color:#fff; padding:3rem 1.5rem 1.75rem;}
+.footer-grid{max-width:var(--max-w,1100px); margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:2rem;}
+.footer-col h4{color:#fff; font-size:.95rem; text-transform:uppercase; letter-spacing:.06em; margin:0 0 1rem;}
+.footer-col ul{list-style:none; margin:0; padding:0; display:grid; gap:.5rem;}
+.footer-col a, .footer-col address{color:rgba(255,255,255,.78); font-size:.93rem; font-style:normal; line-height:1.7;}
+.footer-col a:hover{color:#fff; text-decoration:underline;}
+.footer-logo{width:160px; filter:brightness(0) invert(1); margin-bottom:1rem;}
+.footer-tagline{color:rgba(255,255,255,.7); font-size:.92rem; margin:0 0 1rem;}
+.footer-phone{display:inline-flex; align-items:center; gap:.5rem; color:#fff; font-weight:800; font-size:1.15rem;}
+.footer-phone .icon{width:18px; height:18px; color:var(--lime);}
+.footer-bottom{max-width:var(--max-w,1100px); margin:2rem auto 0; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,.15); display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; justify-content:space-between; align-items:center;}
+.footer-bottom p{margin:0; color:rgba(255,255,255,.55); font-size:.8rem;}
+.footer-bottom nav{display:flex; flex-wrap:wrap; gap:.4rem .9rem;}
+.footer-bottom nav a{color:rgba(255,255,255,.7); font-size:.8rem;}
+@media (max-width:820px){ .footer-grid{grid-template-columns:1fr 1fr;} }
+@media (max-width:480px){ .footer-grid{grid-template-columns:1fr;} }
+
+/* reserve space so the fixed slide-up CTA bar slots in BELOW the footer */
+body{ padding-bottom: 96px; }

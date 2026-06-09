@@ -104,8 +104,8 @@ def render_nav(active_path):
 # shared files. Run:  python3 lp/shared/build.py check
 TRACK_IDS = ["GTM-5D9NNXQ", "G-MHJNE8WJ6T", "AW-789719856",
              "c64724af-0832-4c2f-8549-e9d1bc265708", "hjid:6590098"]
-CONTENT_FILES = ["pp-pages.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js"]
-LANDING_FILES = ["shared/styles.css", "shared/script.js"]
+CONTENT_FILES = ["pp-pages.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js", "footer.css"]
+LANDING_FILES = ["styles.css", "script.js", "footer.css"]
 CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["lp/pp-cash-offer/index.html", "selling-inherited-property/index.html",
                  "lp/modern-method-of-auction/index.html"]
@@ -128,18 +128,27 @@ def check():
 
 
 def main():
+    # NAV — content pages only (landing pages have their own nav implementation)
     for page, active in PAGES.items():
         fp = os.path.join(ROOT, page)
         if not os.path.exists(fp):
-            print(f"  skip (missing): {page}")
-            continue
+            print(f"  skip (missing): {page}"); continue
         s = open(fp, encoding="utf-8").read()
-        nav = render_nav(active)
-        out, n1 = re.subn(r"<header class=\"site-nav\">.*?</header>", lambda m: nav, s, count=1, flags=re.S)
-        out, n2 = re.subn(r"<footer class=\"site-footer\">.*?</footer>", lambda m: FOOTER, out, count=1, flags=re.S)
+        out, n = re.subn(r"<header class=\"site-nav\">.*?</header>", lambda m: render_nav(active), s, count=1, flags=re.S)
         if out != s:
             open(fp, "w", encoding="utf-8").write(out)
-        print(f"  {page:34s} nav={n1} footer={n2}")
+        print(f"  nav    {page:38s} n={n}")
+    # FOOTER — EVERY page (content + landing). Matches site-footer OR the old
+    # landing brand-bar; never the .chatbot-footer (different class).
+    for page in list(PAGES.keys()) + LANDING_PAGES:
+        fp = os.path.join(ROOT, page)
+        if not os.path.exists(fp):
+            print(f"  skip (missing): {page}"); continue
+        s = open(fp, encoding="utf-8").read()
+        out, n = re.subn(r"<footer class=\"(?:site-footer|brand-bar)\"[^>]*>.*?</footer>", lambda m: FOOTER, s, count=1, flags=re.S)
+        if out != s:
+            open(fp, "w", encoding="utf-8").write(out)
+        print(f"  footer {page:38s} n={n}")
     print("Done. Re-preview the pages.")
 
 

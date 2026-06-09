@@ -463,8 +463,3 @@ body.chat-open {overflow: hidden;
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-5px); opacity: 1; }
 }
-
-/* ---- content-page layout: reserve bottom space so the fixed CTA bar
-   slots in BELOW the footer instead of overlapping it (~bar footprint).
-   Landing pages handle this themselves via .brand-bar padding. ---- */
-body { padding-bottom: 96px; }

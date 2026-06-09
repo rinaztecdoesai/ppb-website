@@ -81,10 +81,8 @@ hdr = ("/* Prime Property Buyers — shared widgets: Sarah chatbot + slide-up CT
        "   edit the chatbot/CTA-bar in styles.css then re-run the script.\n"
        "   Loaded on content pages alongside pp-pages.css (unique class names, no scoping).\n"
        "   Includes the @keyframes the widgets use so animations match the landing pages. */\n")
-FOOTER = ("\n\n/* ---- content-page layout: reserve bottom space so the fixed CTA bar\n"
-          "   slots in BELOW the footer instead of overlapping it (~bar footprint).\n"
-          "   Landing pages handle this themselves via .brand-bar padding. ---- */\n"
-          "body { padding-bottom: 96px; }\n")
-out = hdr + rules + "\n\n/* ---- keyframes used by the widgets ---- */\n" + "\n".join(kf) + FOOTER
+# NB: the body{padding-bottom} CTA-bar slot now lives in the shared footer.css
+# (loaded on every page), not here.
+out = hdr + rules + "\n\n/* ---- keyframes used by the widgets ---- */\n" + "\n".join(kf) + "\n"
 open(os.path.join(HERE, "widgets.css"), "w", encoding="utf-8").write(out)
 print(f"widgets.css regenerated: {rules.count('{')} rules + {len(kf)} keyframes ({', '.join(sorted(anims))})")
