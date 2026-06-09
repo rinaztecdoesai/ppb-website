@@ -158,7 +158,7 @@ section.block.navy .sec-head{margin-bottom:2.6rem;}  /* a bit more space before 
 
 /* ---- Comparison table ---- */
 .compare-wrap{overflow-x:auto; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-md); background:#fff;}
-table.compare{width:100%; border-collapse:collapse; min-width:560px;}
+table.compare{width:100%; border-collapse:separate; border-spacing:0; min-width:560px;}
 table.compare th, table.compare td{padding:.95rem 1.1rem; text-align:left; border-bottom:1px solid var(--border-soft);}
 table.compare thead th{font-size:.95rem; font-weight:800; color:#fff; background:var(--navy); border-bottom:none;}
 table.compare thead th:first-child{background:var(--navy-dark);}
@@ -169,7 +169,21 @@ table.compare tbody tr:nth-child(even){background:var(--navy-tint);}
 table.compare td:first-child{font-weight:700; color:var(--navy);}
 table.compare td.val{font-weight:700;}
 table.compare td.val .icon{width:15px; height:15px; vertical-align:-.1em; margin-right:.3rem;}
-table.compare .col-good{border-left:1px solid var(--border-soft);}
+/* --- Recommended column: Prime Property Buyers stands out as the "selected" pick --- */
+table.compare td.col-good, table.compare th.col-good{
+  background:#edf6df;                                       /* pale-green block fill */
+  border-left:2px solid var(--green); border-right:2px solid var(--green);
+  box-shadow:9px 0 20px -12px rgba(15,23,42,.45), -9px 0 20px -12px rgba(15,23,42,.45); /* lifts forward */
+}
+table.compare thead th.col-good{
+  background:var(--green); color:#fff;                      /* green header cap */
+  border-top:2px solid var(--green);
+  border-top-left-radius:12px; border-top-right-radius:12px;
+}
+table.compare tbody tr:last-child td.col-good{
+  border-bottom:2px solid var(--green);
+  border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+}
 .v-good{color:var(--green);}
 .v-bad{color:var(--red);}
 .v-mid{color:var(--amber);}
