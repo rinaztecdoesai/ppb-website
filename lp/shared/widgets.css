@@ -75,17 +75,17 @@
   justify-content: center;
   gap: .45rem;
   padding: .65rem .8rem;
-  border: 0;
+  border: 1.5px solid var(--navy);
   border-radius: 8px;
-  background: var(--lime);
+  background: #fff;
   color: var(--navy);
   font-weight: 700;
   font-size: .9rem;
   white-space: nowrap;
   cursor: pointer;
-  transition: filter .2s ease, transform .15s ease;}
+  transition: background .2s ease, color .2s ease, transform .15s ease;}
 .cta-bar-chat svg {flex-shrink: 0;}
-.cta-bar-chat:hover {filter: brightness(1.05);}
+.cta-bar-chat:hover {background: var(--navy); color: #fff;}
 .cta-bar-chat:active {transform: scale(.96);}
 .cta-bar-chat-label {display: inline;}
 body:has(.chatbot.is-open) .cta-bar.is-visible {transform: translateY(120%);

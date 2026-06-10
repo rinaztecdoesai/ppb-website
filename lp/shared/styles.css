@@ -2473,25 +2473,25 @@ h2 {
 .cta-bar-phone:hover { background: var(--navy); color: white; }
 
 /* Live-chat button on the CTA bar — mobile only (desktop has the floating
-   launcher already). Lime so it stands out next to the navy phone button. */
+   launcher already). White with a navy outline, like the old phone button. */
 .cta-bar-chat {
   display: none;
   align-items: center;
   justify-content: center;
   gap: .45rem;
   padding: .65rem .8rem;
-  border: 0;
+  border: 1.5px solid var(--navy);
   border-radius: 8px;
-  background: var(--lime);
+  background: #fff;
   color: var(--navy);
   font-weight: 700;
   font-size: .9rem;
   white-space: nowrap;
   cursor: pointer;
-  transition: filter .2s ease, transform .15s ease;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
 }
 .cta-bar-chat svg { flex-shrink: 0; }
-.cta-bar-chat:hover { filter: brightness(1.05); }
+.cta-bar-chat:hover { background: var(--navy); color: #fff; }
 .cta-bar-chat:active { transform: scale(.96); }
 .cta-bar-chat-label { display: inline; }
 
