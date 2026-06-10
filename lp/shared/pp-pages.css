@@ -223,6 +223,8 @@ section.block.navy .tl-step:not(:last-child)::after{background:repeating-linear-
   .tl-step:not(:last-child)::after{top:64px; left:31px; right:auto; width:2px; height:100%; transform:none; background:repeating-linear-gradient(180deg,var(--border) 0 8px,transparent 8px 14px);}
   .tl-meta{display:flex; flex-direction:column; gap:.2rem;}
 }
+/* 3-up timeline on desktop only (was an inline style that overrode the mobile stack) */
+@media (min-width:761px){ .timeline.timeline-3{grid-template-columns:repeat(3,1fr);} }
 
 /* ---- Stats strip ---- */
 .stats{display:grid; grid-template-columns:repeat(5,1fr); gap:1.5rem; text-align:center;}
