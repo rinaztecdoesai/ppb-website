@@ -126,6 +126,18 @@ TESTIMONIAL_DATA = [
      "sell my flat quickly as I&rsquo;m due to start a new job in Dubai next month. I called Prime "
      "Property Buyers to see if they would buy my flat. I called them on Tuesday and we completed "
      "the sale by the following Monday. A big thank you to the team!"),
+    ("David &amp; Karen Mitchell", "Divorce &middot; Reading, May 2026",
+     "Going through a divorce, we needed a clean, quick break rather than waiting months on the "
+     "open market. Prime Property Buyers agreed a fair price, dealt with everything through our "
+     "solicitor and completed in under three weeks, so we could both move on with our lives."),
+    ("Tunde Adeyemi", "Stopping repossession &middot; Slough, March 2026",
+     "I&rsquo;d fallen behind on my mortgage and was facing repossession. I called Prime Property "
+     "Buyers and they moved fast &mdash; they spoke to my lender directly, completed the purchase "
+     "and cleared the arrears before the court date. A huge weight off my shoulders."),
+    ("Margaret Hughes", "Broken chain &middot; Maidenhead, May 2026",
+     "My buyer pulled out just days before completion and the whole chain collapsed. Prime "
+     "Property Buyers stepped in and bought my house within the week, so I didn&rsquo;t lose the "
+     "new home I&rsquo;d set my heart on. I can&rsquo;t thank them enough."),
 ]
 
 
@@ -152,9 +164,11 @@ def render_testimonials():
             "\n\n      <!-- Set 2 (duplicate for the seamless loop) -->\n" + set2 + "\n    ")
 
 
-# Pages that share the GENERAL testimonials (NOT selling-inherited-property).
+# Pages that share the GENERAL testimonials (NOT selling-inherited-property,
+# which keeps its own tailored probate reviews).
 TESTIMONIALS_PAGES = ["contact/index.html", "lp/pp-cash-offer/index.html",
-                      "lp/modern-method-of-auction/index.html"]
+                      "lp/modern-method-of-auction/index.html",
+                      "why-us/index.html", "important-advice/index.html", "faqs/index.html"]
 
 ACTIVE_KEYS = ["%HOME%", "%/important-advice/%", "%/why-us/%", "%/faqs/%", "%/contact/%"]
 
