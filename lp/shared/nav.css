@@ -87,8 +87,10 @@
   .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
 
   /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
-  .nav-menu-cta{display:block; max-width:340px; margin-top:1rem;}
-  .nav-menu-cta:nth-child(6){margin-top:2rem;}          /* first CTA — extra gap from the links */
+  /* `.nav-menu li.nav-menu-cta` (not just .nav-menu-cta) so the margin beats
+     the base `.nav-menu li{margin:0}` reset — otherwise the buttons sit flush */
+  .nav-menu li.nav-menu-cta{display:block; max-width:340px; margin-top:1.1rem;}
+  .nav-menu li.nav-menu-cta:nth-child(6){margin-top:2.2rem;}   /* first CTA — extra gap from the links */
   .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; gap:.55rem; font-size:1.05rem; font-weight:800; padding:.95rem 1.4rem; border-radius:999px;}
   .nav-menu-cta a.btn .icon{width:20px; height:20px;}
   .nav-menu-cta a.btn-primary{background:var(--lime); color:var(--navy-dark); box-shadow:0 8px 22px rgba(165,200,68,.4);}
