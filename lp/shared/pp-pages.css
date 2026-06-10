@@ -26,7 +26,7 @@ h1,h2,h3,h4{color:var(--navy); line-height:1.2; margin:0;}
 p{margin:0 0 1rem;}
 em{font-style:normal; color:var(--navy); font-weight:600;}
 .icon{width:1em; height:1em; display:inline-block; vertical-align:-.125em; fill:currentColor;}
-.hl{color:var(--green);}
+.hl{display:inline-block; background:linear-gradient(120deg,var(--lime-dark) 0%, var(--lime) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1.15; padding-bottom:.12em;}
 .hl-dark{color:var(--navy);}
 .center{text-align:center;}
 
@@ -272,6 +272,9 @@ section.block:not(.navy) .stat .stat-ico{background:var(--green-tint); color:var
 .info-card.contact-card{padding:0; overflow:hidden;}
 .contact-card-photo{display:block; width:100%; height:auto; border-bottom:1px solid var(--border);}
 .contact-card-body{padding:1.6rem;}
+.contact-card-actions{display:flex; flex-direction:column; gap:.6rem; margin:0 0 .9rem;}
+.contact-card-actions .btn{width:100%; justify-content:center;}
+.contact-card-hours{font-size:.85rem; color:var(--text-muted); margin:0 0 1.2rem;}
 .trust-list{list-style:none; margin:0; padding:0; display:grid; gap:.55rem;}
 .trust-list li{display:flex; gap:.6rem; align-items:flex-start; font-size:.97rem; color:var(--text-soft);}
 .trust-list .icon{flex:0 0 auto; width:18px; height:18px; color:var(--green); margin-top:.2rem;}
