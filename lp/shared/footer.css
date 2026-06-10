@@ -15,7 +15,7 @@
 .footer-logo{width:160px; filter:brightness(0) invert(1); margin-bottom:1rem;}
 .footer-tagline{color:rgba(255,255,255,.7); font-size:.92rem; margin:0 0 1rem;}
 .footer-phone{display:inline-flex; align-items:center; gap:.5rem; color:#fff; font-weight:800; font-size:1.15rem;}
-.footer-phone .icon{width:18px; height:18px; color:var(--lime);}
+.footer-phone .icon{width:18px; height:18px; color:var(--lime); fill:none;}
 .footer-bottom{max-width:var(--max-w,1100px); margin:2rem auto 0; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,.15); display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; justify-content:space-between; align-items:center;}
 .footer-bottom p{margin:0; color:rgba(255,255,255,.55); font-size:.8rem;}
 .footer-bottom nav{display:flex; flex-wrap:wrap; gap:.4rem .9rem;}
