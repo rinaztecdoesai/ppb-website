@@ -96,29 +96,7 @@
   function inject(){
     if (!document.getElementById('ctaBar'))  document.body.insertAdjacentHTML('beforeend', CTA);
     if (!document.getElementById('chatbot')) document.body.insertAdjacentHTML('beforeend', BOT);
-    // Condensed sticky header (thin bar that slides in on scroll), matching the
-    // landing pages. Injected here (before script.js) so its CTA wires to the popup.
-    if (!document.getElementById('stickyNav') && document.querySelector('.site-nav')) {
-      var P = location.pathname, cur = function(h){ return P.indexOf(h)===0 ? ' aria-current="page"' : ''; };
-      var SN = '<div class="sticky-nav" id="stickyNav" aria-hidden="true"><div class="sticky-inner">'
-        + '<a class="sn-logo" href="/lp/pp-cash-offer/" aria-label="Prime Property Buyers home"><img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" width="128" height="41"></a>'
-        + '<ul class="sn-menu">'
-        + '<li><a href="/lp/pp-cash-offer/">Home</a></li>'
-        + '<li><a href="/important-advice/"'+cur('/important-advice/')+'>Important Advice</a></li>'
-        + '<li><a href="/why-us/"'+cur('/why-us/')+'>Why Us</a></li>'
-        + '<li><a href="/faqs/"'+cur('/faqs/')+'>FAQs</a></li>'
-        + '<li><a href="/contact/"'+cur('/contact/')+'>Contact</a></li>'
-        + '</ul>'
-        + '<a class="sn-cta" href="/lp/pp-cash-offer/" data-open-modal="leadModal">Get my cash offer</a>'
-        + '</div></div>';
-      document.body.insertAdjacentHTML('beforeend', SN);
-      var sn = document.getElementById('stickyNav'), mainNav = document.querySelector('.site-nav');
-      var snUpd = function(){ var show = window.pageYOffset > (mainNav.offsetHeight||80) + 10;
-        sn.classList.toggle('show', show); sn.setAttribute('aria-hidden', show?'false':'true'); };
-      window.addEventListener('scroll', snUpd, {passive:true});
-      window.addEventListener('resize', snUpd, {passive:true});
-      snUpd();
-    }
+    // (the thin sticky header is now injected + wired by the shared nav.js)
     // CTA bar: on pages without a hero form, slide it in once scrolled down.
     var bar = document.getElementById('ctaBar');
     if (bar && !document.getElementById('leadForm')) {

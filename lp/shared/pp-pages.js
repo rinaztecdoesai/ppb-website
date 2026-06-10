@@ -14,28 +14,7 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
-  // ---- Mobile nav: full-screen overlay ----
-  var nav = document.querySelector('.site-nav');
-  var toggle = nav && nav.querySelector('.nav-toggle');
-  if (nav && toggle) {
-    function setMenu(open) {
-      nav.classList.toggle('open', open);
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      document.body.classList.toggle('nav-open', open);   // lock scroll while open
-    }
-    toggle.addEventListener('click', function () {
-      setMenu(!nav.classList.contains('open'));
-    });
-    // close when any menu item is tapped (links + the CTAs)
-    nav.querySelectorAll('.nav-menu a').forEach(function (a) {
-      a.addEventListener('click', function () { setMenu(false); });
-    });
-    // close on Escape
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('open')) setMenu(false);
-    });
-  }
+  // ---- Mobile nav + sticky bar are handled by the shared nav.js ----
 
   // ---- Analytics events (pushed to GTM dataLayer; GTM fires the tags) ----
   // Phone-call clicks, WhatsApp clicks and "Get my offer" CTA clicks become

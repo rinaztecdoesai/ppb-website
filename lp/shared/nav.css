@@ -1,0 +1,124 @@
+/* =====================================================================
+   Prime Property Buyers — SHARED SITE HEADER (one source for every page).
+   Loaded by BOTH landing pages (styles.css) and content pages (pp-pages.css).
+   Markup is propagated by build.py; the sticky bar + toggle are wired by
+   nav.js. Desktop = the cash-offer LP / home header (two-row: logo left,
+   phone pill top-right, menu beneath). Mobile = full-screen overlay menu
+   with the focus CTAs. Edit the header in ONE place — here + build.py + nav.js.
+   ===================================================================== */
+
+/* ---- static top bar ---- */
+.site-nav{position:relative; z-index:50; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 1px 0 rgba(1,0,128,.04);}
+.nav-inner{max-width:var(--max-w); margin:0 auto; padding:.85rem 1.5rem; display:flex; align-items:center; gap:1.1rem;}
+.nav-brand img{width:172px; height:auto; display:block;}
+.nav-menu{display:flex; align-items:center; gap:2.1rem; margin:0 0 0 auto; list-style:none; padding:0;}
+.nav-menu li{margin:0;}
+.nav-menu a{font-weight:600; font-size:.95rem; color:var(--text-soft); position:relative; padding:.25rem 0; letter-spacing:.005em; transition:color .15s ease;}
+.nav-menu a:hover{color:var(--navy);}
+.nav-menu a[aria-current="page"]{color:var(--navy); font-weight:700;}
+.nav-menu a[aria-current="page"]::after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:3px; border-radius:3px; background:var(--lime);}
+
+/* LP-style phone pill */
+.nav-phone{display:inline-flex; align-items:center; gap:.55rem; padding:.42rem .9rem .42rem .7rem; background:#fff; border:1px solid var(--border); border-radius:999px; box-shadow:0 2px 8px rgba(1,0,128,.07); color:var(--navy); white-space:nowrap; transition:transform .2s, box-shadow .2s, border-color .2s;}
+.nav-phone:hover{transform:translateY(-1px); box-shadow:0 4px 12px rgba(1,0,128,.1); border-color:var(--green);}
+.nav-phone .icon{width:18px; height:18px; color:var(--navy); flex:none;}
+.nav-phone .num{display:inline-flex; align-items:baseline; gap:.5rem; line-height:1.15; font-weight:800; font-size:.9rem; color:var(--navy); letter-spacing:.02em;}
+.nav-phone small{font-weight:500; font-size:.62rem; color:var(--text-muted); letter-spacing:.04em; text-transform:uppercase;}
+
+.nav-menu-cta{display:none;}                  /* the focus CTAs show only inside the mobile overlay */
+.nav-toggle{display:none; flex:0 0 auto; margin-left:auto; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; cursor:pointer; align-items:center; justify-content:center; color:var(--navy);}
+.nav-toggle svg{width:22px; height:22px;}
+.nav-ico-close{display:none;}
+
+/* nav icons are inline SVGs (no sprite dependency, so they work on every
+   page). Force stroke-style fill regardless of either stylesheet's .icon rule;
+   the WhatsApp glyph is the one filled icon. */
+.site-nav svg, .sticky-nav svg{fill:none;}
+.site-nav .btn-wa svg{fill:currentColor;}
+
+/* WhatsApp green button (here so the menu CTA works on every page type) */
+.btn-wa{background:#25D366; color:#fff; box-shadow:0 6px 18px rgba(37,211,102,.35);}
+.btn-wa:hover{background:#20bd5a; transform:translateY(-2px);}
+
+/* ---- Desktop: two-row right side (logo spans both rows) = home header ---- */
+@media (min-width:1001px){
+  .nav-inner{display:grid; grid-template-columns:auto 1fr;
+             grid-template-areas:"logo phone" "logo menu";
+             align-items:center; column-gap:1.5rem; row-gap:.7rem;
+             padding:1.05rem 1.5rem 1.15rem;}
+  .nav-brand{grid-area:logo; align-self:center;}
+  .nav-brand img{width:230px;}
+  .nav-actions{grid-area:phone; justify-self:end; display:flex; align-items:center; gap:1.1rem;}
+  .nav-menu{grid-area:menu; justify-self:end; margin:0;}
+}
+
+/* ---- Mobile (<=1000px): full-screen overlay menu ---- */
+@media (max-width:1000px){
+  .nav-actions{display:flex; gap:.8rem; align-items:center; flex-direction:row; inset:auto; position:static; transform:none; background:none; border:none; padding:0; box-shadow:none; order:2; margin-left:auto;}
+  .nav-actions .nav-phone small{display:none;}
+
+  /* toggle stays clickable above the overlay; flips to a white X when open */
+  .nav-toggle{display:flex; order:3; margin-left:.1rem; position:relative; z-index:110; transition:color .2s ease, border-color .2s ease, background .2s ease;}
+  .site-nav.open .nav-toggle{background:transparent; border-color:rgba(255,255,255,.45); color:#fff;}
+  .site-nav.open .nav-ico-open{display:none;}
+  .site-nav.open .nav-ico-close{display:block;}
+
+  .nav-menu{
+    position:fixed; inset:0; z-index:100;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:.1rem; margin:0; padding:5.5rem 1.5rem 2.5rem; list-style:none; overflow-y:auto;
+    background:radial-gradient(125% 80% at 50% 0%, var(--navy) 0%, var(--navy-dark) 78%);
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:opacity .3s ease, transform .35s ease, visibility 0s linear .35s;
+  }
+  .site-nav.open .nav-menu{opacity:1; visibility:visible; transform:none;
+    transition:opacity .3s ease, transform .35s ease;}
+
+  /* big centred links */
+  .nav-menu li{width:100%; max-width:340px; text-align:center;}
+  .nav-menu li:not(.nav-menu-cta) a{display:block; padding:.72rem 0; font-size:1.5rem; font-weight:700;
+    color:#fff; letter-spacing:.01em; border-bottom:1px solid rgba(255,255,255,.09);}
+  .nav-menu li:not(.nav-menu-cta) a:hover,
+  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]{color:var(--lime);}
+  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
+
+  /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
+  .nav-menu-cta{display:block; max-width:340px; margin-top:.7rem;}
+  .nav-menu-cta:nth-child(6){margin-top:1.7rem;}        /* first CTA — extra gap from the links */
+  .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; gap:.55rem; font-size:1.05rem; font-weight:800; padding:.95rem 1.4rem; border-radius:999px;}
+  .nav-menu-cta a.btn .icon{width:20px; height:20px;}
+  .nav-menu-cta a.btn-primary{background:var(--lime); color:var(--navy-dark); box-shadow:0 8px 22px rgba(165,200,68,.4);}
+  .nav-menu-cta a.btn-wa{background:#25D366; color:#fff; box-shadow:0 8px 22px rgba(37,211,102,.4);}
+  .nav-menu-cta a.btn-call{background:#fff; color:var(--navy); border:none; box-shadow:0 6px 18px rgba(0,0,0,.22);}
+  .nav-menu-cta a.btn-call .icon{color:var(--navy);}
+
+  /* staggered entrance for every item (links + CTAs) */
+  .nav-menu > li > a{opacity:0; transform:translateY(16px); transition:opacity .45s ease, transform .45s ease;}
+  .site-nav.open .nav-menu > li > a{opacity:1; transform:none;}
+  .site-nav.open .nav-menu > li:nth-child(1) > a{transition-delay:.07s;}
+  .site-nav.open .nav-menu > li:nth-child(2) > a{transition-delay:.12s;}
+  .site-nav.open .nav-menu > li:nth-child(3) > a{transition-delay:.17s;}
+  .site-nav.open .nav-menu > li:nth-child(4) > a{transition-delay:.22s;}
+  .site-nav.open .nav-menu > li:nth-child(5) > a{transition-delay:.27s;}
+  .site-nav.open .nav-menu > li:nth-child(6) > a{transition-delay:.34s;}
+  .site-nav.open .nav-menu > li:nth-child(7) > a{transition-delay:.4s;}
+  .site-nav.open .nav-menu > li:nth-child(8) > a{transition-delay:.46s;}
+}
+@media (max-width:1000px) and (prefers-reduced-motion:reduce){
+  .nav-menu, .nav-menu > li > a{transition:opacity .15s ease !important; transform:none !important;}
+}
+@media (max-width:560px){ .nav-brand img{width:108px;} .nav-actions .nav-phone .num{display:none;} }
+body.nav-open{overflow:hidden;}
+
+/* ---- thin sticky bar (injected + scroll-toggled by nav.js) ---- */
+.sticky-nav{position:fixed; top:0; left:0; right:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 6px 20px rgba(1,0,128,.08); transform:translateY(-100%); transition:transform .32s ease;}
+.sticky-nav.show{transform:translateY(0);}
+.sticky-inner{max-width:var(--max-w); margin:0 auto; padding:.5rem 1.5rem; display:flex; align-items:center; gap:1.1rem;}
+.sn-logo img{width:128px; height:auto; display:block;}
+.sn-menu{display:flex; align-items:center; gap:1.7rem; margin:0 0 0 auto; list-style:none; padding:0;}
+.sn-menu li{margin:0;}
+.sn-menu a{font-weight:600; font-size:.9rem; color:var(--text-soft); transition:color .15s ease;}
+.sn-menu a:hover, .sn-menu a[aria-current="page"]{color:var(--navy);}
+.sn-cta{flex:0 0 auto; background:var(--lime); color:var(--navy-dark); font-weight:800; font-size:.9rem; padding:.55rem 1.15rem; border-radius:999px; box-shadow:0 4px 12px rgba(165,200,68,.3); transition:background .15s ease, transform .15s ease;}
+.sn-cta:hover{background:var(--lime-dark); transform:translateY(-1px);}
+@media (max-width:1000px){ .sn-menu{display:none;} .sn-cta{margin-left:auto;} .sn-logo img{width:112px;} }
