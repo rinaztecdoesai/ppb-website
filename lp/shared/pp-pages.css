@@ -14,7 +14,7 @@
   --bg:#ffffff; --bg-alt:#f8f8fb; --border:#e6e6ee; --border-soft:#f0f0f5;
   --radius:10px; --radius-lg:14px;
   --shadow-sm:0 1px 2px rgba(1,0,128,.04); --shadow-md:0 4px 16px rgba(1,0,128,.06); --shadow-lg:0 12px 36px rgba(1,0,128,.10);
-  --max-w:1100px;
+  --max-w:1200px;   /* match the home/landing width so the shared header (and content) line up across pages */
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -289,21 +289,4 @@ section.block:not(.navy) .stat .stat-ico{background:var(--green-tint); color:var
 /* ---- Site footer moved to shared footer.css (used on every page) ---- */
 
 
-/* ---- Condensed sticky header — thin bar slides in once the main header
-   scrolls past (matches the landing pages). Injected by pp-pages.js. ---- */
-.sticky-nav{position:fixed; top:0; left:0; right:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 6px 20px rgba(1,0,128,.08); transform:translateY(-100%); transition:transform .32s ease;}
-.sticky-nav.show{transform:translateY(0);}
-.sticky-inner{max-width:var(--max-w); margin:0 auto; padding:.45rem 1.5rem; display:flex; align-items:center; gap:1.5rem;}
-.sn-logo img{width:128px; height:auto; display:block;}
-.sn-menu{display:flex; align-items:center; gap:1.7rem; margin:0 0 0 auto; list-style:none; padding:0;}
-.sn-menu li{margin:0;}
-.sn-menu a{font-weight:600; font-size:.9rem; color:var(--text-soft); transition:color .15s ease;}
-.sn-menu a:hover, .sn-menu a[aria-current="page"]{color:var(--navy);}
-.sn-cta{flex:0 0 auto; background:var(--lime); color:var(--navy-dark); font-weight:800; font-size:.9rem; padding:.55rem 1.15rem; border-radius:999px; box-shadow:0 4px 12px rgba(165,200,68,.3); transition:background .15s ease, transform .15s ease;}
-.sn-cta:hover{background:var(--lime-dark); transform:translateY(-1px);}
-@media (max-width:1000px){
-  .sn-menu{display:none;}
-  .sn-cta{margin-left:auto;}
-  .sn-logo img{width:112px;}
-  .sticky-inner{padding:.4rem 1.1rem;}
-}
+/* ---- Sticky header moved to the shared nav.css (was duplicated here) ---- */
