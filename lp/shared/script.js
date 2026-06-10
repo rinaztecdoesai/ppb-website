@@ -2503,7 +2503,13 @@ function setupChatbot() {
       var x = 0, half = 0, speed = 0.35, paused = false;
       var dragging = false, startX = 0, startPos = 0, moved = 0;
 
-      function measure() { half = track.scrollWidth / 2; }  // content is duplicated 2× → loop at half
+      // Loop distance = the exact x where the duplicated 2nd set begins (the
+      // offsetLeft of the first card of set 2). scrollWidth/2 is off by the
+      // inter-set gap, which makes the marquee visibly jump every cycle.
+      function measure() {
+        var kids = track.children;
+        half = kids.length >= 2 ? kids[Math.floor(kids.length / 2)].offsetLeft : track.scrollWidth / 2;
+      }
       measure();
       if (window.ResizeObserver) { new ResizeObserver(measure).observe(track); }
       else { window.addEventListener("resize", measure); }

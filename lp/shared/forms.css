@@ -1,0 +1,737 @@
+/* =====================================================================
+   Prime Property Buyers — shared LEAD FORM + LEAD MODAL styles.
+   SINGLE SOURCE for the cash-offer popup form so it can appear on the
+   INFO pages (Contact / FAQs / Why Us / Important Advice) as well as
+   the landing pages. Landing pages still carry their own copy inside
+   styles.css (this file is loaded ONLY by the content pages, which use
+   pp-pages.css — all the --vars the form needs are defined there).
+   Extracted verbatim from styles.css (LEAD FORM + LEAD MODAL sections)
+   so the popup renders identically to the landing pages.
+   ===================================================================== */
+
+/* ========================================================
+   LEAD FORM — glassy semi-transparent white card, lime CTA.
+   Sits over the hero photo with a frosted backdrop blur so the
+   image bleeds through softly behind the form. Subtle shimmer
+   sweeps across the surface every few seconds for visual interest.
+   ======================================================== */
+.lead-form {
+  position: sticky;
+  top: 1.5rem;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.6rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Shimmer — diagonal white sheen sweeps across the form every 5 seconds.
+   Uses background-position animation (GPU-friendly and unaffected by
+   the form's backdrop-filter stacking context). z-index: 2 keeps it
+   above the form's own background blur. */
+.lead-form::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.85) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-position: -120% 0;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+  animation: form-shimmer 5s ease-in-out infinite;
+}
+@keyframes form-shimmer {
+  0%, 30% { background-position: -120% 0; }
+  85%, 100% { background-position: 220% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lead-form::after { animation: none; opacity: 0; }
+}
+/* Lift the form's children above the shimmer layer */
+.lead-form > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Hide the progress 1-2-3 dots on stage 1 (the simple postcode entry).
+   They reappear when the user advances to stage 2 or 3 where we ask
+   for property details and contact info. */
+.lead-form[data-stage="1"] .form-progress {
+  display: none;
+}
+.form-progress {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+  justify-content: center;
+}
+.form-progress .step {
+  width: 26px; height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 2px solid var(--border);
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all .25s;
+}
+.form-progress .step.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.form-progress .step.done {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: white;
+}
+.form-progress .step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  max-width: 32px;
+  transition: background .25s;
+}
+.form-progress .step-line.done { background: var(--green); }
+
+/* Form's first-stage hero — bold single-line promise. Tight, scannable. */
+.lead-form .form-legend {
+  padding: 0;
+  margin: 0 0 .85rem;
+  line-height: 1.05;
+}
+.lead-form .form-headline {
+  display: block;
+  font-size: clamp(1.6rem, 2.6vw, 2.05rem);
+  font-weight: 900;
+  color: var(--navy);
+  letter-spacing: -0.025em;
+}
+
+/* Quick benefit chips — horizontal row, no borders, tight under headline */
+.form-benefits {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .65rem;
+}
+.form-benefits li {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  color: var(--text-soft);
+  padding: .25rem 0;
+}
+.form-benefits .fb-ico {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  font-size: .68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.form-benefits strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Legacy form-sub kept for back-compat (used in stages 2/3 if needed) */
+.lead-form .form-sub {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+/* XL CTA button — used on the form's first stage, where this is THE
+   primary lead-conversion action. Bigger than .btn-large for prominence. */
+.btn-xl {
+  padding: 1.25rem 1.75rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: .005em;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(165, 200, 68, 0.4);
+}
+.btn-xl:hover {
+  box-shadow: 0 8px 22px rgba(165, 200, 68, 0.55);
+}
+.lead-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.stage {
+  display: none;
+  animation: stage-in .4s cubic-bezier(.18, .89, .32, 1.28);
+}
+.stage.stage-active { display: block; }
+@keyframes stage-in {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage { animation: none; }
+}
+
+.field {
+  display: block;
+  margin-bottom: .9rem;
+}
+.field-half {
+  display: inline-block;
+  width: calc(50% - .35rem);
+}
+.field-half:first-of-type { margin-right: .55rem; }
+.field-label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: .35rem;
+}
+.field-label .muted { color: var(--text-muted); font-weight: 400; }
+
+/* ─── Postcode lookup (Fetchify) ─── */
+.field-with-lookup {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.field-with-lookup .field { margin-bottom: 0; position: relative; }
+
+/* Tiny spinner inside the postcode input while the API is in flight */
+.field-spinner {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.15rem;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(1, 0, 128, 0.15);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.field-spinner.is-visible {
+  opacity: 1;
+  animation: fieldSpin .8s linear infinite;
+}
+@keyframes fieldSpin { to { transform: rotate(360deg); } }
+
+/* Results dropdown — sits directly under the postcode input */
+.postcode-results {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0.3rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(1, 0, 128, 0.12);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 5;
+}
+.pc-result {
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+  line-height: 1.35;
+}
+.pc-result:hover,
+.pc-result:focus {
+  background: var(--green-tint);
+  color: var(--green-dark);
+  outline: 0;
+}
+.pc-result + .pc-result { margin-top: 1px; }
+
+/* Flash animation when the user clicks the button before picking an
+   address — draws their eye up to the results dropdown so they
+   understand what they need to do. */
+.postcode-results.is-flash {
+  animation: pcFlash 0.9s ease-out;
+}
+@keyframes pcFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(165, 200, 68, 0.0), 0 12px 28px rgba(1, 0, 128, 0.12); }
+  30%  { box-shadow: 0 0 0 5px rgba(165, 200, 68, 0.55), 0 12px 28px rgba(1, 0, 128, 0.12); }
+  100% { box-shadow: 0 0 0 0 rgba(165, 200, 68, 0.0), 0 12px 28px rgba(1, 0, 128, 0.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .postcode-results.is-flash { animation: none; }
+}
+
+/* Confirmation pill — shown once an address is selected from the dropdown.
+   The [hidden] guards override our explicit display rules so the HTML
+   `hidden` attribute can hide the elements until JS shows them. */
+.address-confirmed[hidden],
+.postcode-results[hidden] {
+  display: none !important;
+}
+.address-confirmed {
+  margin-top: 0.55rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--green-tint);
+  border: 1px solid rgba(45, 106, 62, 0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: var(--green-dark);
+}
+.ac-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  flex: none;
+}
+.ac-text {
+  flex: 1;
+  color: var(--text);
+  font-weight: 500;
+}
+.ac-change {
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  cursor: pointer;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  transition: background .15s ease;
+}
+.ac-change:hover { background: rgba(45, 106, 62, 0.12); }
+
+/* Manual address fallback — shown when Fetchify returns no results or
+   fails. Lets the user enter their address by hand so they're never
+   stuck. Styled with a soft amber tint so it reads as "fallback" not
+   "error". */
+.address-manual {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 248, 235, 0.95);
+  border: 1px solid rgba(217, 165, 32, 0.28);
+  border-radius: 10px;
+}
+.address-manual[hidden] { display: none !important; }
+.am-prompt {
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.am-field {
+  margin-bottom: 0.65rem !important;
+}
+.am-field:last-of-type {
+  margin-bottom: 0.85rem !important;
+}
+.am-apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  background: var(--navy);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease;
+}
+.am-apply:hover {
+  background: var(--navy-dark);
+  transform: translateY(-1px);
+}
+.am-apply:active { transform: translateY(0); }
+.field input,
+.field select {
+  width: 100%;
+  padding: .85rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  transition: border-color .2s, box-shadow .2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237a7a8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px var(--green-tint);
+}
+.field-error {
+  display: block;
+  font-size: .78rem;
+  color: var(--red);
+  margin-top: .3rem;
+  min-height: 1em;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .9rem 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--lime);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  letter-spacing: .01em;
+}
+.btn-primary:hover {
+  background: var(--lime-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(165, 200, 68, 0.4);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ─── Button loading state ─── */
+/* Applied while a form submit is in flight (1-3s for the Zoho push).
+   The button shows a spinning ring + rotating reassurance text so the
+   user knows the click registered and something is happening. */
+.btn-primary.is-loading {
+  cursor: progress;
+  pointer-events: none;
+  opacity: 0.92;
+  background: var(--lime-dark);
+}
+.btn-primary.is-loading:hover {
+  transform: none;
+  box-shadow: none;
+}
+.btn-primary.is-loading > svg {
+  display: none;   /* hide the arrow icon during loading */
+}
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(1, 0, 128, 0.20);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: btnSpin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes btnSpin { to { transform: rotate(360deg); } }
+.btn-loading-text {
+  display: inline-block;
+  transition: opacity .25s ease;
+}
+.btn-loading-text.is-swapping {
+  opacity: 0;
+}
+
+.btn-block { width: 100%; }
+.btn-large {
+  padding: 1.1rem 1.75rem;
+  font-size: 1.05rem;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border: 1.5px solid var(--border);
+  padding: .85rem 1.25rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.btn-ghost:hover {
+  background: var(--bg-alt);
+  border-color: var(--text-soft);
+  color: var(--text);
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+  padding: 1.1rem 1.75rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  transition: background .2s, color .2s;
+}
+.btn-outline:hover {
+  background: var(--navy);
+  color: white;
+}
+
+.form-or {
+  position: relative;
+  text-align: center;
+  margin: 1rem 0 .85rem;
+  color: var(--text-muted);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.form-or::before,
+.form-or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: var(--border);
+}
+.form-or::before { left: 0; }
+.form-or::after  { right: 0; }
+.form-or span {
+  background: white;
+  padding: 0 .65rem;
+  position: relative;
+}
+.form-call-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  width: 100%;
+  padding: .85rem 1rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: .98rem;
+  font-weight: 600;
+  transition: background .2s, color .2s;
+}
+.form-call-cta:hover {
+  background: var(--navy);
+  color: white;
+}
+.form-call-cta strong {
+  font-weight: 800;
+}
+
+.form-row {
+  display: flex;
+  gap: .65rem;
+  margin-top: .5rem;
+}
+.form-row .btn-primary { flex: 1; }
+.form-foot {
+  font-size: .76rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 1rem 0 0;
+  line-height: 1.5;
+}
+.form-foot-sub {
+  display: inline-block;
+  margin-top: .25rem;
+  font-size: .72rem;
+  color: var(--text-muted);
+  opacity: .85;
+}
+/* Helper hint shown under the locked Stage-1 button until the user picks
+   an address. Lime accent so it reads as a friendly nudge, not an error. */
+.form-foot-hint {
+  margin: .65rem 0 0;
+  color: var(--green-dark);
+  font-weight: 600;
+  font-size: .8rem;
+}
+.form-foot-hint[hidden] { display: none !important; }
+
+.stage-success {
+  text-align: center;
+  padding: 1rem 0 .5rem;
+}
+.success-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop .5s cubic-bezier(.18,.89,.32,1.28);
+}
+@keyframes pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.stage-success h3 {
+  font-size: 1.3rem;
+  color: var(--navy);
+  margin: .5rem 0 .5rem;
+}
+.stage-success p {
+  color: var(--text-soft);
+  margin: 0 0 1.25rem;
+}
+.phone-link-big {
+  display: inline-block;
+  padding: .85rem 1.5rem;
+  background: var(--navy-tint);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+
+
+/* ===============================================================
+   LEAD MODAL — popup version of the form, opens from any out-of-hero
+   "Get cash offer" CTA. Backdrop fade + card scale-in animation.
+   =============================================================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(1, 0, 60, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  background: white;
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  transform: scale(0.94) translateY(12px);
+  transition: transform .35s cubic-bezier(.18,.89,.32,1.18);
+}
+.modal.is-open .modal-card {
+  transform: scale(1) translateY(0);
+}
+.modal-close {
+  position: absolute;
+  top: .65rem;
+  right: .65rem;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, color .2s, transform .15s;
+}
+.modal-close:hover {
+  background: var(--navy);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Modal-form variant — sits inside the modal card. Override the hero
+   form's sticky/glassy treatment since the modal is its own frame. */
+.modal-form {
+  position: static !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  padding: 1.85rem 1.85rem 1.5rem !important;
+}
+.modal-form::after { display: none !important; } /* no shimmer in modal */
+.modal-form[data-stage="1"] .form-progress { display: none; }
+
+/* Lock body scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .modal { padding: .65rem; }
+  .modal-card { max-height: calc(100vh - 1.3rem); }
+  .modal-form { padding: 1.5rem 1.25rem 1.15rem !important; }
+}
+
+/* half-width fields (bedrooms / condition) stack on mobile in the modal */
+@media (max-width: 600px) {
+  .field-half { width: 100%; display: block; margin-right: 0; }
+}

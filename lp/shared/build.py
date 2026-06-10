@@ -103,6 +103,18 @@ FOOTER = """<footer class="site-footer">
   </div>
 </footer>"""
 
+# --- canonical LEAD MODAL (the cash-offer popup form). SINGLE SOURCE = the
+#     partial modal.html; propagated to the INFO pages so the shared
+#     "Get my cash offer" CTA opens it in-place there too. The landing pages
+#     keep their own inline copy and are intentionally NOT touched here.
+#     Styling comes from the shared forms.css (loaded by the content pages);
+#     the form JS is already shared in script.js (wires every .lead-form). ---
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "modal.html"), encoding="utf-8") as _mf:
+    MODAL = _mf.read().strip()
+
+MODAL_PAGES = ["contact/index.html", "faqs/index.html",
+               "why-us/index.html", "important-advice/index.html"]
+
 # --- canonical TESTIMONIALS (edit the quotes here once; propagated to the
 #     pages that use the GENERAL set). The inherited landing page keeps its
 #     own tailored probate testimonials and is intentionally NOT in this list. ---
@@ -186,7 +198,7 @@ def render_nav(active_path):
 # shared files. Run:  python3 lp/shared/build.py check
 TRACK_IDS = ["GTM-5D9NNXQ", "G-MHJNE8WJ6T", "AW-789719856",
              "c64724af-0832-4c2f-8549-e9d1bc265708", "hjid:6590098"]
-CONTENT_FILES = ["pp-pages.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js", "footer.css", "nav.css", "nav.js"]
+CONTENT_FILES = ["pp-pages.css", "forms.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js", "footer.css", "nav.css", "nav.js"]
 LANDING_FILES = ["styles.css", "script.js", "footer.css", "nav.css", "nav.js"]
 CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["lp/pp-cash-offer/index.html", "selling-inherited-property/index.html",
@@ -245,6 +257,21 @@ def main():
         if out != s:
             open(fp, "w", encoding="utf-8").write(out)
         print(f"  testim {page:38s} n={n}")
+    # LEAD MODAL — inject (or refresh) the cash-offer popup on the INFO pages so
+    # the shared "Get my cash offer" CTA opens it in-place. Idempotent: replaces
+    # an existing #leadModal, otherwise injects it right after the </footer>.
+    for page in MODAL_PAGES:
+        fp = os.path.join(ROOT, page)
+        if not os.path.exists(fp):
+            print(f"  skip (missing): {page}"); continue
+        s = open(fp, encoding="utf-8").read()
+        if re.search(r'<div class="modal" id="leadModal"', s):
+            out, n = re.subn(r'<div class="modal" id="leadModal".*?\n</div>', lambda m: MODAL, s, count=1, flags=re.S)
+        else:
+            out = s.replace("</footer>", "</footer>\n\n" + MODAL, 1); n = 1 if out != s else 0
+        if out != s:
+            open(fp, "w", encoding="utf-8").write(out)
+        print(f"  modal  {page:38s} n={n}")
     print("Done. Re-preview the pages.")
 
 
