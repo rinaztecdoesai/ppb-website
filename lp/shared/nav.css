@@ -55,11 +55,15 @@
 /* ---- Mobile (<=1000px): full-screen overlay menu ---- */
 @media (max-width:1000px){
   .nav-actions{display:flex; gap:.8rem; align-items:center; flex-direction:row; inset:auto; position:static; transform:none; background:none; border:none; padding:0; box-shadow:none; order:2; margin-left:auto;}
-  .nav-actions .nav-phone small{display:none;}
+  /* mobile phone = a clean circle (icon only; full number is in the menu) */
+  .nav-actions .nav-phone{width:42px; height:42px; padding:0; justify-content:center; border-radius:50%;}
+  .nav-actions .nav-phone small, .nav-actions .nav-phone .num{display:none;}
 
-  /* toggle stays clickable above the overlay; flips to a white X when open */
+  /* toggle stays clickable above the overlay; flips to a white X when open.
+     When open it goes fixed top-right so the X is visible even if the menu was
+     opened from the scrolled sticky bar. */
   .nav-toggle{display:flex; order:3; margin-left:.1rem; position:relative; z-index:110; transition:color .2s ease, border-color .2s ease, background .2s ease;}
-  .site-nav.open .nav-toggle{background:transparent; border-color:rgba(255,255,255,.45); color:#fff;}
+  .site-nav.open .nav-toggle{position:fixed; top:.95rem; right:1.2rem; background:transparent; border-color:rgba(255,255,255,.45); color:#fff;}
   .site-nav.open .nav-ico-open{display:none;}
   .site-nav.open .nav-ico-close{display:block;}
 
@@ -121,4 +125,12 @@ body.nav-open{overflow:hidden;}
 .sn-menu a:hover, .sn-menu a[aria-current="page"]{color:var(--navy);}
 .sn-cta{flex:0 0 auto; background:var(--lime); color:var(--navy-dark); font-weight:800; font-size:.9rem; padding:.55rem 1.15rem; border-radius:999px; box-shadow:0 4px 12px rgba(165,200,68,.3); transition:background .15s ease, transform .15s ease;}
 .sn-cta:hover{background:var(--lime-dark); transform:translateY(-1px);}
-@media (max-width:1000px){ .sn-menu{display:none;} .sn-cta{margin-left:auto;} .sn-logo img{width:112px;} }
+.sn-phone, .sn-toggle{display:none;}                 /* desktop sticky bar: menu + CTA */
+@media (max-width:1000px){
+  .sn-menu, .sn-cta{display:none;}                    /* mobile sticky bar: logo + phone + hamburger */
+  .sn-logo img{width:112px;}
+  .sn-phone{display:inline-flex; margin-left:auto; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:50%; background:#fff; color:var(--navy); box-shadow:0 2px 8px rgba(1,0,128,.07);}
+  .sn-phone svg{width:18px; height:18px;}
+  .sn-toggle{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--navy); cursor:pointer;}
+  .sn-toggle svg{width:22px; height:22px;}
+}
