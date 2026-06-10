@@ -87,8 +87,8 @@
   .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
 
   /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
-  .nav-menu-cta{display:block; max-width:340px; margin-top:.7rem;}
-  .nav-menu-cta:nth-child(6){margin-top:1.7rem;}        /* first CTA — extra gap from the links */
+  .nav-menu-cta{display:block; max-width:340px; margin-top:1rem;}
+  .nav-menu-cta:nth-child(6){margin-top:2rem;}          /* first CTA — extra gap from the links */
   .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; gap:.55rem; font-size:1.05rem; font-weight:800; padding:.95rem 1.4rem; border-radius:999px;}
   .nav-menu-cta a.btn .icon{width:20px; height:20px;}
   .nav-menu-cta a.btn-primary{background:var(--lime); color:var(--navy-dark); box-shadow:0 8px 22px rgba(165,200,68,.4);}
@@ -113,6 +113,8 @@
 }
 @media (max-width:560px){ .nav-brand img{width:108px;} .nav-actions .nav-phone .num{display:none;} }
 body.nav-open{overflow:hidden;}
+/* hide the floating bottom widgets while the full-screen menu is open */
+body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-tease{display:none !important;}
 
 /* ---- thin sticky bar (injected + scroll-toggled by nav.js) ---- */
 .sticky-nav{position:fixed; top:0; left:0; right:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 6px 20px rgba(1,0,128,.08); transform:translateY(-100%); transition:transform .32s ease;}
