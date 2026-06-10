@@ -91,6 +91,59 @@ FOOTER = """<footer class="site-footer">
   </div>
 </footer>"""
 
+# --- canonical TESTIMONIALS (edit the quotes here once; propagated to the
+#     pages that use the GENERAL set). The inherited landing page keeps its
+#     own tailored probate testimonials and is intentionally NOT in this list. ---
+_STAR = ('<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">'
+         '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 '
+         '5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>')
+
+TESTIMONIAL_DATA = [
+    ("Shawn Draper", "Inherited property &middot; April 2026",
+     "My siblings and I inherited a property from our mother. To say the property needed work "
+     "would be an understatement. Selling via estate agents wasn&rsquo;t really an option. We "
+     "contacted Prime Property Buyers and they purchased the property in 5 days. We didn&rsquo;t "
+     "have to do any work to the house and they even covered our legal fees."),
+    ("Anju Virdee", "Relocation &middot; Watford, April 2026",
+     "We needed to relocate quickly so we could be closer to our daughter&rsquo;s new school. "
+     "Although we&rsquo;d seen a new build property we liked, we didn&rsquo;t even have our house "
+     "on the market. We decided to use Prime Property Buyers to sell our old home and we&rsquo;re "
+     "now living in our dream property."),
+    ("Afua Okeke", "Emigrating &middot; Luton, May 2026",
+     "Despite trying with the estate agents for over 6 months, I was having no luck and needed to "
+     "sell my flat quickly as I&rsquo;m due to start a new job in Dubai next month. I called Prime "
+     "Property Buyers to see if they would buy my flat. I called them on Tuesday and we completed "
+     "the sale by the following Monday. A big thank you to the team!"),
+]
+
+
+def _figure(name, meta, quote, dup):
+    stars = "\n          ".join([_STAR] * 5)
+    hidden = ' aria-hidden="true"' if dup else ''
+    aria = '' if dup else ' aria-label="5 out of 5 stars"'
+    return (f'      <figure class="testimonial"{hidden}>\n'
+            f'        <div class="t-stars"{aria}>\n'
+            f'          {stars}\n'
+            f'        </div>\n'
+            f'        <blockquote>{quote}</blockquote>\n'
+            f'        <figcaption>\n'
+            f'          <strong>{name}</strong>\n'
+            f'          <span>{meta}</span>\n'
+            f'        </figcaption>\n'
+            f'      </figure>')
+
+
+def render_testimonials():
+    set1 = "\n\n".join(_figure(*d, dup=False) for d in TESTIMONIAL_DATA)
+    set2 = "\n\n".join(_figure(*d, dup=True) for d in TESTIMONIAL_DATA)
+    return ("\n\n      <!-- Set 1 -->\n" + set1 +
+            "\n\n      <!-- Set 2 (duplicate for the seamless loop) -->\n" + set2 + "\n    ")
+
+
+# Pages that share the GENERAL testimonials (NOT selling-inherited-property).
+TESTIMONIALS_PAGES = ["contact/index.html", "lp/pp-cash-offer/index.html",
+                      "lp/modern-method-of-auction/index.html"]
+
 ACTIVE_KEYS = ["%HOME%", "%/important-advice/%", "%/why-us/%", "%/faqs/%", "%/contact/%"]
 
 
@@ -152,6 +205,20 @@ def main():
         if out != s:
             open(fp, "w", encoding="utf-8").write(out)
         print(f"  footer {page:38s} n={n}")
+    # TESTIMONIALS — single source for the pages that share the general set.
+    # Replaces the figures inside .testimonials-track (up to the carousel/section
+    # close) so the quotes are edited in ONE place.
+    tst = render_testimonials()
+    for page in TESTIMONIALS_PAGES:
+        fp = os.path.join(ROOT, page)
+        if not os.path.exists(fp):
+            print(f"  skip (missing): {page}"); continue
+        s = open(fp, encoding="utf-8").read()
+        out, n = re.subn(r'(<div class="testimonials-track">).*?(</div>\s*</div>\s*</section>)',
+                         lambda m: m.group(1) + tst + m.group(2), s, count=1, flags=re.S)
+        if out != s:
+            open(fp, "w", encoding="utf-8").write(out)
+        print(f"  testim {page:38s} n={n}")
     print("Done. Re-preview the pages.")
 
 
