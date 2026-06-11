@@ -83,7 +83,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=22">
+<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=23">
 <link rel="stylesheet" href="/lp/shared/forms.css?v=1">
 <link rel="stylesheet" href="/lp/shared/nav.css?v=5">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=3">
@@ -184,58 +184,45 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <p>Not every company advertising as a &ldquo;cash buyer&rdquo; works the same way.</p>
     </div>
     <div class="vs-wrap reveal" data-reveal>
-      <!-- Mobile-only "recommended" banner (hidden >=641px) -->
-      <div class="vs-m-banner" aria-hidden="true"><svg class="icon"><use href="#i-shield"></use></svg>Prime Property Buyers — recommended</div>
-
-      <!-- ONE source of truth at every width: a role=table grid so the elevated
-           middle "plan" can pop OUT of flow (impossible inside a real <table>,
-           where a row-spanning shadowed/scaled card would break table layout)
-           while the six criteria rows stay aligned across all three columns.
-           Each .vs-row is display:contents on desktop (its cells flow into the
-           3-col grid, roles preserved) and becomes a stacked card <=640px. -->
-      <div class="vs-grid" role="table" aria-label="How Prime Property Buyers differs from some cash buyers">
-        <!-- Spanning background cards (decorative): the raised Prime plan + the muted Some plan -->
-        <div class="vs-pick-card" aria-hidden="true">
-          <span class="vs-ribbon"><svg class="icon"><use href="#i-shield"></use></svg>Our guarantee</span>
+      <div class="vs" role="group" aria-label="How Prime Property Buyers compares with some cash buyers">
+        <!-- criteria column -->
+        <div class="vs-col vs-col-q">
+          <div class="vs-cap vs-cap-q"><span>What to check</span></div>
+          <div class="vs-cell">Who buys your property?</div>
+          <div class="vs-cell">Where do the funds come from?</div>
+          <div class="vs-cell">Are there any tie-ins?</div>
+          <div class="vs-cell">Whose solicitor do you use?</div>
+          <div class="vs-cell">Any charges on your property?</div>
+          <div class="vs-cell">Can the offer change later?</div>
         </div>
-        <div class="vs-some-card" aria-hidden="true"></div>
-
-        <!-- Header row -->
-        <div class="vs-row vs-row-head" role="row">
-          <div class="vs-cell vs-head vs-q" role="columnheader">Question</div>
-          <div class="vs-cell vs-head vs-pick" role="columnheader"><span class="vs-plan-ico"><svg class="icon"><use href="#i-shield"></use></svg></span><span class="vs-plan-name">Prime Property Buyers</span><span class="vs-plan-sub">Direct cash buyer</span></div>
-          <div class="vs-cell vs-head vs-some" role="columnheader"><span class="vs-plan-ico vs-plan-ico-some"><svg class="icon"><use href="#i-x"></use></svg></span><span class="vs-plan-name">Some cash buyers</span><span class="vs-plan-sub">Often middlemen</span></div>
+        <!-- elevated "pick" column -->
+        <div class="vs-col vs-col-pick">
+          <span class="vs-badge">★ Recommended</span>
+          <div class="vs-cap">
+            <span class="vs-cap-ico"><svg class="icon"><use href="#i-shield"></use></svg></span>
+            <span class="vs-cap-name">Prime Property Buyers</span>
+            <span class="vs-cap-sub">Direct cash buyer</span>
+          </div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>We buy directly ourselves</span></div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Our own cash funds</span></div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No tie-ins</span></div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>You choose your own</span></div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No charges registered</span></div>
+          <div class="vs-cell"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Transparent, fixed process</span></div>
         </div>
-
-        <div class="vs-row" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Who buys your property?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>We buy directly ourselves</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Find another buyer</span></div>
-        </div>
-        <div class="vs-row" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Where do the funds come from?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Our own cash funds</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Investor networks</span></div>
-        </div>
-        <div class="vs-row" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Are there any tie-ins?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No tie-ins</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Exclusivity agreements</span></div>
-        </div>
-        <div class="vs-row" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Whose solicitor do you use?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>You choose your own</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>They encourage their own</span></div>
-        </div>
-        <div class="vs-row" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Any charges on your property?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No charges registered</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>May place restrictions</span></div>
-        </div>
-        <div class="vs-row vs-row-last" role="row">
-          <div class="vs-cell vs-q" role="rowheader">Can the offer change later?</div>
-          <div class="vs-cell vs-pick" role="cell" data-vs-plan="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Transparent, fixed process</span></div>
-          <div class="vs-cell vs-some" role="cell" data-vs-plan="Some"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Can be reduced later</span></div>
+        <!-- comparison column -->
+        <div class="vs-col vs-col-some">
+          <div class="vs-cap">
+            <span class="vs-cap-ico vs-cap-ico--no"><svg class="icon"><use href="#i-x"></use></svg></span>
+            <span class="vs-cap-name">Some cash buyers</span>
+            <span class="vs-cap-sub">Often middlemen</span>
+          </div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Find another buyer</span></div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Investor networks</span></div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Exclusivity agreements</span></div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Their own solicitor</span></div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>May place restrictions</span></div>
+          <div class="vs-cell"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Can be reduced later</span></div>
         </div>
       </div>
     </div>

@@ -178,16 +178,37 @@ table.compare tbody tr:last-child td.col-good{
 .v-good{color:var(--green);}
 .v-bad{color:var(--red);}
 .v-mid{color:var(--amber);}
-/* --- Why Us comparison (.compare-q): a clearly-labelled Question column + a
-       clean, CONTAINED green "pick" on the right. The shared .compare green
-       lifts forward with a shadow + its own rounded corners, which overhang
-       once it's the edge column — here the green sits FLUSH and the rounded
-       table wrapper clips its outer corners, so nothing bleeds past the table. */
-.compare-q td.col-q{background:#eaf0f9;}                /* question/criteria column reads distinct */
-.compare-q td.col-q, .compare-q th.col-q{font-weight:800;}
-.compare-q td.col-good, .compare-q th.col-good{box-shadow:none;}
-.compare-q thead th.col-good{border-top-left-radius:0; border-top-right-radius:0;}
-.compare-q tbody tr:last-child td.col-good{border-bottom-left-radius:0; border-bottom-right-radius:0;}
+/* --- Why Us comparison (.vs): pricing-table layout. "Prime Property Buyers" is
+       the ELEVATED "recommended" pick in the MIDDLE. The three columns share
+       fixed row heights so the criteria rows line up; the pick column's header
+       is taller by EXACTLY its pop-up offset (30px), so its data rows stay
+       aligned with the side columns while the whole card lifts above them.
+       Wrapper keeps padding (room for the lift + shadow) + overflow-x for mobile. */
+.vs-wrap{padding:34px 12px 24px; overflow-x:auto;}
+.vs{display:grid; grid-template-columns:1.12fr 1.2fr 1fr; max-width:940px; margin:0 auto; align-items:start; min-width:820px;}
+.vs-col{display:flex; flex-direction:column; background:#fff;}
+.vs-col-q{background:var(--navy-tint); border:1px solid var(--border); border-right:none; border-radius:var(--radius-lg) 0 0 var(--radius-lg);}
+.vs-col-some{border:1px solid var(--border); border-left:none; border-radius:0 var(--radius-lg) var(--radius-lg) 0;}
+.vs-cap{height:104px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; text-align:center; padding:0 1rem; border-bottom:1px solid var(--border-soft);}
+.vs-cell{height:60px; display:flex; align-items:center; gap:.5rem; padding:0 1.2rem; border-bottom:1px solid var(--border-soft); font-weight:700; color:var(--navy); font-size:.95rem; white-space:nowrap;}
+.vs-col > .vs-cell:last-child{border-bottom:none;}
+.vs-cap-q{justify-content:flex-end; padding-bottom:1rem;}
+.vs-cap-q span{font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted);}
+.vs-cap-ico{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg-alt); color:var(--navy);}
+.vs-cap-ico .icon{width:20px; height:20px;}
+.vs-cap-ico--no{background:var(--red-tint); color:var(--red);}
+.vs-cap-name{font-weight:800; color:var(--navy); font-size:1.04rem; line-height:1.15;}
+.vs-cap-sub{font-size:.8rem; color:var(--text-muted); font-weight:600;}
+.vs-cell .v-good, .vs-cell .v-bad{display:inline-flex; align-items:center; gap:.5rem;}
+.vs-cell .icon{width:17px; height:17px; flex:0 0 auto;}
+.vs-col-pick{position:relative; z-index:1; margin-top:-30px; border:2px solid var(--green); border-radius:var(--radius-lg); overflow:hidden; box-shadow:0 24px 54px -20px rgba(1,0,128,.30), 0 8px 22px rgba(45,106,62,.12);}
+.vs-col-pick .vs-cap{height:134px; background:linear-gradient(160deg,var(--green) 0%, var(--green-dark) 100%); border-bottom:none; padding-top:24px;}
+.vs-col-pick .vs-cap-ico{background:rgba(255,255,255,.18); color:#fff; width:42px; height:42px;}
+.vs-col-pick .vs-cap-name{color:#fff; font-size:1.12rem;}
+.vs-col-pick .vs-cap-sub{color:rgba(255,255,255,.82);}
+.vs-col-pick .vs-cell{background:var(--green-tint); font-weight:800; color:var(--green-dark);}
+.vs-badge{position:absolute; top:9px; left:50%; transform:translateX(-50%); background:var(--lime); color:var(--navy-dark); font-size:.72rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; padding:.3rem .85rem; border-radius:999px; box-shadow:var(--shadow-md); white-space:nowrap; z-index:2;}
+@media (max-width:760px){ .vs-cap-name{font-size:.95rem;} .vs-cell{font-size:.9rem; padding:0 1rem;} }
 
 /* ---- FAQ accordion ---- */
 .faq-list{display:grid; gap:.75rem; max-width:860px;}
@@ -339,240 +360,3 @@ section.block:not(.navy) .stat .stat-ico{background:var(--green-tint); color:var
 
 
 /* ---- Sticky header moved to the shared nav.css (was duplicated here) ---- */
-
-/* ============================================================
-   Why-Us "How we differ" comparison — premium pricing-table style.
-   Scoped entirely to the .vs- namespace (must NOT touch the shared
-   .compare / .col-good used by other pages). The MIDDLE column
-   ("Prime Property Buyers") is the elevated / RECOMMENDED plan:
-   a green-gradient card lifted above + below the side columns,
-   strong shadow, ribbon badge, white checks.
-
-   ONE source of truth at every width: a role=table grid whose cells
-   are placed explicitly by row + column, so the six criteria stay
-   aligned horizontally across all three columns WHILE the Prime card
-   pops out of flow. The SAME cells reflow into per-criterion cards
-   on mobile (no duplicate markup). .vs-row wrappers carry table-row
-   semantics (role=row) but are display:contents so their children
-   become direct grid items.
-   ============================================================ */
-
-/* Outer wrapper: must NOT clip the lifted middle card on desktop, so
-   we pad generously (room for ribbon + lift + shadow) and keep overflow
-   visible. */
-.vs-wrap{
-  --vs-gap:14px;
-  position:relative;
-  max-width:880px;
-  margin:0 auto;
-  padding:40px 10px 28px;
-  overflow:visible;
-}
-
-/* The grid: 3 columns (criteria gutter / raised Prime / muted Some),
-   1 header row + 6 criteria rows = 7 EXPLICIT row tracks so the spanning
-   plan cards resolve grid-row:1 / -1 across the whole grid. */
-.vs-grid{
-  display:grid;
-  grid-template-columns:1.05fr 1.32fr 1.05fr;   /* middle track wider = bigger plan */
-  grid-template-rows:repeat(7,auto);
-  column-gap:var(--vs-gap);
-  row-gap:0;
-  align-items:stretch;
-  position:relative;
-}
-/* Row wrappers carry table-row semantics but lay out as if absent. */
-.vs-row{display:contents;}
-
-/* Explicit column placement (robust against the spanning cards). */
-.vs-cell.vs-q{grid-column:1;}
-.vs-cell.vs-pick{grid-column:2;}
-.vs-cell.vs-some{grid-column:3;}
-
-/* Explicit ROW placement per wrapper position — this is what makes the
-   display:contents cells share deterministic row tracks so grid-row:1/-1
-   on the cards spans every row (implicit rows would collapse the cards). */
-.vs-row:nth-of-type(1) > .vs-cell{grid-row:1;}
-.vs-row:nth-of-type(2) > .vs-cell{grid-row:2;}
-.vs-row:nth-of-type(3) > .vs-cell{grid-row:3;}
-.vs-row:nth-of-type(4) > .vs-cell{grid-row:4;}
-.vs-row:nth-of-type(5) > .vs-cell{grid-row:5;}
-.vs-row:nth-of-type(6) > .vs-cell{grid-row:6;}
-.vs-row:nth-of-type(7) > .vs-cell{grid-row:7;}
-
-/* ---- Spanning plan cards sit BEHIND the cells. The Prime card is the
-        ELEVATED one: lifted above + below, strong green gradient + shadow
-        + ribbon. The Some card is a quiet flat surface so the contrast
-        reads as a clear winner. ---- */
-.vs-pick-card{
-  grid-column:2; grid-row:1 / -1;
-  align-self:stretch;
-  margin:-24px -8px;                     /* pops above row 1 + below last row, slightly wider */
-  border-radius:18px;
-  background:linear-gradient(168deg,#3a8a52 0%, var(--green) 46%, var(--green-dark) 100%);
-  box-shadow:0 26px 54px -12px rgba(31,77,44,.52), 0 6px 18px rgba(1,0,128,.12);
-  z-index:1; pointer-events:none;
-}
-.vs-some-card{
-  grid-column:3; grid-row:2 / -1;        /* starts under the header */
-  align-self:stretch;
-  border:1px solid var(--border);
-  border-radius:0 0 var(--radius-lg) var(--radius-lg);
-  background:#fff; box-shadow:var(--shadow-sm);
-  z-index:0; pointer-events:none;
-}
-
-/* Ribbon badge on the lifted card */
-.vs-ribbon{
-  position:absolute; top:-15px; left:50%; transform:translateX(-50%);
-  display:inline-flex; align-items:center; gap:.4em; white-space:nowrap;
-  background:linear-gradient(120deg,var(--lime) 0%, var(--lime-dark) 100%);
-  color:var(--green-dark);
-  font-size:.72rem; font-weight:900; letter-spacing:.07em; text-transform:uppercase;
-  padding:.5em 1.05em; border-radius:999px;
-  box-shadow:0 6px 16px rgba(31,77,44,.35); z-index:3;
-}
-.vs-ribbon .icon{width:14px; height:14px; color:var(--green-dark);}
-
-/* ---- Cells ---- */
-.vs-cell{
-  position:relative; z-index:2;          /* content rides over the spanning cards */
-  padding:15px 18px;
-  display:flex; flex-direction:column; justify-content:center;
-  min-height:62px;
-  border-bottom:1px solid var(--border-soft);
-}
-
-/* Column 1 — muted criteria gutter */
-.vs-cell.vs-q{
-  font-weight:800; color:var(--navy);
-  background:var(--navy-tint);
-  border-bottom-color:#e3e3f1;
-}
-.vs-row:nth-of-type(2) > .vs-q{border-top-left-radius:var(--radius-lg);}
-.vs-row-last > .vs-q{border-bottom-left-radius:var(--radius-lg); border-bottom:none;}
-
-/* Column 3 — muted "Some cash buyers": transparent over .vs-some-card */
-.vs-cell.vs-some{
-  background:transparent;
-  text-align:center; align-items:center;
-  color:var(--text-soft);
-  border-bottom-color:var(--border-soft);
-}
-.vs-row-last > .vs-some{border-bottom:none;}
-
-/* Column 2 — Prime cells: transparent (lifted card shows through), white */
-.vs-cell.vs-pick{
-  color:#fff; font-weight:800;
-  text-align:center; align-items:center;
-  border-bottom-color:rgba(255,255,255,.18);
-}
-.vs-row-last > .vs-pick{border-bottom:none;}
-
-/* ---- Header row (the plan headers) ---- */
-.vs-head{min-height:auto;}
-.vs-head.vs-q{
-  background:transparent; border-bottom:none;
-  justify-content:flex-end;
-  font-size:.85rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
-  color:var(--text-muted); padding-bottom:18px;
-}
-.vs-head.vs-some{
-  background:transparent; border:none;
-  align-items:center; text-align:center;
-  padding-top:18px; padding-bottom:18px;
-}
-.vs-head.vs-pick{padding-top:32px; padding-bottom:18px;}
-.vs-plan-ico{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:46px; height:46px; border-radius:50%;
-  background:rgba(255,255,255,.16); margin-bottom:.55rem;
-}
-.vs-plan-ico .icon{width:24px; height:24px; color:#fff;}
-.vs-plan-ico-some{width:36px; height:36px; background:#fff; border:1px solid var(--border);}
-.vs-plan-ico-some .icon{width:17px; height:17px; color:var(--text-muted);}
-.vs-plan-name{
-  display:block;
-  font-size:1.18rem; font-weight:900; letter-spacing:-.02em; line-height:1.15; color:#fff;
-}
-.vs-head.vs-some .vs-plan-name{font-size:1rem; color:var(--text-soft); font-weight:800; letter-spacing:-.01em;}
-.vs-plan-sub{
-  display:block; margin-top:.35em;
-  font-size:.74rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
-}
-.vs-head.vs-pick .vs-plan-sub{color:rgba(255,255,255,.9);}
-.vs-head.vs-some .vs-plan-sub{color:var(--text-muted);}
-
-/* Value rows: check/cross + answer text */
-.vs-cell .v-good, .vs-cell .v-bad{
-  display:inline-flex; align-items:center; gap:.5em;
-  font-weight:800; line-height:1.3;
-}
-.vs-cell .v-good .icon, .vs-cell .v-bad .icon{width:18px; height:18px; flex:0 0 auto;}
-/* White checks on the green plan; red crosses stay red on the muted plan */
-.vs-pick .v-good{color:#fff;}
-.vs-pick .v-good .icon{color:#fff;}
-.vs-some .v-bad{color:var(--red);}
-
-/* ---- Mobile: <=640px. The grid collapses to one column and the SAME cells
-        reflow: each .vs-row becomes a self-contained rounded card with the
-        criteria as a small label, the Prime (highlighted green) answer
-        dominant above the muted "Some" answer. No duplicate markup, no
-        horizontal scroll, fully readable at 360-400px. ---- */
-@media (max-width:640px){
-  .vs-wrap{padding:14px 0 4px; max-width:520px;}
-
-  .vs-grid{display:block; grid-template-columns:none; grid-template-rows:none;}
-  /* drop the desktop-only spanning cards + the plan-header row */
-  .vs-pick-card, .vs-some-card{display:none;}
-  .vs-row-head{display:none;}
-
-  /* mobile "recommended" banner above the stack */
-  .vs-m-banner{
-    display:flex; align-items:center; justify-content:center; gap:.5em;
-    background:linear-gradient(120deg,var(--lime) 0%, var(--lime-dark) 100%);
-    color:var(--green-dark); font-weight:900; font-size:.78rem;
-    letter-spacing:.05em; text-transform:uppercase;
-    border-radius:999px; padding:.55em 1em; margin:0 auto 16px;
-    box-shadow:0 6px 16px rgba(31,77,44,.3); max-width:max-content;
-  }
-  .vs-m-banner .icon{width:16px; height:16px;}
-
-  /* each criterion = one card */
-  .vs-row{
-    display:block; background:#fff;
-    border:1px solid var(--border); border-radius:var(--radius-lg);
-    box-shadow:var(--shadow-sm); padding:14px 15px; margin-bottom:14px; overflow:hidden;
-  }
-  /* reset desktop grid placement + borders on the cells */
-  .vs-cell{
-    display:flex; flex-direction:row; align-items:center; gap:.6em;
-    min-height:0; padding:0; border:none; text-align:left;
-    grid-row:auto; grid-column:auto;
-  }
-  /* criteria label */
-  .vs-cell.vs-q{
-    background:none; color:var(--text-muted);
-    font-size:.7rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
-    border-radius:0; margin-bottom:.7rem;
-  }
-  /* Prime answer — dominant green band */
-  .vs-cell.vs-pick{
-    background:linear-gradient(120deg,var(--green) 0%, var(--green-dark) 100%);
-    color:#fff; border-radius:10px; padding:.75rem .85rem;
-    box-shadow:0 6px 16px -6px rgba(31,77,44,.5);
-  }
-  /* Some answer — plain, secondary */
-  .vs-cell.vs-some{background:none; color:var(--text-soft); padding:.65rem .85rem .15rem;}
-  /* small "Prime" / "Some" plan tag, pulled from data-vs-plan (no extra markup) */
-  .vs-pick::after, .vs-some::after{
-    content:attr(data-vs-plan);
-    margin-left:auto;
-    font-size:.62rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap;
-  }
-  .vs-pick::after{color:rgba(255,255,255,.82);}
-  .vs-some::after{color:var(--text-muted); font-weight:800;}
-}
-
-/* Desktop hides the mobile-only banner */
-@media (min-width:641px){ .vs-m-banner{display:none;} }
