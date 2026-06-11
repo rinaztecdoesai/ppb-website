@@ -111,6 +111,18 @@ section.block.navy .sec-head{margin-bottom:2.6rem;}  /* a bit more space before 
 .check-grid.avoid .check-card p strong{font-weight:800;}
 @media (max-width:760px){ .check-grid.avoid{grid-template-columns:1fr 1fr;} }
 @media (max-width:460px){ .check-grid.avoid{grid-template-columns:1fr;} }
+/* "Questions to ask" — numbered Q&A cards (Important Advice): number badge +
+   question + a one-line "what a genuine buyer does" answer. Richer than the
+   plain check-grid; own namespace so the shared .check-grid is untouched. */
+.ask-grid{display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; max-width:980px; margin:0 auto;}
+.ask-card{display:flex; gap:1rem; align-items:flex-start; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.25rem 1.4rem; box-shadow:var(--shadow-sm); transition:transform .15s ease, box-shadow .15s ease;}
+.ask-card:hover{transform:translateY(-3px); box-shadow:var(--shadow-md);}
+.ask-num{flex:0 0 auto; width:38px; height:38px; border-radius:11px; background:linear-gradient(140deg,var(--lime) 0%, var(--lime-dark) 100%); color:var(--navy-dark); font-weight:900; font-size:1rem; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm);}
+.ask-body{min-width:0;}
+.ask-body h3{font-size:1.04rem; color:var(--navy); font-weight:800; margin:0 0 .4rem; line-height:1.3;}
+.ask-body p{margin:0; font-size:.92rem; color:var(--text-soft); display:flex; gap:.45rem; align-items:flex-start; line-height:1.5;}
+.ask-body p .icon{flex:0 0 auto; width:16px; height:16px; color:var(--green); margin-top:.15rem;}
+@media (max-width:760px){ .ask-grid{grid-template-columns:1fr;} }
 /* Benefit cards (icon + title + line) — richer than the plain check-grid */
 .benefit-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; margin-top:.4rem;}
 .benefit-card{background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.5rem 1.4rem; box-shadow:var(--shadow-sm); transition:transform .2s ease, box-shadow .2s ease;}
