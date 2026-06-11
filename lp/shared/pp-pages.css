@@ -168,6 +168,16 @@ table.compare tbody tr:last-child td.col-good{
 .v-good{color:var(--green);}
 .v-bad{color:var(--red);}
 .v-mid{color:var(--amber);}
+/* --- Why Us comparison (.compare-q): a clearly-labelled Question column + a
+       clean, CONTAINED green "pick" on the right. The shared .compare green
+       lifts forward with a shadow + its own rounded corners, which overhang
+       once it's the edge column — here the green sits FLUSH and the rounded
+       table wrapper clips its outer corners, so nothing bleeds past the table. */
+.compare-q td.col-q{background:#eaf0f9;}                /* question/criteria column reads distinct */
+.compare-q td.col-q, .compare-q th.col-q{font-weight:800;}
+.compare-q td.col-good, .compare-q th.col-good{box-shadow:none;}
+.compare-q thead th.col-good{border-top-left-radius:0; border-top-right-radius:0;}
+.compare-q tbody tr:last-child td.col-good{border-bottom-left-radius:0; border-bottom-right-radius:0;}
 
 /* ---- FAQ accordion ---- */
 .faq-list{display:grid; gap:.75rem; max-width:860px;}
