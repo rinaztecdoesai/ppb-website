@@ -94,7 +94,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=29">
+<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=30">
 <link rel="stylesheet" href="/lp/shared/forms.css?v=1">
 <link rel="stylesheet" href="/lp/shared/nav.css?v=5">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=3">
@@ -455,24 +455,46 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <h2>How we differ from <span class="hl">estate agents</span></h2>
       <p>The same sale, two very different experiences.</p>
     </div>
-    <div class="compare-wrap reveal" data-reveal>
-      <table class="compare">
-        <thead>
-          <tr>
-            <th scope="col">&nbsp;</th>
-            <th scope="col" class="col-good"><span class="col-ico"><svg class="icon"><use href="#i-shield"></use></svg>Prime Property Buyers</span></th>
-            <th scope="col"><span class="col-ico"><svg class="icon"><use href="#i-home"></use></svg>Estate agent</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Guaranteed buyer</td><td class="val col-good"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></td><td class="val"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>No</span></td></tr>
-          <tr><td>Property chain</td><td class="val col-good"><span class="v-good">None</span></td><td class="val"><span class="v-bad">Possible</span></td></tr>
-          <tr><td>Viewings required</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Yes</span></td></tr>
-          <tr><td>Fees</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Yes</span></td></tr>
-          <tr><td>Completion speed</td><td class="val col-good"><span class="v-good">Days</span></td><td class="val"><span class="v-bad">Months</span></td></tr>
-          <tr><td>Repairs required</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Usually</span></td></tr>
-        </tbody>
-      </table>
+    <div class="vs-wrap reveal" data-reveal>
+      <div class="vs" role="table" aria-label="Prime Property Buyers compared with selling through an estate agent">
+        <!-- header row -->
+        <div class="vs-cell vs-cap vs-q vs-head" role="columnheader"><span>What to check</span></div>
+        <div class="vs-cell vs-cap vs-pick vs-head" role="columnheader">
+          <span class="vs-badge">★ Recommended</span>
+          <span class="vs-cap-ico"><svg class="icon"><use href="#i-shield"></use></svg></span>
+          <span class="vs-cap-name">Prime Property Buyers</span>
+          <span class="vs-cap-sub">Direct cash buyer</span>
+        </div>
+        <div class="vs-cell vs-cap vs-some vs-head" role="columnheader">
+          <span class="vs-cap-ico"><svg class="icon"><use href="#i-home"></use></svg></span>
+          <span class="vs-cap-name">Estate agent</span>
+          <span class="vs-cap-sub">Open-market sale</span>
+        </div>
+        <!-- one row per check: question · Prime · estate agent -->
+        <div class="vs-cell vs-q" role="rowheader">Guaranteed buyer</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>No</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Property chain</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>None</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Possible</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Viewings required</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Yes</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Fees</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Yes</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Completion speed</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Days</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Months</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Repairs required</div>
+        <div class="vs-cell vs-pick vs-pick-bot" role="cell" data-label="Prime"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Agent"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Usually</span></div>
+      </div>
     </div>
   </div>
 </section>
