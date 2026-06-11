@@ -187,12 +187,13 @@ table.compare tbody tr:last-child td.col-good{
 .vs-wrap{padding:34px 14px 26px;}
 .vs{display:grid; grid-template-columns:1.12fr 1.2fr 1fr; max-width:940px; margin:0 auto; align-items:stretch;}
 .vs-cell{padding:.85rem 1.2rem; min-height:58px; display:flex; align-items:center; gap:.5rem; font-weight:700; color:var(--navy); font-size:.95rem; border-bottom:1px solid var(--border-soft);}
-.vs-cell .v-good, .vs-cell .v-bad{display:inline-flex; align-items:center; gap:.5rem;}
+.vs-cell .v-good, .vs-cell .v-bad, .vs-cell .v-mid{display:inline-flex; align-items:center; gap:.5rem;}
 .vs-cell .icon{width:17px; height:17px; flex:0 0 auto;}
 .vs-cap{flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:.2rem; min-height:104px;}
 .vs-cap-ico{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--bg-alt); color:var(--navy);}
 .vs-cap-ico .icon{width:20px; height:20px;}
 .vs-cap-ico--no{background:var(--red-tint); color:var(--red);}
+.vs-cap-ico--warn{background:var(--amber-tint); color:var(--amber);}   /* cautionary comparison header (e.g. Property trader) */
 .vs-cap-name{font-weight:800; color:var(--navy); font-size:1.04rem; line-height:1.15;}
 .vs-cap-sub{font-size:.8rem; color:var(--text-muted); font-weight:600;}
 /* criteria (left) column */

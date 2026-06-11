@@ -84,7 +84,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=27">
+<link rel="stylesheet" href="/lp/shared/pp-pages.css?v=29">
 <link rel="stylesheet" href="/lp/shared/forms.css?v=1">
 <link rel="stylesheet" href="/lp/shared/nav.css?v=5">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=3">
@@ -228,24 +228,46 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <h2>Genuine cash buyer <span class="hl">vs</span> property trader</h2>
       <p>The same questions, side by side — so you can spot the difference at a glance.</p>
     </div>
-    <div class="compare-wrap reveal" data-reveal>
-      <table class="compare">
-        <thead>
-          <tr>
-            <th scope="col">Question</th>
-            <th scope="col" class="col-good"><span class="col-ico"><svg class="icon"><use href="#i-shield"></use></svg>Genuine cash buyer</span></th>
-            <th scope="col"><span class="col-ico"><svg class="icon"><use href="#i-alert"></use></svg>Property trader</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Buys with own funds</td><td class="val col-good"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></td><td class="val"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>No</span></td></tr>
-          <tr><td>Uses investor network</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Often yes</span></td></tr>
-          <tr><td>Requires exclusivity agreement</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Often yes</span></td></tr>
-          <tr><td>Encourages independent solicitor</td><td class="val col-good"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></td><td class="val"><span class="v-mid">Sometimes</span></td></tr>
-          <tr><td>Can provide proof of funds</td><td class="val col-good"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></td><td class="val"><span class="v-mid">Not always</span></td></tr>
-          <tr><td>May change price later</td><td class="val col-good"><span class="v-good">No</span></td><td class="val"><span class="v-bad">Possible</span></td></tr>
-        </tbody>
-      </table>
+    <div class="vs-wrap reveal" data-reveal>
+      <div class="vs" role="table" aria-label="A genuine cash buyer compared with a property trader">
+        <!-- header row -->
+        <div class="vs-cell vs-cap vs-q vs-head" role="columnheader"><span>What to check</span></div>
+        <div class="vs-cell vs-cap vs-pick vs-head" role="columnheader">
+          <span class="vs-badge">★ What to look for</span>
+          <span class="vs-cap-ico"><svg class="icon"><use href="#i-shield"></use></svg></span>
+          <span class="vs-cap-name">Genuine cash buyer</span>
+          <span class="vs-cap-sub">Buys directly</span>
+        </div>
+        <div class="vs-cell vs-cap vs-some vs-head" role="columnheader">
+          <span class="vs-cap-ico vs-cap-ico--warn"><svg class="icon"><use href="#i-alert"></use></svg></span>
+          <span class="vs-cap-name">Property trader</span>
+          <span class="vs-cap-sub">Often a middleman</span>
+        </div>
+        <!-- one row per check: question · genuine buyer · property trader -->
+        <div class="vs-cell vs-q" role="rowheader">Buys with own funds</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>No</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Uses investor network</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Often yes</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Requires exclusivity agreement</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Often yes</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Encourages independent solicitor</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-mid"><svg class="icon"><use href="#i-alert"></use></svg>Sometimes</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">Can provide proof of funds</div>
+        <div class="vs-cell vs-pick" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>Yes</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-mid"><svg class="icon"><use href="#i-alert"></use></svg>Not always</span></div>
+
+        <div class="vs-cell vs-q" role="rowheader">May change price later</div>
+        <div class="vs-cell vs-pick vs-pick-bot" role="cell" data-label="Genuine"><span class="v-good"><svg class="icon"><use href="#i-check"></use></svg>No</span></div>
+        <div class="vs-cell vs-some" role="cell" data-label="Trader"><span class="v-bad"><svg class="icon"><use href="#i-x"></use></svg>Possible</span></div>
+      </div>
     </div>
   </div>
 </section>
