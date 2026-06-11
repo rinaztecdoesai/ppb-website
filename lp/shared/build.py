@@ -198,7 +198,7 @@ def render_nav(active_path):
 # shared files. Run:  python3 lp/shared/build.py check
 TRACK_IDS = ["GTM-5D9NNXQ", "G-MHJNE8WJ6T", "AW-789719856",
              "c64724af-0832-4c2f-8549-e9d1bc265708", "hjid:6590098"]
-CONTENT_FILES = ["pp-pages.css", "forms.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js", "footer.css", "nav.css", "nav.js"]
+CONTENT_FILES = ["pp-pages-v2.css", "forms.css", "pp-pages.js", "widgets.js", "widgets.css", "script.js", "footer.css", "nav.css", "nav.js"]
 LANDING_FILES = ["styles.css", "script.js", "footer.css", "nav.css", "nav.js"]
 CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["lp/pp-cash-offer/index.html", "selling-inherited-property/index.html",
