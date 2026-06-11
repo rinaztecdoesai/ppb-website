@@ -97,7 +97,7 @@ a { color: inherit; text-decoration: none; }
   background-size: cover;
   background-position: right -100px center;
   background-repeat: no-repeat;
-  opacity: 0.55;  /* ~20% more visible (was 0.46) */
+  opacity: 0.72;  /* ~30% more visible again (was 0.55) — shared by every .hero (home + MMA) */
 }
 /* Left-to-right white-fade overlay so headline copy stays clean */
 .hero::after {
