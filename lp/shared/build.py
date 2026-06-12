@@ -35,6 +35,10 @@ NAV_PAGES = {
     "contact/index.html":                     "/contact/",
     "lp/modern-method-of-auction/index.html": None,
     "selling-inherited-property/index.html":  None,
+    "stop-repossession/index.html":           None,
+    "selling-house-after-divorce/index.html": None,
+    "selling-house-due-illness/index.html":   None,
+    "selling-house-pay-debt/index.html":      None,
 }
 
 # --- canonical NAV (edit links here once). %X% = active-state placeholders ---
@@ -82,9 +86,10 @@ FOOTER = """<footer class="site-footer">
       <h4>Our Services</h4>
       <ul>
         <li><a href="/selling-inherited-property/">Inherited property</a></li>
-        <li><a href="/lp/pp-cash-offer/">Selling due to divorce</a></li>
-        <li><a href="/lp/pp-cash-offer/">Broken property chain</a></li>
-        <li><a href="/lp/pp-cash-offer/">Selling due to ill health</a></li>
+        <li><a href="/stop-repossession/">Stop repossession</a></li>
+        <li><a href="/selling-house-after-divorce/">Divorce or separation</a></li>
+        <li><a href="/selling-house-due-illness/">Ill health or care</a></li>
+        <li><a href="/selling-house-pay-debt/">Financial difficulty</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -202,7 +207,9 @@ CONTENT_FILES = ["pp-pages-v2.css", "forms.css", "pp-pages.js", "widgets.js", "w
 LANDING_FILES = ["styles.css", "script.js", "footer.css", "nav.css", "nav.js"]
 CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["lp/pp-cash-offer/index.html", "selling-inherited-property/index.html",
-                 "lp/modern-method-of-auction/index.html"]
+                 "lp/modern-method-of-auction/index.html",
+                 "stop-repossession/index.html", "selling-house-after-divorce/index.html",
+                 "selling-house-due-illness/index.html", "selling-house-pay-debt/index.html"]
 
 
 def check():
