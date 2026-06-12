@@ -78,13 +78,14 @@
   .site-nav.open .nav-menu{opacity:1; visibility:visible; transform:none;
     transition:opacity .3s ease, transform .35s ease;}
 
-  /* big centred links */
+  /* big centred links — DIRECT children only, so the Services submenu links
+     (nested in .nav-sub) keep their own smaller styling. */
   .nav-menu li{width:100%; max-width:340px; text-align:center;}
-  .nav-menu li:not(.nav-menu-cta) a{display:block; padding:.72rem 0; font-size:1.5rem; font-weight:700;
+  .nav-menu > li:not(.nav-menu-cta) > a{display:block; padding:.72rem 0; font-size:1.5rem; font-weight:700;
     color:#fff; letter-spacing:.01em; border-bottom:1px solid rgba(255,255,255,.09);}
-  .nav-menu li:not(.nav-menu-cta) a:hover,
-  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]{color:var(--lime);}
-  .nav-menu li:not(.nav-menu-cta) a[aria-current="page"]::after{display:none;}
+  .nav-menu > li:not(.nav-menu-cta) > a:hover,
+  .nav-menu > li:not(.nav-menu-cta) > a[aria-current="page"]{color:var(--lime);}
+  .nav-menu > li:not(.nav-menu-cta) > a[aria-current="page"]::after{display:none;}
 
   /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
   /* `.nav-menu li.nav-menu-cta` (not just .nav-menu-cta) so the margin beats
@@ -137,4 +138,38 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
   .sn-phone svg{width:18px; height:18px;}
   .sn-toggle{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--navy); cursor:pointer;}
   .sn-toggle svg{width:22px; height:22px;}
+}
+
+/* =====================================================================
+   SERVICES DROPDOWN — "Services" after Home. Desktop = hover/focus panel;
+   mobile = tap to expand inline inside the full-screen overlay (nav.js
+   toggles .open). Works in both the main nav and the sticky sn-menu.
+   ===================================================================== */
+.nav-sub-wrap{position:relative;}
+.nav-sub-btn{display:inline-flex; align-items:center; gap:.32rem; font-family:inherit; font-weight:600; font-size:.95rem; color:var(--text-soft); background:none; border:none; padding:.25rem 0; cursor:pointer; letter-spacing:.005em; transition:color .15s ease;}
+.sn-menu .nav-sub-btn{font-size:.9rem;}
+.nav-sub-btn:hover, .nav-sub-wrap:hover .nav-sub-btn, .nav-sub-wrap:focus-within .nav-sub-btn{color:var(--navy);}
+.nav-caret{width:15px; height:15px; transition:transform .2s ease;}
+.nav-sub-wrap:hover .nav-caret{transform:rotate(180deg);}
+.nav-sub{list-style:none; margin:0; padding:.4rem; position:absolute; top:calc(100% + .55rem); left:50%; transform:translateX(-50%) translateY(-6px); min-width:236px; background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:0 16px 44px rgba(1,0,128,.14); opacity:0; visibility:hidden; transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s; z-index:70;}
+.nav-sub::before{content:""; position:absolute; top:-.55rem; left:0; right:0; height:.55rem;}  /* hover bridge over the gap */
+.nav-sub-wrap:hover .nav-sub, .nav-sub-wrap:focus-within .nav-sub{opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); transition:opacity .2s ease, transform .2s ease;}
+.nav-sub li{margin:0; width:auto; max-width:none; text-align:left;}
+.nav-sub a{display:flex; align-items:center; gap:.65rem; padding:.6rem .7rem; border-radius:9px; font-size:.9rem; font-weight:600; color:var(--navy); white-space:nowrap; transition:background .15s ease, color .15s ease;}
+.nav-sub a:hover, .nav-sub a[aria-current="page"]{background:var(--navy-tint); color:var(--navy);}
+.nav-sub-ico{width:18px; height:18px; flex:none; color:var(--green); fill:none;}
+
+@media (max-width:1000px){
+  /* full-screen overlay: Services is a big centred row that taps open */
+  .nav-sub-wrap{width:100%; max-width:340px; text-align:center;}
+  .nav-sub-btn{justify-content:center; gap:.45rem; width:100%; padding:.72rem 0; font-size:1.5rem; font-weight:700; color:#fff; border-bottom:1px solid rgba(255,255,255,.09);}
+  .nav-sub-btn:hover, .nav-sub-wrap:focus-within .nav-sub-btn{color:var(--lime);}
+  .nav-caret{width:22px; height:22px;}
+  .nav-sub{position:static; transform:none; opacity:1; visibility:visible; min-width:0; background:none; border:none; box-shadow:none; padding:0; max-height:0; overflow:hidden; transition:max-height .32s ease;}
+  .nav-sub::before{display:none;}
+  .nav-sub-wrap.open .nav-sub{max-height:420px;}
+  .nav-sub-wrap.open .nav-caret{transform:rotate(180deg);}
+  .nav-sub a{justify-content:center; color:rgba(255,255,255,.82); font-size:1.05rem; font-weight:600; padding:.5rem 0;}
+  .nav-sub a:hover, .nav-sub a[aria-current="page"]{background:none; color:var(--lime);}
+  .nav-sub-ico{color:var(--lime);}
 }
