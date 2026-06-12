@@ -3800,3 +3800,23 @@ body.modal-open {
 
 /* SITE HEADER NAV + condensed sticky bar moved to the shared lp/shared/nav.css
    (one source for landing + content pages). Markup via build.py, JS via nav.js. */
+
+
+/* =====================================================================
+   IMAGE-LED HERO ("for now") — body.hero-solo on the non-home landing
+   pages (the 5 situation pages + Modern Method of Auction). Hides the
+   hero lead form so the photo reads at full strength, keeps the headline
+   on the readable left (the white left-fade .hero::after still applies).
+   Fully reversible: remove the hero-solo class to bring the form back.
+   ===================================================================== */
+body.hero-solo .form-col { display: none; }
+body.hero-solo .hero-grid { display: block; max-width: var(--max-w); }
+body.hero-solo .hero-text { max-width: 600px; }
+body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
+@media (max-width: 600px) {
+  /* the form column carried the mobile headline; with it gone, bring the
+     real H1 + kicker back in the text column so the page still has a title */
+  body.hero-solo .hero-text .kicker { display: inline-block; }
+  body.hero-solo .hero-text h1 { display: block; }
+  body.hero-solo .hero-text { max-width: none; }
+}
