@@ -96,6 +96,7 @@ FOOTER = """<footer class="site-footer">
       <h4>Useful Information</h4>
       <ul>
         <li><a href="/faqs/">FAQs</a></li>
+        <li><a href="/lp/modern-method-of-auction/">Modern Method of Auction</a></li>
         <li><a href="https://primepropertybuyers.uk/terms-conditions/">Terms &amp; Conditions</a></li>
         <li><a href="https://primepropertybuyers.uk/privacy-policy/">Privacy Policy</a></li>
         <li><a href="/contact/">Contact Us</a></li>
