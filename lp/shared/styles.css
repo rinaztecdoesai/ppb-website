@@ -3811,7 +3811,7 @@ body.modal-open {
    ===================================================================== */
 body.hero-solo .form-col { display: none; }
 body.hero-solo .hero-grid { display: block; max-width: var(--max-w); }
-body.hero-solo .hero-text { max-width: 600px; }
+body.hero-solo .hero-text { max-width: 700px; }   /* wide enough that long first lines (e.g. "Sell your house due to") don't orphan a word */
 body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
 @media (max-width: 600px) {
   /* the form column carried the mobile headline; with it gone, bring the
