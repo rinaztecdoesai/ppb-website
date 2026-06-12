@@ -3821,3 +3821,14 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
   body.hero-solo .hero-text h1 { display: block; }
   body.hero-solo .hero-text { max-width: none; }
 }
+
+/* ip-strip CTA — replaces the old note text on the service pages: trust
+   items on the left, a "Get my cash offer" button pushed to the right,
+   all on one line (wraps + centres on mobile). */
+.ip-strip .ipx-cta { margin-left: auto; display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--lime); color: var(--navy-dark); font-weight: 800; font-size: 1rem;
+  padding: .68rem 1.4rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(165, 200, 68, .35); transition: background .15s ease, transform .15s ease; }
+.ip-strip .ipx-cta:hover { background: var(--lime-dark); transform: translateY(-2px); }
+.ip-strip .ipx-cta svg { width: 18px; height: 18px; flex: none; }
+@media (max-width: 900px) { .ip-strip .ipx-cta { margin-left: 0; } }
