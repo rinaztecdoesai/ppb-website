@@ -3857,3 +3857,10 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
   .tl-meta { display: flex; flex-direction: column; gap: .2rem; }
 }
 @media (min-width: 761px) { .timeline.timeline-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* Card grids: keep ~3-up but CENTRE the last row, so a 4- or 5-card grid
+   no longer strands its leftover cards to the left with an empty gap.
+   Higher specificity (.ip-sec .ip-grid) overrides the inline 3-col grid. */
+.ip-sec .ip-grid { display: flex; flex-wrap: wrap; justify-content: center; }
+.ip-sec .ip-grid > * { flex: 0 1 calc(33.333% - 1rem); }
+@media (max-width: 900px) { .ip-sec .ip-grid > * { flex-basis: 100%; } }
