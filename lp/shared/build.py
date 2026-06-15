@@ -39,6 +39,8 @@ NAV_PAGES = {
     "selling-house-after-divorce/index.html": None,
     "selling-house-due-illness/index.html":   None,
     "selling-house-pay-debt/index.html":      None,
+    "sell-your-house-fast/index.html":        None,
+    "sell-former-buy-to-let/index.html":      None,
 }
 
 # --- canonical NAV (edit links here once). %X% = active-state placeholders ---
@@ -53,11 +55,13 @@ NAV = """<header class="site-nav">
       <li class="nav-sub-wrap">
         <button type="button" class="nav-sub-btn" aria-expanded="false" aria-haspopup="true">Services <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
         <ul class="nav-sub">
+          <li><a href="/sell-your-house-fast/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>Sell house fast</a></li>
           <li><a href="/selling-inherited-property/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Inherited property</a></li>
           <li><a href="/stop-repossession/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4m0 4h.01"/></svg>Stop repossession</a></li>
           <li><a href="/selling-house-after-divorce/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Divorce or separation</a></li>
           <li><a href="/selling-house-due-illness/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Ill health or care</a></li>
           <li><a href="/selling-house-pay-debt/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>Financial difficulty</a></li>
+          <li><a href="/sell-former-buy-to-let/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>Former buy-to-let</a></li>
         </ul>
       </li>
       <li><a href="/important-advice/"%/important-advice/%>Important Advice</a></li>
@@ -95,11 +99,13 @@ FOOTER = """<footer class="site-footer">
     <div class="footer-col">
       <h4>Our Services</h4>
       <ul>
+        <li><a href="/sell-your-house-fast/">Sell house fast</a></li>
         <li><a href="/selling-inherited-property/">Inherited property</a></li>
         <li><a href="/stop-repossession/">Stop repossession</a></li>
         <li><a href="/selling-house-after-divorce/">Divorce or separation</a></li>
         <li><a href="/selling-house-due-illness/">Ill health or care</a></li>
         <li><a href="/selling-house-pay-debt/">Financial difficulty</a></li>
+        <li><a href="/sell-former-buy-to-let/">Former buy-to-let</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -196,7 +202,8 @@ def render_testimonials():
 # which keeps its own tailored probate reviews).
 TESTIMONIALS_PAGES = ["contact/index.html", "lp/pp-cash-offer/index.html",
                       "lp/modern-method-of-auction/index.html",
-                      "why-us/index.html", "important-advice/index.html", "faqs/index.html"]
+                      "why-us/index.html", "important-advice/index.html", "faqs/index.html",
+                      "sell-your-house-fast/index.html", "sell-former-buy-to-let/index.html"]
 
 ACTIVE_KEYS = ["%HOME%", "%/important-advice/%", "%/why-us/%", "%/faqs/%", "%/contact/%"]
 
@@ -220,7 +227,8 @@ CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["lp/pp-cash-offer/index.html", "selling-inherited-property/index.html",
                  "lp/modern-method-of-auction/index.html",
                  "stop-repossession/index.html", "selling-house-after-divorce/index.html",
-                 "selling-house-due-illness/index.html", "selling-house-pay-debt/index.html"]
+                 "selling-house-due-illness/index.html", "selling-house-pay-debt/index.html",
+                 "sell-your-house-fast/index.html", "sell-former-buy-to-let/index.html"]
 
 
 def check():
