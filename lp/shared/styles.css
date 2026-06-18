@@ -3869,15 +3869,12 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
    stretch all three to the tallest instead of each sizing to its content). */
 .ip-sec .ip-opts { align-items: stretch; }
 
-/* Hero (desktop 2-col, >=961px): make the lead form span the same vertical
-   extent as the text column — its TOP level with the H1, its BOTTOM level
-   with the proof/stars row. Columns are stretched to equal height; the form
-   card carries the kicker-height offset (1.916rem box + 1.5rem margin =
-   3.42rem) on top, then flex-grows to fill down to the proof line. (The form
-   loses its scroll-stick here since it now fills the hero — a fair trade for
-   the aligned layout.) Below 961px the hero stacks, so none of this applies. */
+/* Hero (desktop 2-col, >=961px): align the lead form's TOP with the H1
+   headline by clearing the kicker eyebrow above it (1.916rem box + 1.5rem
+   margin = 3.42rem). The form keeps its NATURAL height + scroll-stick — it
+   sits shorter than the text column, which is the clean look (stretching it
+   to the proof line left a big empty gap in the card). Below 961px the hero
+   stacks, so no offset applies. */
 @media (min-width: 961px) {
-  .hero-grid { align-items: stretch; }
-  .form-col { display: flex; flex-direction: column; }
-  .form-col > .lead-form { position: static; margin-top: 3.42rem; flex: 1 1 auto; }
+  .form-col { margin-top: 3.42rem; }
 }
