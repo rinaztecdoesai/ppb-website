@@ -3820,7 +3820,13 @@ body.hero-solo .form-col { display: none; }
 body.hero-solo .hero-grid { display: block; max-width: var(--max-w); }
 body.hero-solo .hero-text { max-width: 700px; }   /* wide enough that long first lines (e.g. "Sell your house due to") don't orphan a word */
 body.hero-solo .hero-text h1 { text-wrap: balance; }   /* even out the line lengths so no single word ("fast", "to") gets stranded */
-body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
+body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength (desktop) */
+/* Tablet + mobile: the headline + lede stack directly OVER the photo here (no
+   side-by-side white left-fade like desktop), so the full-strength image fights
+   the text. Fade it right back for legibility. Desktop (>1024px) keeps it full. */
+@media (max-width: 1024px) {
+  body.hero-solo .hero::before { opacity: 0.3; }
+}
 @media (max-width: 600px) {
   /* the form column carried the mobile headline; with it gone, bring the
      real H1 + kicker back in the text column so the page still has a title */
