@@ -3876,5 +3876,8 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
    to the proof line left a big empty gap in the card). Below 961px the hero
    stacks, so no offset applies. */
 @media (min-width: 961px) {
-  .form-col { margin-top: 3.42rem; }
+  /* margin-top: clear the kicker so the form top lines up with the H1.
+     padding-bottom: a 30px buffer so the sticky form stops short of the
+     column's bottom edge as you scroll (it never butts flush against it). */
+  .form-col { margin-top: 3.42rem; padding-bottom: 30px; }
 }
