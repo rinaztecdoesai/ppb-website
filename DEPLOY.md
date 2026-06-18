@@ -1,7 +1,5 @@
 # Deploying (Sevalla)
 
-_Prime Property Buyers — built and maintained by [JF Design](https://thejfdesign.co.uk)._
-
 This site is plain static HTML/CSS/JS. **No conversion or framework is needed** —
 Sevalla's *Static Site* product serves the repo's files directly. The repo
 (`thejfdesign/ppb-website`) is the single source of truth; pushing to `main`
