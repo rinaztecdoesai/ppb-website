@@ -1,1 +1,1 @@
-{ "redirects": [ { "source": "/", "destination": "/lp/pp-cash-offer/", "permanent": false } ] }
+{ "redirects": [ { "source": "/lp/pp-cash-offer/", "destination": "/", "permanent": true } ] }

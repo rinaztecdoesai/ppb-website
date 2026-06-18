@@ -53,13 +53,13 @@
     if (!document.getElementById("stickyNav")) {
       var P = location.pathname;
       var cur = function (h) { return P.indexOf(h) === 0 ? ' aria-current="page"' : ""; };
-      var home = (P === "/" || P.indexOf("/lp/pp-cash-offer/") === 0) ? ' aria-current="page"' : "";
+      var home = (P === "/") ? ' aria-current="page"' : "";
       var SN =
         '<div class="sticky-nav" id="stickyNav" aria-hidden="true"><div class="sticky-inner">' +
-          '<a class="sn-logo" href="/lp/pp-cash-offer/" aria-label="Prime Property Buyers — home">' +
+          '<a class="sn-logo" href="/" aria-label="Prime Property Buyers — home">' +
             '<img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" width="128" height="41"></a>' +
           '<ul class="sn-menu">' +
-            '<li><a href="/lp/pp-cash-offer/"' + home + ">Home</a></li>" +
+            '<li><a href="/"' + home + ">Home</a></li>" +
             '<li class="nav-sub-wrap"><button type="button" class="nav-sub-btn" aria-expanded="false" aria-haspopup="true">Services <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>' +
               '<ul class="nav-sub">' +
                 '<li><a href="/sell-your-house-fast/"><svg class="nav-sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>Sell house fast</a></li>' +
@@ -75,7 +75,7 @@
             '<li><a href="/faqs/"' + cur("/faqs/") + ">FAQs</a></li>" +
             '<li><a href="/contact/"' + cur("/contact/") + ">Contact</a></li>" +
           "</ul>" +
-          '<a class="sn-cta" href="/lp/pp-cash-offer/" data-open-modal="leadModal">Get my cash offer</a>' +
+          '<a class="sn-cta" href="/" data-open-modal="leadModal">Get my cash offer</a>' +
           '<a class="sn-phone" href="tel:08000122239" aria-label="Call 0800 0122 239">' + PHONE_SVG + "</a>" +
           '<button class="sn-toggle" type="button" aria-label="Open menu">' + MENU_SVG + "</button>" +
         "</div></div>";
