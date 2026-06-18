@@ -247,6 +247,28 @@ def check():
     return ok
 
 
+# --- sitemap.xml: built from each page's OWN <link rel="canonical">, so it
+#     never drifts. After the go-live home->root flip changes the cash-offer
+#     canonical to "/", the sitemap follows automatically on the next build.
+#     The backend /middle-form/ and any draft are excluded (not in the registry).
+def render_sitemap():
+    urls, seen = [], set()
+    for page in NAV_PAGES.keys():
+        fp = os.path.join(ROOT, page)
+        if not os.path.exists(fp):
+            continue
+        m = re.search(r'<link rel="canonical" href="([^"]+)"', open(fp, encoding="utf-8").read())
+        if not m:
+            print(f"  sitemap WARN: no canonical in {page}"); continue
+        u = m.group(1)
+        if u not in seen:
+            seen.add(u); urls.append(u)
+    body = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            f"{body}\n</urlset>\n")
+
+
 def main():
     # NAV — the shared header on EVERY page (landing + content)
     for page, active in NAV_PAGES.items():
@@ -298,6 +320,10 @@ def main():
         if out != s:
             open(fp, "w", encoding="utf-8").write(out)
         print(f"  modal  {page:38s} n={n}")
+    # SITEMAP — regenerate sitemap.xml from canonicals (drift-proof).
+    sm = render_sitemap()
+    open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)
+    print(f"  sitemap  sitemap.xml ({sm.count('<url>')} urls)")
     print("Done. Re-preview the pages.")
 
 

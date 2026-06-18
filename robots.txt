@@ -1,0 +1,53 @@
+# Prime Property Buyers — https://primepropertybuyers.uk
+#
+# Policy: allow all search engines AND AI *search* crawlers (they cite us and
+# send referral traffic). Block AI *training* crawlers (our content is not used
+# to train models). Note: Googlebot stays allowed, so we remain eligible for
+# Google AI Overviews; only Google-Extended (model training) is blocked.
+
+User-agent: *
+Allow: /
+Disallow: /middle-form/
+
+# --- AI training crawlers: blocked ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# --- AI search crawlers: explicitly allowed (ChatGPT / Perplexity citations) ---
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://primepropertybuyers.uk/sitemap.xml
