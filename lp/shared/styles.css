@@ -3864,3 +3864,7 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
 .ip-sec .ip-grid { display: flex; flex-wrap: wrap; justify-content: center; }
 .ip-sec .ip-grid > * { flex: 0 1 calc(33.333% - 1rem); }
 @media (max-width: 900px) { .ip-sec .ip-grid > * { flex-basis: 100%; } }
+
+/* Comparison cards: equal height (the middle 'Auction' col is shorter, so
+   stretch all three to the tallest instead of each sizing to its content). */
+.ip-sec .ip-opts { align-items: stretch; }
