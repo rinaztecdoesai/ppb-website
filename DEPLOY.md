@@ -60,10 +60,18 @@ The lead form steps 2–4 and the chatbot lead-submit currently POST to WordPres
 service** (Node/Python) that writes leads to Zoho — tracked in the GO-LIVE plan,
 not part of static hosting.
 
-## Still to confirm in Sevalla
-- Redirect-rule format (`_redirects` vs UI) — see above.
-- Per-PR / per-branch **preview deploys** (we review via the preview URL + GitHub
-  diffs now that we're all-Sevalla).
+## Sevalla — verified 18 Jun 2026
+Live deploy: **https://ppb-website-1rtus.kinsta.page/** (build OFF, publish dir `.`).
+End-to-end check passed: home at `/`, all assets, inner pages (with and without
+trailing slash), `robots.txt`/`sitemap.xml`/`llms.txt`, and real 404s all serve
+correctly; the footer credit renders.
+
+⚠️ **Sevalla does NOT honour the `_redirects` file.** `/lp/pp-cash-offer/` returns
+**200 (the stub)**, not a 301 — the stub still redirects visitors client-side, but
+for proper **301s** (the go-live old-WP-URL → new map) use **Sevalla's redirect
+feature in the dashboard**, not `_redirects`. (`vercel.json` is likewise Vercel-only.)
+
+Still to confirm: per-PR **preview deploys** (toggle on the site's settings).
 
 ---
 
