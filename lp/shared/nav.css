@@ -114,7 +114,7 @@
 @media (max-width:1000px) and (prefers-reduced-motion:reduce){
   .nav-menu, .nav-menu > li > a{transition:opacity .15s ease !important; transform:none !important;}
 }
-@media (max-width:560px){ .nav-brand img{width:108px;} .nav-actions .nav-phone .num{display:none;} }
+@media (max-width:560px){ .nav-brand img{width:119px;} .nav-actions .nav-phone .num{display:none;} }
 body.nav-open{overflow:hidden;}
 /* hide the floating bottom widgets while the full-screen menu is open */
 body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-tease{display:none !important;}
