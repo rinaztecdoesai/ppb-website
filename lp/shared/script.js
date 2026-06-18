@@ -1297,7 +1297,7 @@ document.addEventListener("DOMContentLoaded", () => {
           #2 No tie-in agreements (walk away any time)
           #3 No last-minute price drops (offer agreed = offer paid)
           #4 We cover all legal fees (no surprises at completion)
-          #5 We can complete fast (7–14 days if needed)
+          #5 We can complete fast (5–14 days if needed)
      3. Submits via the same sendLead() endpoint as the forms.
 
    Conversation is driven by a state machine — `state.step` advances through a
