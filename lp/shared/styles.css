@@ -3868,3 +3868,12 @@ body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength */
 /* Comparison cards: equal height (the middle 'Auction' col is shorter, so
    stretch all three to the tallest instead of each sizing to its content). */
 .ip-sec .ip-opts { align-items: stretch; }
+
+/* Hero: align the lead-form's top edge with the H1 headline. The .kicker
+   eyebrow sits above the H1 in the text column, so the form (top-aligned to
+   the grid) otherwise starts higher than the headline. Push it down by the
+   kicker's exact height (1.916rem box + 1.5rem margin = 3.42rem). Desktop
+   2-col only — below 961px the hero stacks, so no offset there. */
+@media (min-width: 961px) {
+  .form-col { margin-top: 3.42rem; }
+}
