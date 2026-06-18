@@ -97,7 +97,9 @@ a { color: inherit; text-decoration: none; }
   background-size: cover;
   background-position: right -100px center;
   background-repeat: no-repeat;
-  opacity: 0.72;  /* ~30% more visible again (was 0.55) — shared by every .hero (home + MMA) */
+  opacity: 1;  /* full-strength photo — the left-to-right ::after white-fade keeps the
+                  headline legible on the left while the image reads vivid around the form.
+                  (Was 0.72, which ghosted the whole photo.) Mobile keeps a light veil below. */
 }
 /* Left-to-right white-fade overlay so headline copy stays clean */
 .hero::after {
@@ -2340,6 +2342,11 @@ h2 {
      no need to repeat it below. Keep the lede + ticks (extra info). */
   .hero-text .kicker,
   .hero-text h1 { display: none; }
+
+  /* Non-solo form heroes (home, sell-house-fast) keep a light photo veil on
+     mobile — the lede + ticks sit full-width over the photo here. hero-solo
+     pages keep full strength (higher specificity). */
+  .hero::before { opacity: .8; }
 
   /* Visible green frame around the form on mobile so it pops cleanly
      instead of melting into the hero photo behind it. The 4px top
