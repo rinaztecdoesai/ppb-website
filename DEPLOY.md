@@ -73,6 +73,21 @@ feature in the dashboard**, not `_redirects`. (`vercel.json` is likewise Vercel-
 
 Still to confirm: per-PR **preview deploys** (toggle on the site's settings).
 
+## Production hardening (done 18 Jun)
+- **Self-hosted assets** — favicons + the `og:image` were hotlinked from
+  `primepropertybuyers.uk/wp-content/…` (the WordPress server) and would have
+  404'd the moment WP is switched off. Now self-hosted in `lp/shared/assets/`
+  (`icon-32/192/180.png`, `og-default.png`) and `favicon.ico` at the root; every
+  page's head repointed (icons root-relative, `og:image` absolute as OG requires).
+  Zero `wp-content` references remain.
+- **Custom 404** — `404.html` at the repo root (branded, `noindex`). ⚠️ **Set it in
+  Sevalla:** Static Site → Settings → **Error file = `404.html`** (it was left blank
+  at creation; until set, Sevalla serves its generic error page).
+- **Removed dead config** — `vercel.json`, `_redirects` (Sevalla ignores both), and
+  the stale `_PREVIEW_ONLY_READ_ME.txt`. The only redirect now is
+  `/lp/pp-cash-offer/ → /` via the client-side stub; real 301s go in Sevalla's
+  dashboard at go-live.
+
 ---
 
 # SEO migration — replacing the WordPress site
