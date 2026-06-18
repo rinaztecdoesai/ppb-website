@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 Prime Property Buyers — single-source site chrome propagation.
+Built and maintained by JF Design — https://thejfdesign.co.uk
 
 WHY: the content pages are static HTML (no build step), so the <nav> and
 <footer> would otherwise be copy-pasted into every file. This script keeps
@@ -122,6 +123,7 @@ FOOTER = """<footer class="site-footer">
   <div class="footer-bottom">
     <p>&copy; 2026 Primepropertybuyers.uk · Marketing name for UK National Properties Ltd · Registered in England No. 12973116</p>
     <nav aria-label="Legal"><a href="https://primepropertybuyers.uk/terms-conditions/">Terms</a><a href="https://primepropertybuyers.uk/privacy-policy/">Privacy</a></nav>
+    <p class="footer-credit" style="font-size:11px;opacity:.5;margin-top:.5rem"><a href="https://thejfdesign.co.uk" target="_blank" rel="noopener" style="color:inherit">Site by JF Design</a></p>
   </div>
 </footer>"""
 
@@ -320,6 +322,21 @@ def main():
         if out != s:
             open(fp, "w", encoding="utf-8").write(out)
         print(f"  modal  {page:38s} n={n}")
+    # CREDIT — invisible HTML source comment on every page (JF Design authorship,
+    # for view-source). Idempotent: only the part BEFORE <head> is checked, so the
+    # visible footer credit never triggers a false "already present".
+    CREDIT = "<!-- Prime Property Buyers · Site by JF Design — https://thejfdesign.co.uk -->"
+    for page in NAV_PAGES.keys():
+        fp = os.path.join(ROOT, page)
+        if not os.path.exists(fp):
+            continue
+        s = open(fp, encoding="utf-8").read()
+        if "Site by JF Design" in s.split("<head", 1)[0]:
+            continue
+        out = re.sub(r"(?i)(<!doctype html>)", lambda m: m.group(1) + "\n" + CREDIT, s, count=1)
+        if out != s:
+            open(fp, "w", encoding="utf-8").write(out)
+        print(f"  credit {page:38s}")
     # SITEMAP — regenerate sitemap.xml from canonicals (drift-proof).
     sm = render_sitemap()
     open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8").write(sm)

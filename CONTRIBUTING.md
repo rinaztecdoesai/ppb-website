@@ -1,5 +1,7 @@
 # Contributing
 
+_Prime Property Buyers — built and maintained by [JF Design](https://thejfdesign.co.uk)._
+
 This is a **static HTML/CSS/JS site** — no framework, no build server. What's in
 the repo is what ships. Sevalla serves the files straight from `main` (see
 [DEPLOY.md](DEPLOY.md)).

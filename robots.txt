@@ -1,4 +1,5 @@
 # Prime Property Buyers — https://primepropertybuyers.uk
+# Site by JF Design — https://thejfdesign.co.uk
 #
 # Policy: allow all search engines AND AI *search* crawlers (they cite us and
 # send referral traffic). Block AI *training* crawlers (our content is not used
