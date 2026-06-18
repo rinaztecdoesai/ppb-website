@@ -24,6 +24,8 @@ PAGES = {
     "faqs/index.html":             "/faqs/",
     "why-us/index.html":           "/why-us/",
     "contact/index.html":          "/contact/",
+    "privacy-policy/index.html":   "/privacy-policy/",
+    "terms-conditions/index.html": "/terms-conditions/",
 }
 
 # The shared header goes on EVERY page now (landing + content). Value = the
@@ -42,6 +44,8 @@ NAV_PAGES = {
     "selling-house-pay-debt/index.html":      None,
     "sell-your-house-fast/index.html":        None,
     "sell-former-buy-to-let/index.html":      None,
+    "privacy-policy/index.html":              None,
+    "terms-conditions/index.html":            None,
 }
 
 # --- canonical NAV (edit links here once). %X% = active-state placeholders ---
@@ -114,15 +118,15 @@ FOOTER = """<footer class="site-footer">
       <ul>
         <li><a href="/faqs/">FAQs</a></li>
         <li><a href="/lp/modern-method-of-auction/">Modern Method of Auction</a></li>
-        <li><a href="https://primepropertybuyers.uk/terms-conditions/">Terms &amp; Conditions</a></li>
-        <li><a href="https://primepropertybuyers.uk/privacy-policy/">Privacy Policy</a></li>
+        <li><a href="/terms-conditions/">Terms &amp; Conditions</a></li>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
         <li><a href="/contact/">Contact Us</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <p>&copy; 2026 Primepropertybuyers.uk · Marketing name for UK National Properties Ltd · Registered in England No. 12973116</p>
-    <nav aria-label="Legal"><a href="https://primepropertybuyers.uk/terms-conditions/">Terms</a><a href="https://primepropertybuyers.uk/privacy-policy/">Privacy</a></nav>
+    <nav aria-label="Legal"><a href="/terms-conditions/">Terms</a><a href="/privacy-policy/">Privacy</a></nav>
     <p class="footer-credit" style="font-size:11px;opacity:.5;margin-top:.5rem"><a href="https://thejfdesign.co.uk" target="_blank" rel="noopener" style="color:inherit">Site by JF Design</a></p>
   </div>
 </footer>"""
@@ -137,7 +141,8 @@ with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "modal.html")
     MODAL = _mf.read().strip()
 
 MODAL_PAGES = ["contact/index.html", "faqs/index.html",
-               "why-us/index.html", "important-advice/index.html"]
+               "why-us/index.html", "important-advice/index.html",
+               "privacy-policy/index.html", "terms-conditions/index.html"]
 
 # --- canonical TESTIMONIALS (edit the quotes here once; propagated to the
 #     pages that use the GENERAL set). The inherited landing page keeps its
