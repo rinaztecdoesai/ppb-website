@@ -133,6 +133,11 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 (function(){
   "use strict";
   var LEAD_API = "/api/lead";  // same-origin path -> proxied to the Sevalla backend via _redirects
+  // Landing-page handoff: read incoming params so a visitor who already gave
+  // their address on a landing page doesn't re-type it, and so Lead_Source is
+  // attributed correctly (source=landing-page -> "PPB LP" in Zoho).
+  var Q = new URLSearchParams(location.search);
+  var SRC = (Q.get("source") || "website-form").trim();
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
   var TOTAL = 2, cur = 1;
@@ -276,7 +281,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       email:      document.getElementById("f_email").value.trim(),
       postcode:   document.getElementById("f_postcode").value,
       address:    document.getElementById("f_address").value,
-      source:     "website-form"
+      source:     SRC
     }, getTracking());
 
     track("generate_lead", { method:"form", stage:"insert" });
@@ -300,7 +305,26 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     } catch(err){ handoff(""); }
   });
 
-  show(1);
+  /* ---- pre-fill address from a landing-page handoff, then start ----
+     WP landing pages pass postcode/line1/line2/locality. If present, fill the
+     address and skip straight to the contact step (no re-typing). */
+  (function start(){
+    var pc  = (Q.get("postcode") || "").trim();
+    var l1  = (Q.get("line1")    || "").trim();
+    var l2  = (Q.get("line2")    || "").trim();
+    var loc = (Q.get("locality") || "").trim();
+    var addr = [l1, l2, loc].filter(Boolean).join(", ");
+    if (addr || pc){
+      if (addr){
+        document.getElementById("f_address").value = addr;
+        search.value = addr;
+        chosen.style.display = "block"; chosen.textContent = "✓ " + addr;
+      }
+      document.getElementById("f_postcode").value = pc;
+      if (addr){ show(2); return; }   // address known -> jump to contact
+    }
+    show(1);
+  })();
 })();
 </script>
 </body>
