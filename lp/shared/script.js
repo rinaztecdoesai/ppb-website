@@ -1047,24 +1047,24 @@ function setError(form, fieldName, msg) {
    For now, this is a stub that simulates a 1.2s network call.
    ─────────────────────────────────────────────────────────────────── */
 async function sendLead(data) {
-  // POST to the WordPress REST endpoint that wraps the existing zoho_Oauth
-  // class. Token refresh + OAuth + audit-log table writes all happen
-  // server-side. The frontend just hands over JSON and gets back
-  // {ok: true, zoho_id: "..."} or {ok: false, error: "..."}.
+  // POST to the Sevalla PHP lead backend, reached via the SAME-ORIGIN path
+  // /api/lead (a _redirects proxy forwards /api/* to the backend). Token
+  // refresh + OAuth all happen server-side. The frontend just hands over
+  // JSON and gets back {ok: true, id: "..."} or {ok: false, error: "..."}.
   //
-  // Endpoint lives at /wp-json/ppb/v1/lead — registered by the WP theme's
-  // functions-chatbot-zoho-rest.php. Same origin (primepropertybuyers.uk),
-  // no CORS needed when the landing page is served from a subfolder of
-  // the same domain (e.g. /pp-cash-offer/).
-  const ENDPOINT = "https://primepropertybuyers.uk/wp-json/ppb/v1/lead";
+  // The backend dispatches on the JSON "action" field. Both the chatbot
+  // (source:"chatbot") and the landing-popup form (source:"landing-popup")
+  // use the "chatbot" action — Lead::chatbot() maps the Lead_Source label
+  // from `source` (PPB CB / PPB CB Abandoned / PPB LP).
+  const ENDPOINT = "/api/lead";
 
   // Stitch in ad-tracking values captured on page load (URL → cookie →
-  // sessionStorage). These get written to Zoho's Gclid1 / Custom_KWS /
-  // Search_Query fields by the REST endpoint, matching how the WP form
-  // already populates them via $_REQUEST hidden fields. Caller-supplied
-  // values still win in case they want to override (e.g. testing).
+  // sessionStorage). These get written to Zoho's $gclid / Custom_KWS /
+  // Search_Query fields by the backend. Caller-supplied values still win
+  // in case they want to override (e.g. testing).
   const tracking = getTrackingPayload();
-  const enrichedData = Object.assign({}, tracking, data);
+  const enrichedData = Object.assign({ action: "chatbot" }, tracking, data);
+  if (!enrichedData.action) enrichedData.action = "chatbot";
 
   console.log("Lead submitting:", {
     source: enrichedData.source,
@@ -1095,7 +1095,7 @@ async function sendLead(data) {
     throw new Error(reason);
   }
 
-  console.log("Lead created in Zoho:", payload.zoho_id);
+  console.log("Lead created in Zoho:", payload.id || payload.zoho_id);
   return payload;
 }
 
@@ -1356,9 +1356,9 @@ function setupChatbot() {
 
   // ─────────────────────────────────────────────────────────────────
   // Google Ads conversion fire for CHATBOT leads.
-  // Chatbot leads bypass the WP form chain (they POST direct to
-  // /wp-json/ppb/v1/lead) so the WP-side Elementor Custom Code that
-  // fires on /additional-info/ never runs for them. We fire the same
+  // Chatbot leads bypass the multi-step form chain (they POST direct to
+  // /api/lead) so the page-flow conversion tag that fires on
+  // /additional-info/ never runs for them. We fire the same
   // Lead event here, once, when sendLead() succeeds in step 11.
   // sessionStorage sentinel guards against double-fire on retry.
   // ─────────────────────────────────────────────────────────────────
@@ -1432,6 +1432,7 @@ function setupChatbot() {
     // a clicked-send chat. Only the in-Description note differs.
     const beaconSource = reachedSummary ? "chatbot" : "chatbot-abandoned";
     const payload = {
+      action: "chatbot",
       source: beaconSource,
       reached_summary: reachedSummary,   // PHP uses this to add the note
       first_name: state.lead.first_name || "",
@@ -1454,7 +1455,7 @@ function setupChatbot() {
     // regular fetch() gets cancelled. Same endpoint as completed leads.
     try {
       const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-      navigator.sendBeacon("https://primepropertybuyers.uk/wp-json/ppb/v1/lead", blob);
+      navigator.sendBeacon("/api/lead", blob);
       console.log("[chatbot] abandoned-lead beacon sent at step", state.step);
     } catch (e) {
       console.warn("[chatbot] abandoned-lead beacon failed:", e);

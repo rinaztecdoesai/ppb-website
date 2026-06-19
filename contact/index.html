@@ -731,24 +731,72 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <!-- shared chatbot + slide-up CTA bar -->
 <script src="/lp/shared/widgets.js?v=4"></script>
 <script src="/lp/shared/nav.js?v=6"></script>
-<script src="/lp/shared/script.js?v=26"></script>
+<script src="/lp/shared/script.js?v=27"></script>
 <script src="/lp/shared/pp-pages.js?v=4" defer></script>
 <script>
-// Contact form — client-side validation + confirmation.
-// NOTE: not yet posting to a backend. Wire the fetch() below to your lead
-// endpoint (Zoho REST / Elementor) when ready, or rebuild as a WP form.
+// Contact form — client-side validation + POST to the Sevalla lead backend
+// via the same-origin /api/lead proxy (action:"contact"). Creates a Zoho
+// Lead (Lead_Source = "PPB Contact", Owner = Sam) with the enquiry message.
 (function(){
   var f=document.getElementById('contactForm'); if(!f) return;
-  f.addEventListener('submit',function(e){
+  var s=document.getElementById('cf-status');
+  var btn=f.querySelector('button[type="submit"]');
+
+  function showStatus(msg, ok){
+    s.style.display='flex';
+    s.style.color = ok ? 'var(--green)' : '#c0392b';
+    s.textContent=msg;
+  }
+
+  f.addEventListener('submit', async function(e){
     e.preventDefault();
     if(!f.checkValidity()){ f.reportValidity(); return; }
-    var s=document.getElementById('cf-status');
-    s.style.display='flex';
-    s.textContent='Thank you — your message is ready to send. (Form submission needs connecting to your lead system.)';
-    // Analytics: notify GTM of the lead so it can fire the Ads/GA4 conversion.
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'contact_form_submit' });
-    // TODO: replace with: fetch('YOUR_ENDPOINT',{method:'POST',body:new FormData(f)})...
+
+    // Split the single "Name" field into first / last for Zoho.
+    var fullName = (f.querySelector('[name="name"]').value || '').trim();
+    var nameBits = fullName.split(/\s+/);
+    var firstName = nameBits.shift() || '';
+    var lastName  = nameBits.join(' ');   // backend falls back to first if blank
+
+    var payload = {
+      action:      'contact',
+      source:      'contact',
+      first_name:  firstName,
+      last_name:   lastName,
+      email:       (f.querySelector('[name="email"]').value || '').trim(),
+      phone:       (f.querySelector('[name="phone"]').value || '').trim(),
+      subject:     (f.querySelector('[name="subject"]').value || '').trim(),
+      description: (f.querySelector('[name="message"]').value || '').trim()
+    };
+
+    var origLabel = btn ? btn.innerHTML : '';
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    showStatus('Sending your message…', true);
+
+    try {
+      var res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      var data = null;
+      try { data = await res.json(); } catch(err){ /* non-JSON */ }
+
+      if (!res.ok || !data || data.ok === false) {
+        throw new Error((data && data.error) || ('HTTP ' + res.status));
+      }
+
+      // Success — confirm, fire analytics, reset.
+      f.reset();
+      showStatus('Thank you — your message has been sent. One of our property buying experts will be in touch shortly.', true);
+      if(btn){ btn.disabled = false; btn.innerHTML = origLabel; }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'contact_form_submit' });
+    } catch (err) {
+      console.error('Contact form submit failed:', err);
+      showStatus('Sorry, something went wrong. Please call us on 0800 0122 239 or email info@primepropertybuyers.uk.', false);
+      if(btn){ btn.disabled = false; btn.innerHTML = origLabel; }
+    }
   });
 })();
 </script>
