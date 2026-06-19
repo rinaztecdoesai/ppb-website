@@ -172,14 +172,14 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   </div>
 </main>
 
-<script src="/lp/shared/script.js?v=27"></script>
+<script src="/lp/shared/script.js?v=28"></script>
 <script>
 /* ============ STAGE 2 — /additional-info/ : conversion + property → Zoho UPDATE ============
    This page load IS the Google Ads conversion (exactly as in the WordPress flow).
    It enriches the lead created on /middle-form/, then finishes at /thank-you/. */
 (function(){
   "use strict";
-  var LEAD_API = "/api/lead";  // same-origin path -> proxied to the Sevalla backend via _redirects
+  var LEAD_API = "https://ppb-api-lnt0y.sevalla.app/api/lead";  // direct backend URL + CORS (Sevalla _redirects proxy strips POST bodies)
 
   /* ---- pull the lead created on the previous page ---- */
   var lead = null;

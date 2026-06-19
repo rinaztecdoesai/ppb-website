@@ -124,7 +124,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   </div>
 </main>
 
-<script src="/lp/shared/script.js?v=27"></script>
+<script src="/lp/shared/script.js?v=28"></script>
 <script>
 /* ============ STAGE 1 — /middle-form/ : address + contact → Zoho INSERT ============
    Matches the proven WordPress flow: capture the contactable lead first (so we
@@ -132,7 +132,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
    property questions (where the Google Ads conversion fires on page load). */
 (function(){
   "use strict";
-  var LEAD_API = "/api/lead";  // same-origin path -> proxied to the Sevalla backend via _redirects
+  var LEAD_API = "https://ppb-api-lnt0y.sevalla.app/api/lead";  // direct backend URL + CORS (Sevalla _redirects proxy strips POST bodies)
   // Landing-page handoff: read incoming params so a visitor who already gave
   // their address on a landing page doesn't re-type it, and so Lead_Source is
   // attributed correctly (source=landing-page -> "PPB LP" in Zoho).
@@ -294,15 +294,21 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       window.location.href = "/additional-info/";
     }
 
-    // Create the lead in Zoho, then continue. If the API isn't reachable
-    // (e.g. preview before the backend is wired), still continue so the flow
-    // works — the lead is preserved in sessionStorage either way.
+    // Create the lead in Zoho, then continue. Full logging so a submit is
+    // always traceable in the console (no guessing). Still continues on
+    // failure so the user isn't blocked — but the failure is logged loudly.
+    console.log("[ppb-lead] INSERT → " + LEAD_API, lead);
     try {
       fetch(LEAD_API, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(lead) })
-        .then(function(r){ return r.ok ? r.json() : null; })
-        .then(function(j){ handoff(j && j.id); })
-        .catch(function(){ handoff(""); });
-    } catch(err){ handoff(""); }
+        .then(function(r){ console.log("[ppb-lead] INSERT HTTP", r.status); return r.json().catch(function(){ return null; }); })
+        .then(function(j){
+          console.log("[ppb-lead] INSERT response:", j);
+          if (!j || !j.id || j.ok === false) console.error("[ppb-lead] ⚠ INSERT did NOT create a Zoho lead", j);
+          else console.log("[ppb-lead] ✓ Zoho lead id", j.id);
+          handoff(j && j.id);
+        })
+        .catch(function(err){ console.error("[ppb-lead] ✗ INSERT network/CORS error", err); handoff(""); });
+    } catch(err){ console.error("[ppb-lead] ✗ INSERT threw", err); handoff(""); }
   });
 
   /* ---- pre-fill address from a landing-page handoff, then start ----

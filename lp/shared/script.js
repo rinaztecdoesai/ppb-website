@@ -1056,7 +1056,7 @@ async function sendLead(data) {
   // (source:"chatbot") and the landing-popup form (source:"landing-popup")
   // use the "chatbot" action — Lead::chatbot() maps the Lead_Source label
   // from `source` (PPB CB / PPB CB Abandoned / PPB LP).
-  const ENDPOINT = "/api/lead";
+  const ENDPOINT = "https://ppb-api-lnt0y.sevalla.app/api/lead";  // direct backend URL + CORS
 
   // Stitch in ad-tracking values captured on page load (URL → cookie →
   // sessionStorage). These get written to Zoho's $gclid / Custom_KWS /
@@ -1454,8 +1454,11 @@ function setupChatbot() {
     // sendBeacon is the only reliable way to push during page unload —
     // regular fetch() gets cancelled. Same endpoint as completed leads.
     try {
-      const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
-      navigator.sendBeacon("/api/lead", blob);
+      // text/plain (not application/json) so the cross-origin beacon sends
+      // WITHOUT a CORS preflight (beacons can't preflight). The backend reads
+      // the raw body either way.
+      const blob = new Blob([JSON.stringify(payload)], { type: "text/plain" });
+      navigator.sendBeacon("https://ppb-api-lnt0y.sevalla.app/api/lead", blob);
       console.log("[chatbot] abandoned-lead beacon sent at step", state.step);
     } catch (e) {
       console.warn("[chatbot] abandoned-lead beacon failed:", e);
