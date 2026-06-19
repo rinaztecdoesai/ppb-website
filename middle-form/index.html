@@ -124,7 +124,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   </div>
 </main>
 
-<script src="/lp/shared/script.js?v=28"></script>
+<script src="/lp/shared/script.js?v=29"></script>
 <script>
 /* ============ STAGE 1 — /middle-form/ : address + contact → Zoho INSERT ============
    Matches the proven WordPress flow: capture the contactable lead first (so we
@@ -298,17 +298,22 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     // always traceable in the console (no guessing). Still continues on
     // failure so the user isn't blocked — but the failure is logged loudly.
     console.log("[ppb-lead] INSERT → " + LEAD_API, lead);
-    try {
-      fetch(LEAD_API, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(lead) })
-        .then(function(r){ console.log("[ppb-lead] INSERT HTTP", r.status); return r.json().catch(function(){ return null; }); })
-        .then(function(j){
-          console.log("[ppb-lead] INSERT response:", j);
-          if (!j || !j.id || j.ok === false) console.error("[ppb-lead] ⚠ INSERT did NOT create a Zoho lead", j);
-          else console.log("[ppb-lead] ✓ Zoho lead id", j.id);
-          handoff(j && j.id);
-        })
-        .catch(function(err){ console.error("[ppb-lead] ✗ INSERT network/CORS error", err); handoff(""); });
-    } catch(err){ console.error("[ppb-lead] ✗ INSERT threw", err); handoff(""); }
+    function afterInsert(id){
+      if (id) console.log("[ppb-lead] ✓ Zoho lead id", id);
+      else console.warn("[ppb-lead] INSERT unconfirmed — beacon fired; /additional-info/ will recover it");
+      handoff(id);
+    }
+    // Resilient submit (retry → XHR → beacon, survives navigation). Falls back
+    // to a plain fetch+beacon if the shared helper somehow didn't load.
+    if (typeof ppbPostLead === "function") {
+      ppbPostLead(LEAD_API, lead, afterInsert);
+    } else {
+      try {
+        fetch(LEAD_API, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(lead), keepalive:true })
+          .then(function(r){ return r.ok ? r.json() : null; }).then(function(j){ afterInsert(j && j.id); })
+          .catch(function(){ try{ navigator.sendBeacon(LEAD_API, new Blob([JSON.stringify(lead)],{type:"text/plain"})); }catch(e){} afterInsert(""); });
+      } catch(err){ afterInsert(""); }
+    }
   });
 
   /* ---- pre-fill address from a landing-page handoff, then start ----

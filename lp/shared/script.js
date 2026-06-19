@@ -358,6 +358,54 @@ async function fetchifyRetrieve(id) {
   return res.json();
 }
 
+/* ─── ppbPostLead: resilient lead submit — NEVER lose a lead ────────────
+   Works on phones, iPad, and old/odd browsers. Strategy, in order:
+     1. fetch() with keepalive (survives page navigation) + 12s timeout
+     2. one retry on failure
+     3. XHR fallback (browsers without fetch)
+     4. sendBeacon last resort (fire-and-forget; delivers even on unload)
+   Calls cb(zohoId) on a confirmed save, or cb("") if unconfirmed — but by
+   then a beacon has been fired, so the server still receives the lead.
+   ES5-safe (var / function) for maximum browser compatibility. */
+function ppbPostLead(url, payload, cb) {
+  var body = JSON.stringify(payload), done = false;
+  function finish(id) { if (done) return; done = true; try { if (cb) cb(id || ""); } catch (e) {} }
+  function beacon() {
+    try { if (navigator.sendBeacon) navigator.sendBeacon(url, new Blob([body], { type: "text/plain" })); } catch (e) {}
+  }
+  function viaXHR(onFail) {
+    try {
+      var x = new XMLHttpRequest();
+      x.open("POST", url, true);
+      x.setRequestHeader("Content-Type", "application/json");
+      x.timeout = 12000;
+      x.onreadystatechange = function () {
+        if (x.readyState !== 4) return;
+        var id = ""; try { var j = JSON.parse(x.responseText); id = (j && j.id) || ""; } catch (e) {}
+        if (id) finish(id); else onFail();
+      };
+      x.onerror = onFail; x.ontimeout = onFail;
+      x.send(body);
+    } catch (e) { onFail(); }
+  }
+  function lastResort() { beacon(); finish(""); }
+  function viaFetch(attempt) {
+    if (!window.fetch) { viaXHR(lastResort); return; }
+    var settled = false;
+    var timer = setTimeout(function () { if (settled) return; settled = true; onFail(); }, 12000);
+    function onFail() { clearTimeout(timer); if (attempt < 2) viaFetch(attempt + 1); else viaXHR(lastResort); }
+    fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true })
+      .then(function (r) { return (r && r.ok) ? r.json() : null; })
+      .then(function (j) {
+        if (settled) return; settled = true; clearTimeout(timer);
+        if (j && j.id) finish(j.id); else onFail();
+      })
+      ["catch"](function () { if (settled) return; settled = true; onFail(); });
+  }
+  viaFetch(1);
+}
+if (typeof window !== "undefined") window.ppbPostLead = ppbPostLead;
+
 function setupPostcodeLookup(form) {
   const input    = form.querySelector('[name="postcode"]');
   const wrapper  = form.querySelector(".field-with-lookup");
