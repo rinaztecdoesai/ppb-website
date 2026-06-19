@@ -132,7 +132,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
    property questions (where the Google Ads conversion fires on page load). */
 (function(){
   "use strict";
-  var LEAD_API = "https://ppb-api-lnt0y.sevalla.app/";  // Sevalla PHP backend (swap to api.primepropertybuyers.uk at go-live)
+  var LEAD_API = "/api/lead";  // same-origin path -> proxied to the Sevalla backend via _redirects
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
   var TOTAL = 2, cur = 1;
