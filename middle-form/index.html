@@ -14,7 +14,8 @@
 
 <!-- ═══════════ SITE TAG STACK — identical to the rest of primepropertybuyers.uk
      Order: Consent Mode default (denied) → Cookiebot → GTM → gtag → Hotjar.
-     So the form pages track exactly like every other page. ═══════════ -->
+     NOTE: the Google Ads lead conversion does NOT fire here — it fires on
+     /additional-info/ (the next page), exactly as it does today. ═══════════ -->
 <script id="consent-mode-default">
 window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -55,114 +56,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/styles.css?v=91">
-
-<style>
-  /* ============ WIZARD — focused, app-like multi-step cash-offer form ============ */
-  :root{ --w-navy:#010080; --w-navy-d:#000054; --w-lime:#a5c844; --w-lime-d:#8bb02f;
-         --w-ink:#1a1a2e; --w-soft:#5a5a72; --w-line:#e4e4ef; --w-bg:#f6f7fb; }
-  body{ margin:0; background:var(--w-bg); color:var(--w-ink);
-        font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-
-  /* Focused header — logo + phone only (no nav, keep the visitor on task) */
-  .wz-head{ background:#fff; border-bottom:1px solid var(--w-line); }
-  .wz-head-in{ max-width:760px; margin:0 auto; display:flex; align-items:center;
-               justify-content:space-between; gap:1rem; padding:.85rem 1.25rem; }
-  .wz-head img{ height:42px; width:auto; display:block; }
-  .wz-phone{ display:inline-flex; align-items:center; gap:.45rem; font-weight:800;
-             color:var(--w-navy); text-decoration:none; font-size:1.02rem; }
-  .wz-phone small{ display:block; font-weight:500; font-size:.66rem; color:var(--w-soft); letter-spacing:.02em; }
-  .wz-phone svg{ width:18px; height:18px; }
-
-  .wz-wrap{ max-width:560px; margin:0 auto; padding:1.5rem 1.25rem 3rem; }
-
-  /* Progress */
-  .wz-prog{ display:flex; align-items:center; gap:.5rem; margin:.5rem 0 1.5rem; }
-  .wz-prog-bar{ flex:1; height:7px; border-radius:999px; background:#e7e8f2; overflow:hidden; }
-  .wz-prog-fill{ height:100%; width:20%; background:linear-gradient(90deg,var(--w-lime),var(--w-lime-d));
-                 border-radius:999px; transition:width .4s cubic-bezier(.4,0,.2,1); }
-  .wz-prog-txt{ font-size:.8rem; font-weight:700; color:var(--w-soft); white-space:nowrap; }
-
-  /* Card + steps */
-  .wz-card{ background:#fff; border:1px solid var(--w-line); border-radius:18px;
-            box-shadow:0 14px 40px rgba(1,0,128,.07); padding:1.6rem 1.4rem 1.5rem; }
-  .wz-step{ display:none; animation:wzIn .35s ease both; }
-  .wz-step.active{ display:block; }
-  @keyframes wzIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-  .wz-kicker{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-              color:var(--w-lime-d); }
-  .wz-q{ font-size:1.45rem; font-weight:800; line-height:1.2; margin:.35rem 0 .25rem; color:var(--w-navy); }
-  .wz-sub{ color:var(--w-soft); font-size:.95rem; margin:0 0 1.25rem; }
-
-  /* Tap option grids */
-  .wz-opts{ display:grid; gap:.6rem; }
-  .wz-opts.cols2{ grid-template-columns:1fr 1fr; }
-  .wz-opts.cols3{ grid-template-columns:1fr 1fr 1fr; }
-  .wz-opt{ appearance:none; font:inherit; text-align:center; cursor:pointer;
-           border:1.5px solid var(--w-line); background:#fff; color:var(--w-ink);
-           border-radius:12px; padding:.85rem .6rem; font-weight:600; font-size:.95rem;
-           transition:border-color .15s, background .15s, transform .1s; }
-  .wz-opt:hover{ border-color:var(--w-navy); }
-  .wz-opt:active{ transform:scale(.98); }
-  .wz-opt.sel{ border-color:var(--w-navy); background:rgba(1,0,128,.05); color:var(--w-navy); }
-
-  /* Fields */
-  .wz-field{ margin-bottom:1rem; }
-  .wz-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.4rem; color:var(--w-ink); }
-  .wz-input, .wz-select{ width:100%; box-sizing:border-box; font:inherit; font-size:16px; /* no iOS zoom */
-            padding:.85rem .9rem; border:1.5px solid var(--w-line); border-radius:11px; background:#fff;
-            color:var(--w-ink); transition:border-color .15s, box-shadow .15s; }
-  .wz-input:focus, .wz-select:focus{ outline:none; border-color:var(--w-navy);
-            box-shadow:0 0 0 3px rgba(1,0,128,.12); }
-  .wz-row2{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-  .wz-prefix{ position:relative; }
-  .wz-prefix span{ position:absolute; left:.85rem; top:50%; transform:translateY(-50%);
-                   font-weight:700; color:var(--w-soft); pointer-events:none; }
-  .wz-prefix .wz-input{ padding-left:1.7rem; }
-  .wz-err{ color:#c0392b; font-size:.82rem; margin-top:.35rem; display:none; }
-  .wz-field.invalid .wz-input, .wz-field.invalid .wz-select{ border-color:#c0392b; }
-  .wz-field.invalid .wz-err{ display:block; }
-
-  /* Address results */
-  .wz-results{ border:1.5px solid var(--w-line); border-radius:11px; margin-top:.5rem;
-               max-height:230px; overflow-y:auto; display:none; }
-  .wz-results.show{ display:block; }
-  .wz-results button{ display:block; width:100%; text-align:left; border:0; background:#fff;
-                      padding:.7rem .9rem; font:inherit; font-size:.92rem; cursor:pointer;
-                      border-bottom:1px solid var(--w-line); }
-  .wz-results button:last-child{ border-bottom:0; }
-  .wz-results button:hover{ background:rgba(1,0,128,.04); }
-
-  /* Nav buttons */
-  .wz-nav{ display:flex; gap:.7rem; margin-top:1.5rem; }
-  .wz-btn{ appearance:none; font:inherit; font-weight:800; cursor:pointer; border:0;
-           border-radius:12px; padding:.95rem 1.4rem; font-size:1.02rem; flex:1;
-           display:inline-flex; align-items:center; justify-content:center; gap:.5rem; transition:transform .1s, filter .15s; }
-  .wz-btn:active{ transform:translateY(1px); }
-  .wz-next{ background:linear-gradient(120deg,var(--w-lime),var(--w-lime-d)); color:var(--w-navy-d); }
-  .wz-next:hover{ filter:brightness(1.04); }
-  .wz-back{ background:#fff; border:1.5px solid var(--w-line); color:var(--w-soft); flex:0 0 auto; padding:.95rem 1.1rem; }
-  .wz-btn[disabled]{ opacity:.5; cursor:not-allowed; }
-
-  /* Reassurance under card */
-  .wz-trust{ display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; justify-content:center;
-             margin-top:1.1rem; color:var(--w-soft); font-size:.82rem; }
-  .wz-trust span{ display:inline-flex; align-items:center; gap:.35rem; }
-  .wz-trust svg{ width:15px; height:15px; color:var(--w-lime-d); }
-
-  /* Thank-you */
-  .wz-done{ text-align:center; padding:1.5rem .5rem; }
-  .wz-done .tick{ width:68px; height:68px; border-radius:50%; background:rgba(165,200,68,.18);
-                 display:grid; place-items:center; margin:0 auto 1.1rem; }
-  .wz-done .tick svg{ width:34px; height:34px; color:var(--w-lime-d); }
-  .wz-done h2{ color:var(--w-navy); font-size:1.6rem; margin:0 0 .5rem; }
-  .wz-done p{ color:var(--w-soft); margin:0 auto 1.25rem; max-width:34ch; line-height:1.6; }
-
-  @media (max-width:480px){
-    .wz-q{ font-size:1.28rem; } .wz-card{ padding:1.3rem 1.1rem; }
-    .wz-phone small{ display:none; }
-  }
-</style>
+<link rel="stylesheet" href="/lp/shared/wizard.css?v=1">
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5D9NNXQ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -180,7 +74,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <main class="wz-wrap">
   <div class="wz-prog">
     <div class="wz-prog-bar"><div class="wz-prog-fill" id="progFill"></div></div>
-    <div class="wz-prog-txt" id="progTxt">Step 1 of 5</div>
+    <div class="wz-prog-txt" id="progTxt">Step 1 of 2</div>
   </div>
 
   <form class="wz-card" id="wizard" novalidate>
@@ -195,121 +89,31 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
         <div class="wz-err">Please choose your address.</div>
       </div>
       <p class="wz-sub" id="addrChosen" style="display:none;font-weight:600;color:var(--w-navy)"></p>
+      <!-- manual entry fallback -->
+      <div id="manualPanel" style="display:none;margin-top:.4rem">
+        <div class="wz-field"><label class="wz-label" for="m_line1">Address</label><input class="wz-input" id="m_line1" type="text" placeholder="House number and street"></div>
+        <div class="wz-row2">
+          <div class="wz-field"><label class="wz-label" for="m_town">Town / city</label><input class="wz-input" id="m_town" type="text"></div>
+          <div class="wz-field"><label class="wz-label" for="m_pc">Postcode</label><input class="wz-input" id="m_pc" type="text"></div>
+        </div>
+      </div>
       <input type="hidden" id="f_postcode"><input type="hidden" id="f_address">
       <div class="wz-nav"><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
     </section>
 
-    <!-- STEP 2 — Property -->
+    <!-- STEP 2 — Contact details (INSERT fires after this) -->
     <section class="wz-step" data-step="2">
-      <span class="wz-kicker">Your property</span>
-      <h2 class="wz-q">Tell us about the property</h2>
-      <p class="wz-sub">A few quick taps — no typing.</p>
-      <div class="wz-field"><span class="wz-label">Property type</span>
-        <div class="wz-opts cols2" data-pick="propertyType">
-          <button type="button" class="wz-opt" data-val="Detached House">Detached</button>
-          <button type="button" class="wz-opt" data-val="Semi-Detached House">Semi-detached</button>
-          <button type="button" class="wz-opt" data-val="Terraced House">Terraced</button>
-          <button type="button" class="wz-opt" data-val="Flat">Flat</button>
-          <button type="button" class="wz-opt" data-val="Maisonette">Maisonette</button>
-          <button type="button" class="wz-opt" data-val="Bungalow">Bungalow</button>
-          <button type="button" class="wz-opt" data-val="Studio Flat">Studio</button>
-          <button type="button" class="wz-opt" data-val="Other">Other</button>
-        </div>
-        <div class="wz-err">Please choose a property type.</div>
-      </div>
-      <div class="wz-field"><span class="wz-label">Bedrooms</span>
-        <div class="wz-opts cols3" data-pick="bedrooms">
-          <button type="button" class="wz-opt" data-val="Studio">Studio</button>
-          <button type="button" class="wz-opt" data-val="1">1</button>
-          <button type="button" class="wz-opt" data-val="2">2</button>
-          <button type="button" class="wz-opt" data-val="3">3</button>
-          <button type="button" class="wz-opt" data-val="4">4</button>
-          <button type="button" class="wz-opt" data-val="5+">5+</button>
-        </div>
-        <div class="wz-err">Please choose the number of bedrooms.</div>
-      </div>
-      <div class="wz-field"><span class="wz-label">Is it currently on the market?</span>
-        <div class="wz-opts cols2" data-pick="onMarket">
-          <button type="button" class="wz-opt" data-val="Yes">Yes</button>
-          <button type="button" class="wz-opt" data-val="No">No</button>
-        </div>
-        <div class="wz-err">Please choose one.</div>
-      </div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
-    </section>
-
-    <!-- STEP 3 — Situation -->
-    <section class="wz-step" data-step="3">
-      <span class="wz-kicker">Your situation</span>
-      <h2 class="wz-q">Why are you selling?</h2>
-      <p class="wz-sub">This helps us tailor your offer — there are no wrong answers.</p>
-      <div class="wz-field"><span class="wz-label">Reason for sale</span>
-        <select class="wz-select" id="f_reason">
-          <option value="">Please choose…</option>
-          <option>Buying A New Build</option><option>Career Related</option><option>Chain Break</option>
-          <option>Divorce / Break Up</option><option>Downsizing</option><option>Former Buy to Let</option>
-          <option>Funding For Business</option><option>Financial Difficulties</option><option>Illness</option>
-          <option>Inheritance</option><option>Moving Into Care Home</option><option>Moving Abroad</option>
-          <option>Moving into Rented / Family / Partner</option><option>Retirement</option><option>Upsizing</option><option>Other</option>
-        </select>
-        <div class="wz-err">Please choose a reason.</div>
-      </div>
-      <div class="wz-field"><span class="wz-label">How quickly do you want to sell?</span>
-        <div class="wz-opts cols2" data-pick="timescale">
-          <button type="button" class="wz-opt" data-val="1-5 days">1–5 days</button>
-          <button type="button" class="wz-opt" data-val="2-4 weeks">2–4 weeks</button>
-          <button type="button" class="wz-opt" data-val="4-8 weeks">4–8 weeks</button>
-          <button type="button" class="wz-opt" data-val="2 months+">2 months+</button>
-          <button type="button" class="wz-opt" data-val="6 months+">6 months+</button>
-        </div>
-        <div class="wz-err">Please choose a timescale.</div>
-      </div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
-    </section>
-
-    <!-- STEP 4 — Numbers -->
-    <section class="wz-step" data-step="4">
-      <span class="wz-kicker">The numbers</span>
-      <h2 class="wz-q">A couple of figures</h2>
-      <p class="wz-sub">Rough estimates are fine — we confirm everything later.</p>
-      <div class="wz-field"><span class="wz-label">What do you feel it's realistically worth?</span>
-        <div class="wz-prefix"><span>£</span><input class="wz-input" type="text" inputmode="numeric" id="f_value" placeholder="250,000"></div>
-        <div class="wz-err">Please add a rough figure.</div>
-      </div>
-      <div class="wz-field"><span class="wz-label">Mortgage remaining (approx.)</span>
-        <div class="wz-opts cols2" data-pick="mortgageNone" style="margin-bottom:.6rem">
-          <button type="button" class="wz-opt" data-val="None / Owned Outright">Owned outright</button>
-          <button type="button" class="wz-opt" data-val="__amount">There's a mortgage</button>
-        </div>
-        <div class="wz-prefix" id="mortgageAmtWrap" style="display:none"><span>£</span><input class="wz-input" type="text" inputmode="numeric" id="f_mortgage" placeholder="120,000"></div>
-        <div class="wz-err">Please choose one.</div>
-      </div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
-    </section>
-
-    <!-- STEP 5 — Details -->
-    <section class="wz-step" data-step="5">
-      <span class="wz-kicker">Almost done</span>
+      <span class="wz-kicker">Your details</span>
       <h2 class="wz-q">Where shall we send your offer?</h2>
-      <p class="wz-sub">A real buyer will call you with a no-obligation cash offer.</p>
+      <p class="wz-sub">A real buyer will call you with a no-obligation cash offer — then we'll ask a couple of quick things about the property.</p>
       <div class="wz-row2">
         <div class="wz-field"><label class="wz-label" for="f_fname">First name</label><input class="wz-input" type="text" id="f_fname" autocomplete="given-name"><div class="wz-err">Please add your first name.</div></div>
         <div class="wz-field"><label class="wz-label" for="f_lname">Surname</label><input class="wz-input" type="text" id="f_lname" autocomplete="family-name"><div class="wz-err">Please add your surname.</div></div>
       </div>
       <div class="wz-field"><label class="wz-label" for="f_phone">Phone number</label><input class="wz-input" type="tel" id="f_phone" autocomplete="tel" inputmode="tel"><div class="wz-err">Please add a valid phone number.</div></div>
       <div class="wz-field"><label class="wz-label" for="f_email">Email address</label><input class="wz-input" type="email" id="f_email" autocomplete="email" inputmode="email"><div class="wz-err">Please add a valid email.</div></div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="submit" class="wz-btn wz-next" id="submitBtn">See my cash offer →</button></div>
+      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="submit" class="wz-btn wz-next" id="submitBtn">Continue →</button></div>
       <p class="wz-sub" style="text-align:center;margin:.9rem 0 0;font-size:.8rem">🔒 We never share your details. No obligation.</p>
-    </section>
-
-    <!-- DONE -->
-    <section class="wz-step" data-step="6">
-      <div class="wz-done">
-        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
-        <h2>Thank you — that's all we need!</h2>
-        <p>A member of our team will call you shortly with your free, no-obligation cash offer. Keep an eye on your phone.</p>
-        <a class="wz-btn wz-next" href="/" style="max-width:260px;margin:0 auto;text-decoration:none">Back to home</a>
-      </div>
     </section>
   </form>
 
@@ -322,19 +126,16 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 
 <script src="/lp/shared/script.js?v=26"></script>
 <script>
-/* ============ WIZARD CONTROLLER ============
-   Single-page multi-step. Collects the same data the WP /middle-form/ flow did,
-   fires GA4 funnel events per step, and on submit posts to the lead API +
-   fires the lead conversion. Endpoint is configurable so we can point it at the
-   new Sevalla PHP /api/lead when it's live (today it's a safe no-op preview). */
+/* ============ STAGE 1 — /middle-form/ : address + contact → Zoho INSERT ============
+   Matches the proven WordPress flow: capture the contactable lead first (so we
+   keep abandoners), create it in Zoho, then hand off to /additional-info/ for the
+   property questions (where the Google Ads conversion fires on page load). */
 (function(){
   "use strict";
-  var LEAD_API = "/api/lead";              // ← Sevalla PHP endpoint (built next)
-  var form = document.getElementById("wizard");
+  var LEAD_API = "/api/lead";              // Sevalla PHP endpoint
+  var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
-  var TOTAL = 5;
-  var cur = 1;
-  var data = { propertyType:"", bedrooms:"", onMarket:"", timescale:"", mortgageNone:"" };
+  var TOTAL = 2, cur = 1;
 
   var progFill = document.getElementById("progFill");
   var progTxt  = document.getElementById("progTxt");
@@ -342,36 +143,17 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   function show(n){
     cur = n;
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
-    var pct = Math.min(n, TOTAL) / TOTAL * 100;
-    progFill.style.width = pct + "%";
-    if (n <= TOTAL){ progTxt.textContent = "Step " + n + " of " + TOTAL; }
-    else { progTxt.textContent = "Done"; progFill.style.width = "100%"; }
+    progFill.style.width = (n / TOTAL * 100) + "%";
+    progTxt.textContent = "Step " + n + " of " + TOTAL;
     window.scrollTo({ top:0, behavior:"smooth" });
-    track("form_step", { step:n });
+    track("form_step", { step:n, page:"middle-form" });
   }
-
   function track(ev, params){
     try { if (typeof trackEvent === "function") return trackEvent(ev, params); } catch(e){}
     try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({event:ev}, params||{})); } catch(e){}
   }
 
-  /* tap-pick option groups */
-  form.querySelectorAll("[data-pick]").forEach(function(grp){
-    var key = grp.dataset.pick;
-    grp.querySelectorAll(".wz-opt").forEach(function(btn){
-      btn.addEventListener("click", function(){
-        grp.querySelectorAll(".wz-opt").forEach(function(b){ b.classList.remove("sel"); });
-        btn.classList.add("sel");
-        data[key] = btn.dataset.val;
-        grp.closest(".wz-field").classList.remove("invalid");
-        if (key === "mortgageNone"){
-          document.getElementById("mortgageAmtWrap").style.display = (btn.dataset.val === "__amount") ? "block" : "none";
-        }
-      });
-    });
-  });
-
-  /* ---- validation per step ---- */
+  /* ---- validation ---- */
   function invalid(el){ var f = el.closest(".wz-field"); if(f) f.classList.add("invalid"); }
   function clearInvalid(scope){ scope.querySelectorAll(".wz-field.invalid").forEach(function(f){ f.classList.remove("invalid"); }); }
   function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
@@ -381,18 +163,10 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     var ok = true, step = steps[n-1];
     clearInvalid(step);
     if (n === 1){
+      // accept either a picked address or a manual entry
+      syncManual();
       if (!document.getElementById("f_address").value){ invalid(document.getElementById("addrField").querySelector(".wz-input")); ok = false; }
     } else if (n === 2){
-      ["propertyType","bedrooms","onMarket"].forEach(function(k){
-        if (!data[k]){ step.querySelector('[data-pick="'+k+'"]').closest(".wz-field").classList.add("invalid"); ok = false; }
-      });
-    } else if (n === 3){
-      if (!document.getElementById("f_reason").value){ invalid(document.getElementById("f_reason")); ok = false; }
-      if (!data.timescale){ step.querySelector('[data-pick="timescale"]').closest(".wz-field").classList.add("invalid"); ok = false; }
-    } else if (n === 4){
-      if (!document.getElementById("f_value").value.trim()){ invalid(document.getElementById("f_value")); ok = false; }
-      if (!data.mortgageNone){ step.querySelector('[data-pick="mortgageNone"]').closest(".wz-field").classList.add("invalid"); ok = false; }
-    } else if (n === 5){
       if (!document.getElementById("f_fname").value.trim()){ invalid(document.getElementById("f_fname")); ok = false; }
       if (!document.getElementById("f_lname").value.trim()){ invalid(document.getElementById("f_lname")); ok = false; }
       if (!validPhone(document.getElementById("f_phone").value)){ invalid(document.getElementById("f_phone")); ok = false; }
@@ -408,6 +182,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   var search = document.getElementById("addrSearch");
   var results = document.getElementById("addrResults");
   var chosen = document.getElementById("addrChosen");
+  var manual = document.getElementById("manualPanel");
   var t;
   search.addEventListener("input", function(){
     clearTimeout(t); var q = search.value.trim();
@@ -420,13 +195,17 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       var res = await fetchifyFind(q);
       var list = (res && res.results) || [];
       results.innerHTML = "";
-      list.slice(0, 12).forEach(function(r){
+      list.forEach(function(r){
         var b = document.createElement("button"); b.type = "button";
         b.textContent = r.labels ? r.labels.join(", ") : (r.label || r.address || "");
         b.addEventListener("click", function(){ pick(r); });
         results.appendChild(b);
       });
-      results.classList.toggle("show", list.length > 0);
+      var fb = document.createElement("button"); fb.type = "button"; fb.className = "pc-fallback";
+      fb.textContent = "Can't find your address? Enter it manually →";
+      fb.addEventListener("click", openManual);
+      results.appendChild(fb);
+      results.classList.add("show");
     } catch(e){ /* silent — manual entry still possible */ }
   }
   async function pick(r){
@@ -435,57 +214,75 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     try {
       if (r.id && typeof fetchifyRetrieve === "function"){
         var d = await fetchifyRetrieve(r.id);
-        if (d){ full = (d.line_1 ? d.line_1 : full); if (d.postal_county || d.town){ full += (d.town ? ", " + d.town : ""); } if (d.postcode){ document.getElementById("f_postcode").value = d.postcode; } if (d.address) full = d.address; }
+        if (d){ if (d.address) full = d.address; if (d.postcode){ document.getElementById("f_postcode").value = d.postcode; } }
       }
     } catch(e){}
     document.getElementById("f_address").value = full;
     search.value = full;
     chosen.style.display = "block"; chosen.textContent = "✓ " + full;
+    manual.style.display = "none";
     document.getElementById("addrField").classList.remove("invalid");
   }
+  function openManual(){
+    results.classList.remove("show");
+    manual.style.display = "block";
+    document.getElementById("m_line1").focus();
+  }
+  function syncManual(){
+    if (manual.style.display !== "block") return;
+    var l1 = document.getElementById("m_line1").value.trim();
+    var town = document.getElementById("m_town").value.trim();
+    var pc = document.getElementById("m_pc").value.trim();
+    if (l1){
+      document.getElementById("f_address").value = (town ? l1 + ", " + town : l1);
+      document.getElementById("f_postcode").value = pc;
+    }
+  }
 
-  /* ---- read ad-tracking the shared script.js already stored (gclid/kws/etc.) ---- */
+  /* ---- ad-tracking the shared script.js stored (gclid/kws/etc.) ---- */
   function getTracking(){
-    try { if (typeof window.ppbTracking === "function") return window.ppbTracking(); } catch(e){}
-    // fallback: read ppb_* cookies
     function ck(k){ var m = document.cookie.match(new RegExp("(?:^|; )ppb_"+k+"=([^;]*)")); return m ? decodeURIComponent(m[1]) : ""; }
     return { gclid:ck("gclid"), kws:ck("kws"), search_query:ck("dyn_keyword"),
              utm_source:ck("utm_source"), utm_medium:ck("utm_medium"), utm_campaign:ck("utm_campaign") };
   }
 
-  /* ---- submit ---- */
+  /* ---- submit step 2 → INSERT → hand off to /additional-info/ ---- */
   form.addEventListener("submit", function(e){
     e.preventDefault();
-    if (!validate(5)) return;
+    if (!validate(2)) return;
     var btn = document.getElementById("submitBtn");
-    btn.disabled = true; btn.textContent = "Sending…";
+    btn.disabled = true; btn.textContent = "Saving…";
 
-    var name = document.getElementById("f_fname").value.trim();
-    var lname = document.getElementById("f_lname").value.trim();
-    var phone = document.getElementById("f_phone").value.trim();
-    var email = document.getElementById("f_email").value.trim();
-    var mortgage = (data.mortgageNone === "__amount") ? document.getElementById("f_mortgage").value.trim() : data.mortgageNone;
-
-    var payload = Object.assign({
-      first_name:name, last_name:lname, phone:phone, email:email,
-      postcode:document.getElementById("f_postcode").value, address:document.getElementById("f_address").value,
-      property_type:data.propertyType, bedrooms:data.bedrooms, on_market:data.onMarket,
-      reason:document.getElementById("f_reason").value, timescale:data.timescale,
-      seller_value:document.getElementById("f_value").value.trim(), mortgage_remaining:mortgage,
-      lead_source:"PPB", source:"website-form"
+    var lead = Object.assign({
+      action: "insert",
+      first_name: document.getElementById("f_fname").value.trim(),
+      last_name:  document.getElementById("f_lname").value.trim(),
+      phone:      document.getElementById("f_phone").value.trim(),
+      email:      document.getElementById("f_email").value.trim(),
+      postcode:   document.getElementById("f_postcode").value,
+      address:    document.getElementById("f_address").value,
+      source:     "website-form"
     }, getTracking());
 
-    // 1) Fire the SAME lead conversion the chatbot + step-1 form use
-    try { if (typeof fireLead === "function") fireLead(name + " " + lname, phone, email, "form"); } catch(err){}
-    track("generate_lead", { method:"form" });
+    track("generate_lead", { method:"form", stage:"insert" });
 
-    // 2) Send to the lead API (Sevalla PHP — built next). Always show success to
-    //    the user; the endpoint + a beacon guarantee the lead is captured.
-    function done(){ show(6); }
+    function handoff(zohoid){
+      // Stash everything for /additional-info/ (UPDATE + conversion + Enhanced Conversions)
+      var store = Object.assign({}, lead, { zohoid: zohoid || "" });
+      delete store.action;
+      try { sessionStorage.setItem("ppb_lead", JSON.stringify(store)); } catch(e){}
+      window.location.href = "/additional-info/";
+    }
+
+    // Create the lead in Zoho, then continue. If the API isn't reachable
+    // (e.g. preview before the backend is wired), still continue so the flow
+    // works — the lead is preserved in sessionStorage either way.
     try {
-      fetch(LEAD_API, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) })
-        .then(done).catch(function(){ try{ navigator.sendBeacon(LEAD_API, JSON.stringify(payload)); }catch(e){} done(); });
-    } catch(err){ done(); }
+      fetch(LEAD_API, { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(lead) })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){ handoff(j && j.id); })
+        .catch(function(){ handoff(""); });
+    } catch(err){ handoff(""); }
   });
 
   show(1);
