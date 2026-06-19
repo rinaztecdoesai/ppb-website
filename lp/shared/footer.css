@@ -6,7 +6,7 @@
    ===================================================================== */
 /* bottom padding (~7rem) reserves NAVY space so the fixed slide-up CTA bar
    floats over the blue footer, not a white gap below it */
-.site-footer{background:var(--navy); color:#fff; padding:3rem 1.5rem 7rem;}
+.site-footer{background:var(--navy,#010080); color:#fff; padding:3rem 1.5rem 7rem;}
 .footer-grid{max-width:var(--max-w,1100px); margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:2rem;}
 .footer-col h4{color:#fff; font-size:.95rem; text-transform:uppercase; letter-spacing:.06em; margin:0 0 1rem;}
 .footer-col ul{list-style:none; margin:0; padding:0; display:grid; gap:.5rem;}
@@ -15,10 +15,31 @@
 .footer-logo{width:160px; filter:brightness(0) invert(1); margin-bottom:1rem;}
 .footer-tagline{color:rgba(255,255,255,.7); font-size:.92rem; margin:0 0 1rem;}
 .footer-phone{display:inline-flex; align-items:center; gap:.5rem; color:#fff; font-weight:800; font-size:1.15rem;}
-.footer-phone .icon{width:18px; height:18px; color:var(--lime); fill:none;}
+.footer-phone .icon{width:18px; height:18px; color:var(--lime,#a5c844); fill:none;}
 .footer-bottom{max-width:var(--max-w,1100px); margin:2rem auto 0; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,.15); display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; justify-content:space-between; align-items:center;}
 .footer-bottom p{margin:0; color:rgba(255,255,255,.55); font-size:.8rem;}
 .footer-bottom nav{display:flex; flex-wrap:wrap; gap:.4rem .9rem;}
 .footer-bottom nav a{color:rgba(255,255,255,.7); font-size:.8rem;}
 @media (max-width:820px){ .footer-grid{grid-template-columns:1fr 1fr;} }
 @media (max-width:480px){ .footer-grid{grid-template-columns:1fr;} }
+
+/* ── Simple footer — shown on mobile + tablet (and always on .footer-compact,
+      i.e. the funnel/form pages). Desktop keeps the full column grid. ── */
+.footer-simple{display:none; max-width:var(--max-w,1100px); margin:0 auto; text-align:center;}
+.footer-simple .footer-logo{margin:0 auto 1rem;}
+.footer-simple .footer-tagline{margin:0 auto 1.1rem;}
+.footer-simple-links{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.4rem .2rem;}
+.footer-simple-links a{color:rgba(255,255,255,.82); font-size:.9rem; font-weight:600; display:inline-flex; align-items:center;}
+.footer-simple-links a:hover{color:#fff; text-decoration:underline;}
+.footer-simple-links a:not(:last-child)::after{content:"·"; margin:0 .15rem 0 .55rem; color:rgba(255,255,255,.4);}
+.footer-simple-links a:last-child{color:#fff; font-weight:800;}   /* phone stands out */
+
+@media (max-width:1024px){
+  .footer-grid{display:none;}
+  .footer-simple{display:block;}
+}
+/* Funnel/form pages: simple footer at every width (no slide-up CTA bar there,
+   so we don't reserve the extra bottom space) */
+.footer-compact{padding-bottom:2.5rem;}
+.footer-compact .footer-grid{display:none;}
+.footer-compact .footer-simple{display:block;}

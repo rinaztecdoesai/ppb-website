@@ -123,6 +123,17 @@ FOOTER = """<footer class="site-footer">
       </ul>
     </div>
   </div>
+  <div class="footer-simple">
+    <img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" class="footer-logo">
+    <p class="footer-tagline">Direct cash buyer · Thousands of properties bought · since 1993</p>
+    <nav class="footer-simple-links" aria-label="Footer">
+      <a href="/important-advice/">Important Advice</a>
+      <a href="/terms-conditions/">Terms &amp; Conditions</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/contact/">Contact</a>
+      <a href="tel:08000122239">0800 0122 239</a>
+    </nav>
+  </div>
   <div class="footer-bottom">
     <p>&copy; 2026 Primepropertybuyers.uk · Marketing name for UK National Properties Ltd · Registered in England No. 12973116</p>
     <nav aria-label="Legal"><a href="/terms-conditions/">Terms</a><a href="/privacy-policy/">Privacy</a></nav>
