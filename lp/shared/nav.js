@@ -16,6 +16,13 @@
     if (!nav) return;
 
     /* ---- full-screen mobile menu (shared open/close) ---- */
+    function closeSub() {   // collapse any open Services drill-down panel
+      nav.querySelectorAll(".nav-sub-wrap.open").forEach(function (w) {
+        w.classList.remove("open");
+        var b = w.querySelector(".nav-sub-btn");
+        if (b) b.setAttribute("aria-expanded", "false");
+      });
+    }
     function setMenu(open) {
       nav.classList.toggle("open", open);
       var t = nav.querySelector(".nav-toggle");
@@ -23,6 +30,7 @@
         t.setAttribute("aria-expanded", open ? "true" : "false");
         t.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       }
+      if (!open) closeSub();   // always reopen on the main list, never mid-drill
       document.body.classList.toggle("nav-open", open);   // lock scroll while open
     }
     var toggle = nav.querySelector(".nav-toggle");
@@ -44,6 +52,16 @@
           btn.setAttribute("aria-expanded", open ? "true" : "false");
         }
       });
+    });
+    // Inject a "Back" control into each Services drill-down panel (mobile only)
+    nav.querySelectorAll(".nav-sub").forEach(function (sub) {
+      if (sub.querySelector(".nav-sub-back")) return;
+      var li = document.createElement("li");
+      li.className = "nav-sub-back-li";
+      li.innerHTML = '<button type="button" class="nav-sub-back" aria-label="Back to menu">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back</button>';
+      sub.insertBefore(li, sub.firstChild);
+      li.firstChild.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); closeSub(); });
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && nav.classList.contains("open")) setMenu(false);
