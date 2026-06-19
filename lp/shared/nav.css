@@ -168,7 +168,11 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
   /* full-screen overlay: Services is a big centred row that taps open */
   .nav-sub-wrap{width:100%; max-width:340px; text-align:center;}
   .nav-sub-btn{justify-content:center; gap:.45rem; width:100%; padding:.72rem 0; font-size:1.5rem; font-weight:700; color:#fff; border-bottom:1px solid rgba(255,255,255,.09);}
-  .nav-sub-btn:hover, .nav-sub-wrap:focus-within .nav-sub-btn{color:var(--lime);}
+  /* SMART FIX: the desktop rule turns the button navy on :hover/:focus-within,
+     which is INVISIBLE on the navy overlay (and touch fires :hover). Keep it
+     white on touch; only go lime when the Services panel is actually open. */
+  .nav-sub-btn:hover, .nav-sub-wrap:hover .nav-sub-btn, .nav-sub-wrap:focus-within .nav-sub-btn{color:#fff;}
+  .nav-sub-wrap.open .nav-sub-btn{color:var(--lime);}
   .nav-caret{width:22px; height:22px;}
   /* SERVICES opens as its OWN full-screen panel sliding in from the right,
      with a Back button (drill-down) — NOT an inline accordion, which shoved
