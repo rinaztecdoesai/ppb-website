@@ -2346,7 +2346,7 @@ h2 {
   /* Non-solo form heroes (home, sell-house-fast) keep a light photo veil on
      mobile — the lede + ticks sit full-width over the photo here. hero-solo
      pages keep full strength (higher specificity). */
-  .hero::before { opacity: .8; }
+  .hero::before { opacity: .4; }   /* 50% lighter on mobile so the photo doesn't fight the form/text */
 
   /* Visible green frame around the form on mobile so it pops cleanly
      instead of melting into the hero photo behind it. The 4px top

@@ -8,7 +8,7 @@
 
 ## Checklist
 - [ ] Ran `python3 lp/shared/build.py` after editing any **nav / footer / testimonials / lead-modal** markup (these are propagated, not hand-edited per page)
-- [ ] Bumped the `?v=N` cache-buster on every **shared file** I changed in `lp/shared/` (e.g. `styles.css?v=89` → `90`) — see CONTRIBUTING.md
+- [ ] Bumped the `?v=N` cache-buster on every **shared file** I changed in `lp/shared/` (e.g. `styles.css?v=92` → `90`) — see CONTRIBUTING.md
 - [ ] `python3 lp/shared/build.py check` passes locally (CI runs this too)
 - [ ] No secrets / nothing from the `AI Prime/` folder is included (it lives outside this repo — keep it that way)
 - [ ] Checked the change at desktop **and** mobile widths

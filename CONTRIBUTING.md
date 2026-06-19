@@ -40,7 +40,7 @@ run the build. Run the build and commit the result.
 
 ## Cache-busting — bump `?v=N` on shared-file edits
 Shared assets are served with a `?v=N` query string (e.g.
-`styles.css?v=89`). Sevalla/CDN/browsers cache by the **full URL including the
+`styles.css?v=92`). Sevalla/CDN/browsers cache by the **full URL including the
 query**, so an edit without a version bump serves the *old* cached file.
 
 **Rule: whenever you edit a file in `lp/shared/` that pages reference with
@@ -50,8 +50,8 @@ images in `lp/shared/assets/` (`logo.png`, `trade-bodies.png`, hero images).
 
 Quick way to bump one across the repo (example: styles.css 89 → 90):
 ```bash
-grep -rl 'styles.css?v=89' . | grep -v _archive \
-  | xargs sed -i '' 's/styles.css?v=89/styles.css?v=90/g'   # macOS sed
+grep -rl 'styles.css?v=92' . | grep -v _archive \
+  | xargs sed -i '' 's/styles.css?v=92/styles.css?v=92/g'   # macOS sed
 ```
 
 ## Page types (orientation)

@@ -168,6 +168,11 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
   .nav-sub{position:static; transform:none; opacity:1; visibility:visible; min-width:0; background:none; border:none; box-shadow:none; padding:0; max-height:0; overflow:hidden; transition:max-height .32s ease;}
   .nav-sub::before{display:none;}
   .nav-sub-wrap.open .nav-sub{max-height:420px;}
+  /* Touch fires :hover on tap, and the desktop hover rule's translateX(-50%)
+     has higher specificity than the mobile base — that made the submenu fly
+     left then snap centre. Neutralise the desktop transform on mobile so it's
+     purely a vertical accordion. */
+  .nav-sub-wrap:hover .nav-sub, .nav-sub-wrap:focus-within .nav-sub{transform:none;}
   .nav-sub-wrap.open .nav-caret{transform:rotate(180deg);}
   .nav-sub a{justify-content:center; color:rgba(255,255,255,.82); font-size:1.05rem; font-weight:600; padding:.5rem 0;}
   .nav-sub a:hover, .nav-sub a[aria-current="page"]{background:none; color:var(--lime);}
