@@ -112,7 +112,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       </div>
       <div class="wz-field"><label class="wz-label" for="f_phone">Phone number</label><input class="wz-input" type="tel" id="f_phone" autocomplete="tel" inputmode="tel"><div class="wz-err">Please add a valid phone number.</div></div>
       <div class="wz-field"><label class="wz-label" for="f_email">Email address</label><input class="wz-input" type="email" id="f_email" autocomplete="email" inputmode="email"><div class="wz-err">Please add a valid email.</div></div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="submit" class="wz-btn wz-next" id="submitBtn">Continue →</button></div>
+      <div class="wz-nav"><button type="submit" class="wz-btn wz-next" id="submitBtn">Continue →</button></div>
       <p class="wz-sub" style="text-align:center;margin:.9rem 0 0;font-size:.8rem">🔒 We never share your details. No obligation.</p>
     </section>
   </form>
@@ -140,7 +140,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   var SRC = (Q.get("source") || "website-form").trim();
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
-  var TOTAL = 2, cur = 1;
+  var TOTAL = 5, cur = 1;   // continuous count across both pages (1-2 here, 3-5 on /additional-info/)
 
   var progFill = document.getElementById("progFill");
   var progTxt  = document.getElementById("progTxt");

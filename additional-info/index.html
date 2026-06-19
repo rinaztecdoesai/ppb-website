@@ -71,7 +71,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <main class="wz-wrap">
   <div class="wz-prog">
     <div class="wz-prog-bar"><div class="wz-prog-fill" id="progFill"></div></div>
-    <div class="wz-prog-txt" id="progTxt">Step 1 of 3</div>
+    <div class="wz-prog-txt" id="progTxt">Step 3 of 5</div>
   </div>
 
   <form class="wz-card" id="wizard" novalidate>
@@ -140,7 +140,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
         </div>
         <div class="wz-err">Please choose a timescale.</div>
       </div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
+      <div class="wz-nav"><button type="button" class="wz-btn wz-next" data-next>Continue →</button></div>
     </section>
 
     <!-- STEP 3 — Numbers -->
@@ -160,7 +160,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
         <div class="wz-prefix" id="mortgageAmtWrap" style="display:none"><span>£</span><input class="wz-input" type="text" inputmode="numeric" id="f_mortgage" placeholder="120,000"></div>
         <div class="wz-err">Please choose one.</div>
       </div>
-      <div class="wz-nav"><button type="button" class="wz-btn wz-back" data-back aria-label="Back">←</button><button type="submit" class="wz-btn wz-next" id="submitBtn">See my cash offer →</button></div>
+      <div class="wz-nav"><button type="submit" class="wz-btn wz-next" id="submitBtn">See my cash offer →</button></div>
       <p class="wz-sub" style="text-align:center;margin:.9rem 0 0;font-size:.8rem">🔒 We never share your details. No obligation.</p>
     </section>
   </form>
@@ -214,7 +214,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   /* ---- wizard plumbing ---- */
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
-  var TOTAL = 3, cur = 1;
+  var TOTAL = 5, OFFSET = 2, cur = 1;   // steps 3-5 of 5 (middle-form was 1-2)
   var data = { propertyType:"", bedrooms:"", onMarket:"", timescale:"", mortgageNone:"" };
   var progFill = document.getElementById("progFill");
   var progTxt  = document.getElementById("progTxt");
@@ -222,8 +222,8 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   function show(n){
     cur = n;
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
-    progFill.style.width = (n / TOTAL * 100) + "%";
-    progTxt.textContent = "Step " + n + " of " + TOTAL;
+    progFill.style.width = ((n + OFFSET) / TOTAL * 100) + "%";
+    progTxt.textContent = "Step " + (n + OFFSET) + " of " + TOTAL;
     window.scrollTo({ top:0, behavior:"smooth" });
     track("form_step", { step:n, page:"additional-info" });
   }
