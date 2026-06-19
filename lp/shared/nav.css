@@ -173,7 +173,10 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
      white on touch; only go lime when the Services panel is actually open. */
   .nav-sub-btn:hover, .nav-sub-wrap:hover .nav-sub-btn, .nav-sub-wrap:focus-within .nav-sub-btn{color:#fff;}
   .nav-sub-wrap.open .nav-sub-btn{color:var(--lime);}
-  .nav-caret{width:22px; height:22px;}
+  /* Drill-down (panel slides right) → caret points RIGHT and never rotates on
+     tap (the desktop hover-rotate doesn't make sense here). */
+  .nav-caret{width:22px; height:22px; transform:rotate(-90deg);}
+  .nav-sub-wrap:hover .nav-caret, .nav-sub-wrap.open .nav-caret{transform:rotate(-90deg);}
   /* SERVICES opens as its OWN full-screen panel sliding in from the right,
      with a Back button (drill-down) — NOT an inline accordion, which shoved
      the other menu items around and messed up the view. */
