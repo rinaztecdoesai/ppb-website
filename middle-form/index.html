@@ -82,7 +82,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     <section class="wz-step active" data-step="1">
       <span class="wz-kicker">Your property</span>
       <h2 class="wz-q">What's the property address?</h2>
-      <p class="wz-sub">Start typing your postcode or address and pick it from the list.</p>
+      <p class="wz-sub">Enter your postcode and pick your address from the list.</p>
       <div class="wz-field" id="addrField">
         <input class="wz-input" type="text" id="addrSearch" placeholder="e.g. SW1A 1AA" autocomplete="off">
         <div class="wz-results" id="addrResults"></div>
@@ -183,11 +183,26 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   var results = document.getElementById("addrResults");
   var chosen = document.getElementById("addrChosen");
   var manual = document.getElementById("manualPanel");
-  var t;
+  var t, lastSearched = "";
+  // Credit-safe Fetchify usage — MUST match the proven landing-page lookup:
+  // only call the API on a COMPLETE valid UK postcode, never repeat the same
+  // search, and debounce 320ms. (Searching on free text every few keystrokes
+  // is what burned API credits in Feb — do not reintroduce it.)
+  var UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i;
   search.addEventListener("input", function(){
-    clearTimeout(t); var q = search.value.trim();
-    if (q.length < 3){ results.classList.remove("show"); return; }
-    t = setTimeout(function(){ doFind(q); }, 250);
+    clearTimeout(t);
+    var q = search.value.trim();
+    if (!UK_POSTCODE.test(q)){ results.classList.remove("show"); return; }
+    if (q.toUpperCase() === lastSearched) return;   // dedupe
+    lastSearched = q.toUpperCase();
+    t = setTimeout(function(){ doFind(q); }, 320);
+  });
+  // Enter fires the search immediately (still postcode-gated)
+  search.addEventListener("keydown", function(e){
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    var q = search.value.trim();
+    if (UK_POSTCODE.test(q)){ lastSearched = q.toUpperCase(); clearTimeout(t); doFind(q); }
   });
   async function doFind(q){
     if (typeof fetchifyFind !== "function") return;
