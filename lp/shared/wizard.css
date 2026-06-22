@@ -5,7 +5,12 @@
 :root{ --w-navy:#010080; --w-navy-d:#000054; --w-lime:#a5c844; --w-lime-d:#8bb02f;
        --w-ink:#1a1a2e; --w-soft:#5a5a72; --w-line:#e4e4ef; --w-bg:#f6f7fb; }
 body{ margin:0; background:var(--w-bg); color:var(--w-ink);
-      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+      /* sticky footer: header + main + footer fill the screen, footer pinned
+         to the bottom (no grey gap below it on tall screens) */
+      min-height:100vh; display:flex; flex-direction:column; }
+.wz-wrap{ flex:1 0 auto; }   /* main grows to push the footer down */
+.site-footer{ flex-shrink:0; }
 
 /* Focused header — logo + phone only (no nav, keep the visitor on task) */
 .wz-head{ background:#fff; border-bottom:1px solid var(--w-line); }

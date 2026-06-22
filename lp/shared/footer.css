@@ -29,7 +29,7 @@
 .footer-simple .footer-logo{margin:0 auto 1rem;}
 .footer-simple .footer-tagline{margin:0 auto 1.1rem;}
 .footer-simple-links{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.4rem .2rem;}
-.footer-simple-links a{color:rgba(255,255,255,.82); font-size:.9rem; font-weight:600; display:inline-flex; align-items:center;}
+.footer-simple-links a{color:rgba(255,255,255,.82); font-size:.9rem; font-weight:600; display:inline-flex; align-items:center; text-decoration:none;}
 .footer-simple-links a:hover{color:#fff; text-decoration:underline;}
 .footer-simple-links a:not(:last-child)::after{content:"·"; margin:0 .15rem 0 .55rem; color:rgba(255,255,255,.4);}
 .footer-simple-links a:last-child{color:#fff; font-weight:800;}   /* phone stands out */
