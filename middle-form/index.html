@@ -105,8 +105,10 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     <!-- STEP 2 — Contact details (INSERT fires after this) -->
     <section class="wz-step" data-step="2">
       <span class="wz-kicker">Your details</span>
-      <h2 class="wz-q">Where shall we send your offer?</h2>
-      <p class="wz-sub">A real buyer will call you with a no-obligation cash offer — then we'll ask a couple of quick things about the property.</p>
+      <h2 class="wz-q">No Fees, No Obligation – Hassle Free Sale</h2>
+      <p class="wz-sub" style="margin-bottom:.25rem">To confirm the address we have for you is:</p>
+      <p class="wz-sub" id="confirmAddr" style="font-weight:700;color:var(--w-navy);margin:0 0 .7rem"></p>
+      <p class="wz-sub">Enter your details to receive your free cash offer!</p>
       <div class="wz-row2">
         <div class="wz-field"><label class="wz-label" for="f_fname">First name</label><input class="wz-input" type="text" id="f_fname" autocomplete="given-name"><div class="wz-err">Please add your first name.</div></div>
         <div class="wz-field"><label class="wz-label" for="f_lname">Surname</label><input class="wz-input" type="text" id="f_lname" autocomplete="family-name"><div class="wz-err">Please add your surname.</div></div>
@@ -115,6 +117,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <div class="wz-field"><label class="wz-label" for="f_email">Email address</label><input class="wz-input" type="email" id="f_email" autocomplete="email" inputmode="email"><div class="wz-err">Please add a valid email.</div></div>
       <div class="wz-nav"><button type="submit" class="wz-btn wz-next" id="submitBtn">Continue →</button></div>
       <p class="wz-sub" style="text-align:center;margin:.9rem 0 0;font-size:.8rem">🔒 We never share your details. No obligation.</p>
+      <p class="wz-sub" style="text-align:center;margin:.7rem 0 0;font-size:.82rem"><strong>Important Note:</strong> We are fully funded principal Buyers — we do not go out and find a buyer for you, nor share your data.</p>
     </section>
   </form>
 
@@ -152,6 +155,12 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
     progFill.style.width = (n / TOTAL * 100) + "%";
     progTxt.textContent = "Step " + n + " of " + TOTAL;
+    // Confirm the chosen address back to the visitor on the details step
+    if (n === 2){
+      var ca = document.getElementById("confirmAddr");
+      var ad = (document.getElementById("f_address").value || "").trim();
+      if (ca) ca.textContent = ad || "your property";
+    }
     window.scrollTo({ top:0, behavior:"smooth" });
     track("form_step", { step:n, page:"middle-form" });
   }
