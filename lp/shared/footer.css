@@ -30,16 +30,20 @@
 .footer-simple .footer-tagline{margin:0 auto 1.1rem;}
 .footer-simple-links{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.4rem .2rem;}
 .footer-simple-links a{color:rgba(255,255,255,.82); font-size:.9rem; font-weight:600; display:inline-flex; align-items:center; text-decoration:none;}
-.footer-simple-links a:hover{color:#fff; text-decoration:underline;}
+.footer-simple-links a:hover{color:#fff;}
 .footer-simple-links a:not(:last-child)::after{content:"·"; margin:0 .15rem 0 .55rem; color:rgba(255,255,255,.4);}
 .footer-simple-links a:last-child{color:#fff; font-weight:800;}   /* phone stands out */
 
 @media (max-width:1024px){
   .footer-grid{display:none;}
   .footer-simple{display:block;}
+  .footer-bottom{justify-content:center; text-align:center;}
+  .footer-bottom nav{display:none;}   /* legal links already in the simple row above */
 }
 /* Funnel/form pages: simple footer at every width (no slide-up CTA bar there,
    so we don't reserve the extra bottom space) */
 .footer-compact{padding-bottom:2.5rem;}
 .footer-compact .footer-grid{display:none;}
 .footer-compact .footer-simple{display:block;}
+.footer-compact .footer-bottom{justify-content:center; text-align:center;}
+.footer-compact .footer-bottom nav{display:none;}
