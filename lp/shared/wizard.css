@@ -29,7 +29,7 @@ body{ margin:0; background:var(--w-bg); color:var(--w-ink);
 .wz-prog-bar{ flex:1; height:7px; border-radius:999px; background:#e7e8f2; overflow:hidden; }
 .wz-prog-fill{ height:100%; width:20%; background:linear-gradient(90deg,var(--w-lime),var(--w-lime-d));
                border-radius:999px; transition:width .4s cubic-bezier(.4,0,.2,1); }
-.wz-prog-txt{ font-size:.8rem; font-weight:700; color:var(--w-soft); white-space:nowrap; }
+.wz-prog-txt{ display:none; }   /* no step numbers — just the progress bar */
 
 /* Card + steps */
 .wz-card{ background:#fff; border:1px solid var(--w-line); border-radius:18px;
