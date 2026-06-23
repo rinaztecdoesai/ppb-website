@@ -406,6 +406,21 @@ function ppbPostLead(url, payload, cb) {
 }
 if (typeof window !== "undefined") window.ppbPostLead = ppbPostLead;
 
+/* ─── Funnel progress: % bar + "≈ N seconds left" (shared by both funnel pages
+   so the count is continuous across the /middle-form/ → /additional-info/ hop).
+   stepNum is the visitor-facing step (1..9); total is 10 (the 10th = the
+   thank-you, so the last question shows 90%, completion = 100%). ─────────── */
+function ppbProgress(stepNum, total) {
+  var pct = Math.round((stepNum / total) * 100);
+  var fill = document.getElementById("progFill");
+  var pctEl = document.getElementById("progPct");
+  var timeEl = document.getElementById("timeLeft");
+  if (fill) fill.style.width = pct + "%";
+  if (pctEl) pctEl.textContent = pct + "%";
+  if (timeEl) timeEl.textContent = Math.max(5, Math.round(((total - stepNum) * 6) / 5) * 5);
+}
+if (typeof window !== "undefined") window.ppbProgress = ppbProgress;
+
 function setupPostcodeLookup(form) {
   const input    = form.querySelector('[name="postcode"]');
   const wrapper  = form.querySelector(".field-with-lookup");

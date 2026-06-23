@@ -56,11 +56,17 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/wizard.css?v=5">
+<link rel="stylesheet" href="/lp/shared/wizard.css?v=6">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=6">
+<!-- Zoho SalesIQ — loads for visitor tracking across the funnel; the chat
+     bubble is hidden on these pages via SalesIQ's own page-targeting settings. -->
+<script>window.$zoho=window.$zoho || {};$zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
+<script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siqef351ccb6f06bbd9a2c99653a235f97ea4479a9905b9a7f5ff2adfb1aa9f3486" defer></script>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5D9NNXQ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<div class="wz-loader"><div class="wz-spin"></div></div>
+<noscript><style>.wz-loader{display:none}</style></noscript>
 
 <header class="wz-head">
   <div class="wz-head-in">
@@ -74,8 +80,8 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 
 <main class="wz-wrap">
   <div class="wz-prog">
+    <div class="wz-prog-head"><span class="wz-prog-label">Progress</span><span class="wz-prog-pct" id="progPct">10%</span></div>
     <div class="wz-prog-bar"><div class="wz-prog-fill" id="progFill"></div></div>
-    <div class="wz-prog-txt" id="progTxt">Step 1 of 2</div>
   </div>
 
   <form class="wz-card" id="wizard" novalidate>
@@ -122,11 +128,12 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <p class="wz-sub" style="text-align:center;margin:.7rem 0 0;font-size:.82rem"><strong>Important Note:</strong> We are fully funded principal Buyers — we do not go out and find a buyer for you, nor share your data.</p>
     </section>
   </form>
+  <p class="wz-time">&#9201; &asymp; <strong id="timeLeft">50</strong> seconds left&hellip;</p>
 </main>
 <section class="trade-bodies"><div class="tb-inner"><span class="tb-kicker">Regulated · Registered · Compliant</span><img src="/lp/shared/assets/trade-bodies.png?v=3" alt="ICO, GOV.UK Money Laundering Regulations, The Property Ombudsman and napb National Association of Property Buyers" class="tb-logos"><p class="tb-note">Registered with the Information Commissioner's Office for data protection and with HMRC under the Money Laundering Regulations, and members of the National Association of Property Buyers and The Property Ombudsman. The same standards estate agents and solicitors must meet.</p></div></section>
 <footer class="site-footer footer-compact"><div class="footer-simple"><img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" class="footer-logo"><p class="footer-tagline">Direct cash buyer · Thousands of properties bought · since 1993</p><nav class="footer-simple-links" aria-label="Footer"><a href="/important-advice/">Important Advice</a><a href="/terms-conditions/">Terms &amp; Conditions</a><a href="/privacy-policy/">Privacy Policy</a><a href="/contact/">Contact</a><a href="tel:08000122239">0800 0122 239</a></nav></div><div class="footer-bottom"><p>&copy; 2026 Primepropertybuyers.uk · Marketing name for UK National Properties Ltd · Registered in England No. 12973116</p></div></footer>
 
-<script src="/lp/shared/script.js?v=29"></script>
+<script src="/lp/shared/script.js?v=30"></script>
 <script>
 /* ============ STAGE 1 — /middle-form/ : address + contact → Zoho INSERT ============
    Matches the proven WordPress flow: capture the contactable lead first (so we
@@ -142,16 +149,15 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   var SRC = (Q.get("source") || "website-form").trim();
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
-  var TOTAL = 5, cur = 1;   // continuous count across both pages (1-2 here, 3-5 on /additional-info/)
-
-  var progFill = document.getElementById("progFill");
-  var progTxt  = document.getElementById("progTxt");
+  var cur = 1;
+  // 9 visitor-facing steps across both pages; this page is steps 1-2 (the
+  // other 7 are on /additional-info/). total=10 so the 10th = thank-you/100%.
+  var STEP_TOTAL = 10;
 
   function show(n){
     cur = n;
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
-    progFill.style.width = (n / TOTAL * 100) + "%";
-    progTxt.textContent = "Step " + n + " of " + TOTAL;
+    if (typeof ppbProgress === "function") ppbProgress(n, STEP_TOTAL);   // % bar + seconds-left
     // Confirm the chosen address back to the visitor on the details step
     if (n === 2){
       var ca = document.getElementById("confirmAddr");
@@ -344,6 +350,10 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     }
     show(1);
   })();
+
+  // Reveal the form (fade the loader) once it's on the correct step — a brief
+  // intentional loader instead of a flash/jump.
+  setTimeout(function(){ document.body.classList.add("wz-ready"); }, 300);
 })();
 </script>
 </body>
