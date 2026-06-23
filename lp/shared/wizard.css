@@ -48,15 +48,16 @@ body.wz-ready .wz-loader{ opacity:0; pointer-events:none; }
 .wz-time strong{ color:var(--w-navy); font-weight:800; }
 
 /* Card + steps */
-.wz-card{ background:#fff; border:1px solid var(--w-line); border-radius:18px;
-          box-shadow:0 14px 40px rgba(1,0,128,.07); padding:1.6rem 1.4rem 1.5rem; }
+.wz-card{ background:#fff; border:1px solid var(--w-line); border-radius:20px;
+          box-shadow:0 14px 40px rgba(1,0,128,.07); padding:2.4rem 2.1rem 2.1rem; }
 .wz-step{ display:none; animation:wzIn .35s ease both; }
 .wz-step.active{ display:block; }
 @keyframes wzIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;} }
-.wz-kicker{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
-            color:var(--w-lime-d); }
-.wz-q{ font-size:1.45rem; font-weight:800; line-height:1.2; margin:.35rem 0 .25rem; color:var(--w-navy); }
-.wz-sub{ color:var(--w-soft); font-size:.95rem; margin:0 0 1.25rem; }
+.wz-kicker{ display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+            color:var(--w-lime-d); margin-bottom:.15rem; }
+.wz-q{ font-size:1.5rem; font-weight:800; line-height:1.25; margin:.4rem 0 1.3rem; color:var(--w-navy); }
+.wz-sub{ color:var(--w-soft); font-size:.95rem; margin:0 0 1.3rem; line-height:1.5; }
+.wz-q + .wz-sub{ margin-top:-.85rem; }   /* sub hugs the question; breathing gap stays below it */
 
 /* Centred, nicely-spaced intro block (the "No Fees, No Obligation…" + address) */
 .wz-intro{ text-align:center; margin-bottom:1.7rem; }
@@ -74,19 +75,19 @@ body.wz-ready .wz-loader{ opacity:0; pointer-events:none; }
 @media (max-width:640px){ .tb-logos{ max-width:320px; } .tb-note{ font-size:.88rem; } .tb-kicker{ font-size:.72rem; } }
 
 /* Tap option grids */
-.wz-opts{ display:grid; gap:.6rem; }
+.wz-opts{ display:grid; gap:.75rem; }
 .wz-opts.cols2{ grid-template-columns:1fr 1fr; }
 .wz-opts.cols3{ grid-template-columns:1fr 1fr 1fr; }
 .wz-opt{ appearance:none; font:inherit; text-align:center; cursor:pointer;
          border:1.5px solid var(--w-line); background:#fff; color:var(--w-ink);
-         border-radius:12px; padding:.85rem .6rem; font-weight:600; font-size:.95rem;
+         border-radius:13px; padding:1.05rem .7rem; font-weight:600; font-size:.98rem;
          transition:border-color .15s, background .15s, transform .1s; }
 .wz-opt:hover{ border-color:var(--w-navy); }
 .wz-opt:active{ transform:scale(.98); }
 .wz-opt.sel{ border-color:var(--w-navy); background:rgba(1,0,128,.05); color:var(--w-navy); }
 
 /* Fields */
-.wz-field{ margin-bottom:1rem; }
+.wz-field{ margin-bottom:1.2rem; }
 .wz-label{ display:block; font-weight:700; font-size:.9rem; margin-bottom:.4rem; color:var(--w-ink); }
 .wz-input, .wz-select{ width:100%; box-sizing:border-box; font:inherit; font-size:16px; /* no iOS zoom */
           padding:.85rem .9rem; border:1.5px solid var(--w-line); border-radius:11px; background:#fff;
@@ -114,9 +115,9 @@ body.wz-ready .wz-loader{ opacity:0; pointer-events:none; }
 .wz-results .pc-fallback{ color:var(--w-navy); font-weight:700; }
 
 /* Nav buttons */
-.wz-nav{ display:flex; gap:.7rem; margin-top:1.5rem; }
+.wz-nav{ display:flex; gap:.7rem; margin-top:2rem; }
 .wz-btn{ appearance:none; font:inherit; font-weight:800; cursor:pointer; border:0;
-         border-radius:12px; padding:.95rem 1.4rem; font-size:1.02rem; flex:1;
+         border-radius:13px; padding:1.1rem 1.4rem; font-size:1.04rem; flex:1;
          display:inline-flex; align-items:center; justify-content:center; gap:.5rem; transition:transform .1s, filter .15s; }
 .wz-btn:active{ transform:translateY(1px); }
 .wz-next{ background:linear-gradient(120deg,var(--w-lime),var(--w-lime-d)); color:var(--w-navy-d); }
@@ -139,6 +140,6 @@ body.wz-ready .wz-loader{ opacity:0; pointer-events:none; }
 .wz-done p{ color:var(--w-soft); margin:0 auto 1.25rem; max-width:34ch; line-height:1.6; }
 
 @media (max-width:480px){
-  .wz-q{ font-size:1.28rem; } .wz-card{ padding:1.3rem 1.1rem; }
+  .wz-q{ font-size:1.34rem; margin-bottom:1.05rem; } .wz-card{ padding:1.7rem 1.3rem; }
   .wz-phone small{ display:none; }
 }
