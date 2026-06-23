@@ -250,13 +250,35 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   /* ---- wizard plumbing ---- */
   var form  = document.getElementById("wizard");
   var steps = Array.prototype.slice.call(form.querySelectorAll(".wz-step"));
-  var OFFSET = 2, STEP_TOTAL = 10, cur = 1;   // this page = visitor steps 3-9 (middle-form was 1-2)
+  var OFFSET = 2, cur = 1;   // this page continues the visitor step count (middle-form was 1-2)
   var data = { propertyType:"", bedrooms:"", onMarket:"", timescale:"", mortgageNone:"" };
+
+  // Reason auto-fill: if the visitor came from a service page whose reason is
+  // implied (e.g. the inherited-property page), pre-set it + skip the reason
+  // screen. Generic pages (Sell House Fast, MMA, homepage) still ask.
+  var REASON_BY_SOURCE = {
+    "selling-inherited-property":  "Inheritance",
+    "selling-house-after-divorce": "Divorce / Break Up",
+    "selling-house-pay-debt":      "Financial Difficulties",
+    "selling-house-due-illness":   "Illness",
+    "stop-repossession":           "Financial Difficulties",
+    "sell-former-buy-to-let":      "Former Buy to Let"
+  };
+  var autoReason = REASON_BY_SOURCE[((lead && lead.source) || "").trim()] || "";
+  if (autoReason) { try { document.getElementById("f_reason").value = autoReason; } catch(e){} }
+
+  // Visible screens — the reason screen (data-step 4) is dropped when auto-filled.
+  var activeSteps = [];
+  steps.forEach(function(s){ var n = +s.dataset.step; if (n === 4 && autoReason) return; activeSteps.push(n); });
+  var STEP_TOTAL = OFFSET + activeSteps.length + 1;   // +1 = thank-you = 100%
+  function posOf(n){ return activeSteps.indexOf(n); }
+  function nextStep(n){ var i = posOf(n); return (i > -1 && i < activeSteps.length - 1) ? activeSteps[i + 1] : null; }
+  function prevStep(n){ var i = posOf(n); return (i > 0) ? activeSteps[i - 1] : null; }
 
   function show(n){
     cur = n;
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
-    if (typeof ppbProgress === "function") ppbProgress(n + OFFSET, STEP_TOTAL);   // % bar + seconds-left
+    if (typeof ppbProgress === "function") ppbProgress(OFFSET + posOf(n) + 1, STEP_TOTAL);   // % bar + seconds-left
     window.scrollTo({ top:0, behavior:"smooth" });
     track("form_step", { step:n, page:"additional-info" });
   }
@@ -297,8 +319,8 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     else if (n === 7 && !data.mortgageNone){ pickInvalid(step,"mortgageNone"); ok = false; }
     return ok;
   }
-  form.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click", function(){ if (validate(cur)) show(cur+1); }); });
-  form.querySelectorAll("[data-back]").forEach(function(b){ b.addEventListener("click", function(){ if (cur>1) show(cur-1); }); });
+  form.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click", function(){ if (validate(cur)){ var nx = nextStep(cur); if (nx) show(nx); } }); });
+  form.querySelectorAll("[data-back]").forEach(function(b){ b.addEventListener("click", function(){ var pv = prevStep(cur); if (pv) show(pv); }); });
 
   /* Live thousands-commas on the £ inputs as the visitor types (display only —
      the values are stripped back to plain digits before they go to Zoho). */
