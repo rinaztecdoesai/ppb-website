@@ -56,8 +56,9 @@ go-live (Sevalla ignores `_redirects`).
 | `/selling-your-house-with-japanese-knotweed/` | `/#why-sell` (Why people sell) | ✅ done | ⬜ go-live |
 | `/broken-chain-sell-house-for-cash/` | `/#why-sell` | ✅ done | ⬜ go-live |
 | `/privacy-policy-2/` | `/privacy-policy/` | ✅ done | ⬜ go-live |
-| `/lp/pp-cash-offer/` | `/` | ✅ done | ⬜ go-live |
 | `/lp/modern-method-of-auction/` | `/modern-method-of-auction/` | ✅ done | ⬜ go-live |
+
+**Note:** `/lp/pp-cash-offer/` is **NOT** a redirect — it's a **noindex clone of the homepage**, kept as a Google Ads landing-page URL (canonical → `/`, so it stays out of the sitemap). No 301 needed for it.
 
 Homepage anchors added for the section targets: `#reviews` (testimonials section),
 `#why-sell` (reasons / "Why people sell to us" section).
