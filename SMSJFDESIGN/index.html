@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening SMS tool…</title>
+<!--
+  The SMS tool moved to the ppb-api PHP backend at /sms (this domain is now a
+  static site and can't run PHP). This stub forwards the sales team's existing
+  Zoho button — /SMSJFDESIGN/?name=…&phone=…&owner=… — to the new endpoint,
+  preserving the full query string, so the Zoho button never had to change.
+-->
+<script>
+  location.replace('https://ppb-api-lnt0y.sevalla.app/sms' + location.search);
+</script>
+</head>
+<body style="font-family:system-ui,-apple-system,sans-serif;padding:2rem;color:#010080">
+  Opening the SMS tool…
+  <p><a id="go" href="https://ppb-api-lnt0y.sevalla.app/sms">Continue &rarr;</a></p>
+  <script>document.getElementById('go').href = 'https://ppb-api-lnt0y.sevalla.app/sms' + location.search;</script>
+</body>
+</html>
