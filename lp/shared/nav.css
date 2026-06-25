@@ -123,7 +123,7 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
 .sticky-nav{position:fixed; top:0; left:0; right:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 6px 20px rgba(1,0,128,.08); transform:translateY(-100%); transition:transform .32s ease;}
 .sticky-nav.show{transform:translateY(0);}
 .sticky-inner{max-width:var(--max-w); margin:0 auto; padding:.5rem 1.5rem; display:flex; align-items:center; gap:1.1rem;}
-.sn-logo img{width:128px; height:auto; display:block;}
+.sn-logo img{width:144px; height:auto; display:block;}
 .sn-menu{display:flex; align-items:center; gap:1.7rem; margin:0 0 0 auto; list-style:none; padding:0;}
 .sn-menu li{margin:0;}
 .sn-menu a{font-weight:600; font-size:.9rem; color:var(--text-soft); transition:color .15s ease;}
@@ -133,7 +133,7 @@ body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-
 .sn-phone, .sn-toggle{display:none;}                 /* desktop sticky bar: menu + CTA */
 @media (max-width:1000px){
   .sn-menu, .sn-cta{display:none;}                    /* mobile sticky bar: logo + phone + hamburger */
-  .sn-logo img{width:112px;}
+  .sn-logo img{width:124px;}
   .sn-phone{display:inline-flex; margin-left:auto; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:50%; background:#fff; color:var(--navy); box-shadow:0 2px 8px rgba(1,0,128,.07);}
   .sn-phone svg{width:18px; height:18px;}
   .sn-toggle{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--navy); cursor:pointer;}
