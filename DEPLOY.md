@@ -44,6 +44,30 @@ Redirects we need:
   are **old WordPress URLs → new URLs (301)** so SEO rankings aren't lost — set
   these up in Sevalla's redirect mechanism once confirmed.
 
+## ⭐ GO-LIVE redirects & indexing checklist (Rahul's review list — 25 Jun)
+Old WordPress URLs → new locations. **Redirect URL pages already created in the repo**
+(client-side stubs, work on any host — same approach as `/lp/pp-cash-offer/`). For
+SEO-clean **301s**, ALSO add these in the **Sevalla dashboard** redirect feature at
+go-live (Sevalla ignores `_redirects`).
+
+| Old URL | → Target | Repo stub | Add 301 in Sevalla |
+|---|---|---|---|
+| `/testimonials/` | `/#reviews` (homepage reviews) | ✅ done | ⬜ go-live |
+| `/selling-your-house-with-japanese-knotweed/` | `/#why-sell` (Why people sell) | ✅ done | ⬜ go-live |
+| `/broken-chain-sell-house-for-cash/` | `/#why-sell` | ✅ done | ⬜ go-live |
+| `/privacy-policy-2/` | `/privacy-policy/` | ✅ done | ⬜ go-live |
+| `/lp/pp-cash-offer/` | `/` | ✅ done | ⬜ go-live |
+
+Homepage anchors added for the section targets: `#reviews` (testimonials section),
+`#why-sell` (reasons / "Why people sell to us" section).
+
+- ✅ **noindex** already on `/middle-form/`, `/additional-info/`, `/thank-you/`.
+- ✅ **Sitemap** already correct — lists all 15 indexable pages, excludes the 3
+  noindex funnel pages, contains no old WP URLs (build.py auto-builds from canonicals).
+- ⬜ **Remove `/home-copy-for-rahul/`** — that's a **WordPress** page (NOT in this repo);
+  delete it in WP at cutover so it 404s / isn't carried over.
+- ⬜ DNS cutover + set Sevalla **Error file = `404.html`**.
+
 ## Cutover (Vercel → Sevalla, all-Sevalla)
 1. Create the Sevalla static site (settings above); verify it serves identically
    on the `*.sevalla.page` URL.
