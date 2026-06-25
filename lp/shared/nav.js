@@ -38,7 +38,22 @@
       toggle.addEventListener("click", function () { setMenu(!nav.classList.contains("open")); });
     }
     nav.querySelectorAll(".nav-menu a").forEach(function (a) {
-      a.addEventListener("click", function () { setMenu(false); });
+      a.addEventListener("click", function () {
+        var href = a.getAttribute("href") || "";
+        var base = href.split("#")[0];
+        // Real internal page navigation (different page, same tab, not a modal)
+        // → KEEP the overlay up + show a loader so the old page never flashes
+        //   underneath while the next one loads. Everything else (same-page
+        //   anchor, tel:/wa.me, modal, current page) just closes the menu.
+        var internalNav = !a.hasAttribute("data-open-modal") && a.target !== "_blank"
+                          && href.charAt(0) === "/" && base !== "" && base !== location.pathname;
+        if (internalNav) {
+          nav.classList.add("nav-loading");
+          setTimeout(function () { nav.classList.remove("nav-loading"); }, 8000);  // safety if nav is cancelled
+        } else {
+          setMenu(false);
+        }
+      });
     });
     // Services dropdown: tap to expand inside the full-screen overlay.
     // Gate on the overlay being open (only true on mobile) rather than a

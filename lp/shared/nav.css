@@ -78,6 +78,17 @@
   .site-nav.open .nav-menu{opacity:1; visibility:visible; transform:none;
     transition:opacity .3s ease, transform .35s ease;}
 
+  /* loading state — while a tapped menu link loads the next page, KEEP this
+     overlay up, dim the items + show a spinner, so the old page never flashes
+     underneath. Cleared automatically when the new page renders. */
+  .site-nav.open.nav-loading .nav-menu > li{opacity:.16; transition:opacity .2s ease;}
+  .site-nav.open.nav-loading .nav-menu::after{
+    content:""; position:fixed; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px;
+    border:3px solid rgba(255,255,255,.28); border-top-color:#fff; border-radius:50%;
+    animation:navspin .6s linear infinite; z-index:120;
+  }
+  @keyframes navspin{ to{ transform:rotate(360deg); } }
+
   /* big centred links — DIRECT children only, so the Services submenu links
      (nested in .nav-sub) keep their own smaller styling. */
   .nav-menu li{width:100%; max-width:340px; text-align:center;}
