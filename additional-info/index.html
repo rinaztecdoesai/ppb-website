@@ -94,7 +94,6 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
           <button type="button" class="wz-opt" data-val="End of Terraced House">End of terrace</button>
           <button type="button" class="wz-opt" data-val="Townhouse">Townhouse</button>
           <button type="button" class="wz-opt" data-val="Flat">Flat</button>
-          <button type="button" class="wz-opt" data-val="Studio Flat">Studio flat</button>
           <button type="button" class="wz-opt" data-val="Maisonette">Maisonette</button>
           <button type="button" class="wz-opt" data-val="Detached Bungalow">Detached bungalow</button>
           <button type="button" class="wz-opt" data-val="Semi Detached Bungalow">Semi-detached bungalow</button>
@@ -111,15 +110,13 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       <h2 class="wz-q">How many bedrooms?</h2>
       <div class="wz-field">
         <div class="wz-opts cols3" data-pick="bedrooms">
-          <button type="button" class="wz-opt" data-val="0">Studio</button>
+          <button type="button" class="wz-opt" id="bedStudio" data-val="Studio">Studio</button>
           <button type="button" class="wz-opt" data-val="1">1</button>
           <button type="button" class="wz-opt" data-val="2">2</button>
           <button type="button" class="wz-opt" data-val="3">3</button>
           <button type="button" class="wz-opt" data-val="4">4</button>
           <button type="button" class="wz-opt" data-val="5">5</button>
-          <button type="button" class="wz-opt" data-val="6">6</button>
-          <button type="button" class="wz-opt" data-val="7">7</button>
-          <button type="button" class="wz-opt" data-val="8+">8+</button>
+          <button type="button" class="wz-opt" data-val="6+">6+</button>
         </div>
         <div class="wz-err">Please choose the number of bedrooms.</div>
       </div>
@@ -278,6 +275,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   function show(n){
     cur = n;
     steps.forEach(function(s){ s.classList.toggle("active", +s.dataset.step === n); });
+    if (n === 2) { var st = document.getElementById("bedStudio"); if (st) { var sf = (data.propertyType === "Flat"); st.style.display = sf ? "" : "none"; if (!sf && data.bedrooms === "Studio") { data.bedrooms = ""; st.classList.remove("sel"); } } }
     if (typeof ppbProgress === "function") ppbProgress(OFFSET + posOf(n) + 1, STEP_TOTAL);   // % bar + seconds-left
     window.scrollTo({ top:0, behavior:"smooth" });
     track("form_step", { step:n, page:"additional-info" });
@@ -340,7 +338,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     var btn = document.getElementById("submitBtn");
     btn.disabled = true; btn.textContent = "Sending…";
 
-    var mortgage = (data.mortgageNone === "__amount") ? document.getElementById("f_mortgage").value.replace(/[^0-9]/g, "") : data.mortgageNone;
+    var mortgage = (data.mortgageNone === "__amount") ? document.getElementById("f_mortgage").value.trim() : data.mortgageNone;
     // If step 1 confirmed a Zoho id → UPDATE it. If it DIDN'T (network blip /
     // odd browser → unconfirmed), send a full INSERT instead so the complete
     // lead is still captured. The backend dedupes by recent email, so this
@@ -354,7 +352,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       postcode: lead.postcode, address: lead.address, source: lead.source || "website-form",
       property_type: data.propertyType, bedrooms: data.bedrooms, on_market: data.onMarket,
       reason: document.getElementById("f_reason").value, quickly_sale: data.timescale,
-      seller_value: document.getElementById("f_value").value.trim().replace(/[^0-9]/g,""),
+      seller_value: document.getElementById("f_value").value.trim(),
       mortgage: mortgage, gclid: lead.gclid || "", kws: lead.kws || "", search_query: lead.search_query || ""
     };
     console.log("[ppb-lead] " + (hasId ? "UPDATE" : "RECOVER-INSERT") + " → " + LEAD_API, payload);
