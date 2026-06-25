@@ -332,9 +332,11 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
   });
 
   /* submit → UPDATE → /thank-you/ */
+  var submitted = false;
   form.addEventListener("submit", function(e){
     e.preventDefault();
     if (!validate(7)) return;
+    submitted = true;
     var btn = document.getElementById("submitBtn");
     btn.disabled = true; btn.innerHTML = '<span class="btn-spin"></span>Sending…';
 
@@ -367,6 +369,38 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
       } catch(err){ done(); }
     }
   });
+
+  /* ---- abandoned-lead capture --------------------------------------------
+     If they answer some property questions but LEAVE before the final submit,
+     beacon what they've got so far so the lead still gains bedrooms/type/etc.
+     Fires ONLY on page-exit (sendBeacon, fire-and-forget) → zero impact on
+     form speed (no per-step calls). Skipped once the real submit runs; only
+     re-sends when the answers have actually changed. */
+  var partialSnapshot = "";
+  function beaconPartial(){
+    if (submitted || !lead) return;
+    var mortgage = (data.mortgageNone === "__amount") ? ((document.getElementById("f_mortgage") || {}).value || "").trim() : (data.mortgageNone || "");
+    var reasonV  = ((document.getElementById("f_reason") || {}).value || "");
+    var valueV   = ((document.getElementById("f_value")  || {}).value || "").trim();
+    // only worth sending once they've answered at least one property question
+    if (!(data.propertyType || data.bedrooms || data.onMarket || reasonV || data.timescale || valueV || mortgage)) return;
+    var payload = {
+      action: lead.zohoid ? "update" : "insert",
+      id: lead.zohoid || "",
+      first_name: lead.first_name, last_name: lead.last_name,
+      phone: lead.phone, email: lead.email,
+      postcode: lead.postcode, address: lead.address, source: lead.source || "website-form",
+      property_type: data.propertyType, bedrooms: data.bedrooms, on_market: data.onMarket,
+      reason: reasonV, quickly_sale: data.timescale, seller_value: valueV, mortgage: mortgage,
+      gclid: lead.gclid || "", kws: lead.kws || "", search_query: lead.search_query || ""
+    };
+    var body = JSON.stringify(payload);
+    if (body === partialSnapshot) return;   // nothing new since the last beacon
+    partialSnapshot = body;
+    try { navigator.sendBeacon(LEAD_API, new Blob([body], { type: "text/plain" })); } catch(e){}
+  }
+  document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "hidden") beaconPartial(); });
+  window.addEventListener("pagehide", beaconPartial);
 
   /* fire conversion as soon as gtag is ready, then start the wizard */
   fireConversion();
