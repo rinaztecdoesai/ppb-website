@@ -119,6 +119,7 @@ FOOTER = """<footer class="site-footer">
         <li><a href="/modern-method-of-auction/">Modern Method of Auction</a></li>
         <li><a href="/terms-conditions/">Terms &amp; Conditions</a></li>
         <li><a href="/privacy-policy/">Privacy Policy</a></li>
+        <li><a href="#" onclick="if(window.Cookiebot){Cookiebot.renew();}return false;">Cookie settings</a></li>
         <li><a href="/contact/">Contact Us</a></li>
       </ul>
     </div>
@@ -130,6 +131,7 @@ FOOTER = """<footer class="site-footer">
       <a href="/important-advice/">Important Advice</a>
       <a href="/terms-conditions/">Terms &amp; Conditions</a>
       <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="#" onclick="if(window.Cookiebot){Cookiebot.renew();}return false;">Cookie settings</a>
       <a href="/contact/">Contact</a>
       <a href="tel:08000122239">0800 0122 239</a>
     </nav>

@@ -67,13 +67,13 @@
   bottom: 16px !important;
 }
 @media (max-width: 600px) {
-  /* On phones the chatbot launcher is also smaller and sits in the
-     same spot — keep the widget left-anchored but lift it a touch
-     so it doesn't crowd the bottom edge under the address bar. */
+  /* On phones the floating widget has no good spot (collides with the chatbot
+     launcher + bottom CTA bar), so HIDE it. Consent can still be withdrawn via
+     the "Cookie settings" link in the footer (calls Cookiebot.renew()). */
   #CookiebotWidget,
   .cookiebot-widget,
   [id^="CybotCookiebot"][class*="Floating"],
   [id^="Cookiebot"][class*="floating"] {
-    bottom: 80px !important;
+    display: none !important;
   }
 }
