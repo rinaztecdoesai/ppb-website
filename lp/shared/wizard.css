@@ -143,3 +143,12 @@ body.wz-ready .wz-loader{ opacity:0; pointer-events:none; }
   .wz-q{ font-size:1.34rem; margin-bottom:1.05rem; } .wz-card{ padding:1.7rem 1.3rem; }
   .wz-phone small{ display:none; }
 }
+
+/* Submit-button loading spinner — shown while the lead INSERT/UPDATE is in
+   flight so the wait reads as "working", not frozen. Used on both funnel steps. */
+.btn-spin{
+  display:inline-block; width:1em; height:1em; margin-right:.55em; vertical-align:-0.15em;
+  border:2px solid rgba(1,0,128,.28); border-top-color:var(--w-navy, #010080);
+  border-radius:50%; animation:btnspin .6s linear infinite;
+}
+@keyframes btnspin{ to{ transform:rotate(360deg); } }

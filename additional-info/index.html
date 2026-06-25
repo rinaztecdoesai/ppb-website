@@ -53,7 +53,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/lp/shared/wizard.css?v=7">
+<link rel="stylesheet" href="/lp/shared/wizard.css?v=8">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=8">
 <!-- Zoho SalesIQ — loads for visitor tracking across the funnel; the chat
      bubble is hidden on these pages via SalesIQ's own page-targeting settings. -->
@@ -336,7 +336,7 @@ a.appendChild(r);})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     e.preventDefault();
     if (!validate(7)) return;
     var btn = document.getElementById("submitBtn");
-    btn.disabled = true; btn.textContent = "Sending…";
+    btn.disabled = true; btn.innerHTML = '<span class="btn-spin"></span>Sending…';
 
     var mortgage = (data.mortgageNone === "__amount") ? document.getElementById("f_mortgage").value.trim() : data.mortgageNone;
     // If step 1 confirmed a Zoho id → UPDATE it. If it DIDN'T (network blip /
