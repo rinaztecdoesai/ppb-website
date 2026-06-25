@@ -497,6 +497,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 .ip-prose strong{color:var(--navy);}
 .ip-checks{list-style:none;margin:1.2rem 0 0;padding:0;display:grid;gap:.7rem;max-width:760px;margin-left:auto;margin-right:auto;}
 .ip-checks.cols{grid-template-columns:1fr 1fr;}
+.ip-checks-2col{display:grid;grid-template-columns:1fr 1fr;gap:.7rem 2rem;max-width:760px;margin:1.2rem auto 0;align-items:start;}
+.ip-checks-2col .ip-checks{margin:0;max-width:none;}
 .ip-checks li{display:flex;gap:.65rem;align-items:flex-start;color:var(--text-soft,#4a4a5e);font-size:1.02rem;}
 .ip-sec.navy .ip-checks li{color:rgba(255,255,255,.92);}
 .ip-checks li svg{flex:none;width:20px;height:20px;color:var(--green);margin-top:.18rem;}
@@ -533,7 +535,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 .ip-stat .n{font-size:1.9rem;font-weight:900;color:#fff;}
 .ip-stat .l{color:rgba(255,255,255,.8);font-size:.92rem;margin-top:.2rem;}
 @media(max-width:900px){.ip-grid,.ip-opts{grid-template-columns:1fr;}.ip-steps{grid-template-columns:1fr 1fr;}.ip-stats{grid-template-columns:1fr 1fr;}.ip-strip .ipx-note{border-left:none;padding-left:0;width:100%;text-align:center;}}
-@media(max-width:560px){.ip-checks.cols{grid-template-columns:1fr;}.ip-steps{grid-template-columns:1fr;}}
+@media(max-width:560px){.ip-checks.cols{grid-template-columns:1fr;}.ip-checks-2col{grid-template-columns:1fr;}.ip-steps{grid-template-columns:1fr;}}
 </style>
 
 
@@ -556,13 +558,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h2>Inheriting a property can feel <span class="ip-hl">overwhelming</span></h2>
       <p>We understand that selling an inherited home often comes at a difficult time. You may be dealing with:</p>
     </div>
-    <ul class="ip-checks cols reveal" data-reveal>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The loss of a loved one</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Probate and legal paperwork</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Multiple beneficiaries or family decisions</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>An empty property costing money to maintain</li>
-      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Uncertainty about what to do next</li>
-    </ul>
+    <div class="ip-checks-2col reveal" data-reveal>
+      <ul class="ip-checks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The loss of a loved one</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Multiple beneficiaries or family decisions</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Uncertainty about what to do next</li>
+      </ul>
+      <ul class="ip-checks">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Probate and legal paperwork</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>An empty property costing money to maintain</li>
+      </ul>
+    </div>
     <p class="ip-note reveal" data-reveal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span>You&rsquo;re not alone &mdash; we help executors and families across the UK manage and sell inherited properties every week.</span></p>
   </div>
 </section>
