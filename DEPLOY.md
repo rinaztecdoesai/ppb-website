@@ -57,6 +57,7 @@ go-live (Sevalla ignores `_redirects`).
 | `/broken-chain-sell-house-for-cash/` | `/#why-sell` | ✅ done | ⬜ go-live |
 | `/privacy-policy-2/` | `/privacy-policy/` | ✅ done | ⬜ go-live |
 | `/lp/pp-cash-offer/` | `/` | ✅ done | ⬜ go-live |
+| `/lp/modern-method-of-auction/` | `/modern-method-of-auction/` | ✅ done | ⬜ go-live |
 
 Homepage anchors added for the section targets: `#reviews` (testimonials section),
 `#why-sell` (reasons / "Why people sell to us" section).

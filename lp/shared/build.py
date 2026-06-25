@@ -35,7 +35,7 @@ NAV_PAGES = {
     "why-us/index.html":                      "/why-us/",
     "faqs/index.html":                        "/faqs/",
     "contact/index.html":                     "/contact/",
-    "lp/modern-method-of-auction/index.html": None,
+    "modern-method-of-auction/index.html": None,
     "selling-inherited-property/index.html":  None,
     "stop-repossession/index.html":           None,
     "selling-house-after-divorce/index.html": None,
@@ -116,7 +116,7 @@ FOOTER = """<footer class="site-footer">
       <h4>Useful Information</h4>
       <ul>
         <li><a href="/faqs/">FAQs</a></li>
-        <li><a href="/lp/modern-method-of-auction/">Modern Method of Auction</a></li>
+        <li><a href="/modern-method-of-auction/">Modern Method of Auction</a></li>
         <li><a href="/terms-conditions/">Terms &amp; Conditions</a></li>
         <li><a href="/privacy-policy/">Privacy Policy</a></li>
         <li><a href="/contact/">Contact Us</a></li>
@@ -217,7 +217,7 @@ def render_testimonials():
 # Pages that share the GENERAL testimonials (NOT selling-inherited-property,
 # which keeps its own tailored probate reviews).
 TESTIMONIALS_PAGES = ["contact/index.html", "index.html",
-                      "lp/modern-method-of-auction/index.html",
+                      "modern-method-of-auction/index.html",
                       "why-us/index.html", "important-advice/index.html", "faqs/index.html",
                       "sell-your-house-fast/index.html", "sell-former-buy-to-let/index.html"]
 
@@ -241,7 +241,7 @@ CONTENT_FILES = ["pp-pages-v2.css", "forms.css", "pp-pages.js", "widgets.js", "w
 LANDING_FILES = ["styles.css", "script.js", "footer.css", "nav.css", "nav.js"]
 CONTENT_PAGES = list(PAGES.keys())
 LANDING_PAGES = ["index.html", "selling-inherited-property/index.html",
-                 "lp/modern-method-of-auction/index.html",
+                 "modern-method-of-auction/index.html",
                  "stop-repossession/index.html", "selling-house-after-divorce/index.html",
                  "selling-house-due-illness/index.html", "selling-house-pay-debt/index.html",
                  "sell-your-house-fast/index.html", "sell-former-buy-to-let/index.html"]
