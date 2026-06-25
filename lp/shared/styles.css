@@ -3776,33 +3776,8 @@ body.modal-open {
 .mma-inline-link:hover { text-decoration-color: var(--lime); }
 
 /* ─── COOKIEBOT renew-consent floating widget ────────────────────
-   After the user accepts cookies, Cookiebot leaves a small floating
-   "manage consent" widget so they can change their mind later
-   (required for GDPR). By default it sits in the bottom-RIGHT corner,
-   which is exactly where our chatbot launcher lives — they overlap.
-   Push the widget to bottom-LEFT so they don't collide. Selectors
-   cover both the legacy (#CookiebotWidget) and new (.Cookiebot…)
-   widget shapes. Use !important because Cookiebot's own CSS uses
-   inline styles with high specificity. */
-#CookiebotWidget,
-.cookiebot-widget,
-[id^="CybotCookiebot"][class*="Floating"],
-[id^="Cookiebot"][class*="floating"] {
-  left: 16px !important;
-  right: auto !important;
-  bottom: 16px !important;
-}
-@media (max-width: 600px) {
-  /* On phones the chatbot launcher is also smaller and sits in the
-     same spot — keep the widget left-anchored but lift it a touch
-     so it doesn't crowd the bottom edge under the address bar. */
-  #CookiebotWidget,
-  .cookiebot-widget,
-  [id^="CybotCookiebot"][class*="Floating"],
-  [id^="Cookiebot"][class*="floating"] {
-    bottom: 80px !important;
-  }
-}
+   Moved to lp/shared/footer.css (loaded by EVERY page) so the widget
+   is left-anchored site-wide, not just on styles.css pages. */
 
 
 /* SITE HEADER NAV + condensed sticky bar moved to the shared lp/shared/nav.css
