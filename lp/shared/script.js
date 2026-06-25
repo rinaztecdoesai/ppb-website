@@ -378,7 +378,7 @@ function ppbPostLead(url, payload, cb) {
       var x = new XMLHttpRequest();
       x.open("POST", url, true);
       x.setRequestHeader("Content-Type", "application/json");
-      x.timeout = 12000;
+      x.timeout = 20000;
       x.onreadystatechange = function () {
         if (x.readyState !== 4) return;
         var id = ""; try { var j = JSON.parse(x.responseText); id = (j && j.id) || ""; } catch (e) {}
@@ -392,7 +392,7 @@ function ppbPostLead(url, payload, cb) {
   function viaFetch(attempt) {
     if (!window.fetch) { viaXHR(lastResort); return; }
     var settled = false;
-    var timer = setTimeout(function () { if (settled) return; settled = true; onFail(); }, 12000);
+    var timer = setTimeout(function () { if (settled) return; settled = true; onFail(); }, 20000);
     function onFail() { clearTimeout(timer); if (attempt < 2) viaFetch(attempt + 1); else viaXHR(lastResort); }
     fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: body, keepalive: true })
       .then(function (r) { return (r && r.ok) ? r.json() : null; })
