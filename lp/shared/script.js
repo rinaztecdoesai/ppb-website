@@ -554,7 +554,10 @@ function setupPostcodeLookup(form) {
           params.set("line1", ml1);
           params.set("line2", "");
           params.set("locality", mtown);
-          params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
+          // Keep the page's own declared source (service pages embed their slug in
+          // data-submit-to, e.g. ?source=selling-inherited-property). Only add a
+          // default when none is declared — else a duplicate ?source clobbers it.
+          if (!/[?&]source=/.test(submitTo)) params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
           // Carry ad-click tracking through the redirect to /middle-form/ so
           // the WP form picks up gclid/kws/dyn_keyword in $_REQUEST.
           var _gclid = readTracking("gclid");
@@ -714,7 +717,10 @@ function setupPostcodeLookup(form) {
           params.set("line1", line1.value || "");
           params.set("line2", (line2 && line2.value) || "");
           params.set("locality", (locality && locality.value) || "");
-          params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
+          // Keep the page's own declared source (service pages embed their slug in
+          // data-submit-to, e.g. ?source=selling-inherited-property). Only add a
+          // default when none is declared — else a duplicate ?source clobbers it.
+          if (!/[?&]source=/.test(submitTo)) params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
           // Carry ad-click tracking through the redirect so the WP form's
           // $_REQUEST['gclid'] / 'kws' / 'dyn_keyword' picks them up and
           // writes to Zoho's Gclid1 / Custom_KWS / Search_Query fields.
@@ -811,7 +817,10 @@ function setupPostcodeLookup(form) {
           params.set("line1", line1.value || "");
           params.set("line2", (line2 && line2.value) || "");
           params.set("locality", (locality && locality.value) || "");
-          params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
+          // Keep the page's own declared source (service pages embed their slug in
+          // data-submit-to, e.g. ?source=selling-inherited-property). Only add a
+          // default when none is declared — else a duplicate ?source clobbers it.
+          if (!/[?&]source=/.test(submitTo)) params.set("source", (location.pathname === "/" || location.pathname === "/index.html") ? "home-page" : "landing-page");
           // Carry ad-click tracking through the redirect so the WP form's
           // $_REQUEST['gclid'] / 'kws' / 'dyn_keyword' picks them up.
           var _gclid = readTracking("gclid");
