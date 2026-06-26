@@ -325,7 +325,13 @@ gtag('config', 'AW-789719856/p0C_CJ-fubgDELDWyPgC', {
 <link rel="stylesheet" href="/lp/shared/footer.css?v=9">
 <!-- LP-only: hide the footer divider line on this Ads page (scoped here, not in shared footer.css) -->
 <style>.footer-bottom{border-top:none !important;}
-@media (max-width:960px){ .lp-brandbar img{ margin-left:auto; margin-right:auto; } }  /* centre the logo on mobile/stacked */</style>
+  /* Header phone pill (right) — recreated here since nav.css isn't loaded on the LP */
+  .lp-phone{display:inline-flex; align-items:center; gap:.55rem; padding:.5rem 1rem; background:#fff; border:1px solid #e3e6ef; border-radius:999px; box-shadow:0 2px 8px rgba(1,0,128,.07); color:#010080; white-space:nowrap; text-decoration:none; transition:box-shadow .2s ease, transform .2s ease;}
+  .lp-phone:hover{transform:translateY(-1px); box-shadow:0 4px 12px rgba(1,0,128,.1);}
+  .lp-phone svg{width:18px; height:18px; flex:none;}
+  .lp-phone .num{display:inline-flex; align-items:baseline; gap:.5rem; line-height:1.15; font-weight:800; font-size:1rem; letter-spacing:.01em;}
+  .lp-phone .num small{font-weight:600; font-size:.66rem; color:#5b6172; letter-spacing:.03em; text-transform:uppercase;}
+  @media (max-width:960px){ .lp-phone{display:none;} .lp-brandbar img{ margin-left:auto; margin-right:auto; } }  /* mobile: hide pill, centre logo */</style>
 
 <!-- ═════ Zoho SalesIQ chat widget ═════
      Loads the SalesIQ floating chat for visitor messaging. Defer attr
@@ -349,8 +355,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero">
   <!-- Ads landing page: header nav removed for focus. Brand logo only (not
        linked), placed INSIDE the hero so the background photo fills to the top. -->
-  <div class="lp-brandbar" style="position:relative; z-index:1; max-width:var(--max-w); margin:0 auto 1.4rem;">
+  <div class="lp-brandbar" style="position:relative; z-index:1; max-width:var(--max-w); margin:0 auto 1.4rem; display:flex; align-items:center; justify-content:space-between; gap:1rem;">
     <img src="/lp/shared/assets/logo.png?v=2" alt="Prime Property Buyers" width="172" height="55" style="height:54px;width:auto;display:block;">
+    <a class="lp-phone" href="tel:08000122239">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span class="num">0800 0122 239<small>7 days a week · 8am–8pm</small></span>
+    </a>
   </div>
   <div class="hero-grid">
     <div class="hero-text">
