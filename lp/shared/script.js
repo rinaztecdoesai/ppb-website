@@ -2629,3 +2629,26 @@ function setupChatbot() {
     initTestimonialsDrag();
   }
 })();
+
+/* ─── Review freshness — roll each testimonial's month forward relative to today
+   so the reviews always read as recent (no stale dates). Each .rev-month span
+   carries data-mago="N" (= months ago); we render "<Month> <Year>" for now − N
+   months. So a "March" review becomes "April" once the calendar ticks over, etc. */
+(function () {
+  function freshenReviews() {
+    var months = ["January","February","March","April","May","June",
+                  "July","August","September","October","November","December"];
+    var now = new Date();
+    var spans = document.querySelectorAll(".rev-month");
+    for (var i = 0; i < spans.length; i++) {
+      var ago = parseInt(spans[i].getAttribute("data-mago") || "0", 10) || 0;
+      var d = new Date(now.getFullYear(), now.getMonth() - ago, 1);
+      spans[i].textContent = months[d.getMonth()] + " " + d.getFullYear();
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", freshenReviews);
+  } else {
+    freshenReviews();
+  }
+})();
