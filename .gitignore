@@ -3,3 +3,7 @@
 __pycache__/
 *.pyc
 .vercel
+
+# Local secrets — Kereeb Content API credentials (build-time only, never commit)
+.env
+.env.local
