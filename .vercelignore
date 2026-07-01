@@ -1,0 +1,20 @@
+# Keep tooling, docs, and credentials OUT of the public deployment.
+# .vercelignore excludes files from the Vercel upload, so nothing here is ever
+# served at a public URL. It does NOT affect the Git repo or GitHub Actions.
+
+# GitHub-only tooling (workflows + the maintainer credentials note)
+.github/
+
+# Project docs — reference material, not site content
+BLOG-SETUP.md
+CONTRIBUTING.md
+DEPLOY.md
+
+# Local env scaffolding (also gitignored, listed here as belt-and-suspenders)
+.env
+.env.local
+.env.example
+
+# Python build caches
+**/__pycache__/
+*.pyc
