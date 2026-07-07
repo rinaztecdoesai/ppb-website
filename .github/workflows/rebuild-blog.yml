@@ -1,0 +1,68 @@
+name: rebuild-blog
+
+# Regenerates the static /blog from the Kereeb Content API and pushes the result
+# to `main`. Sevalla auto-deploys on push, so publishing an article in Kereeb
+# goes live with no hosting-dashboard access required — this workflow is the bridge.
+#
+# Triggers:
+#   • schedule          — hourly safety net if an instant webhook is missed
+#   • workflow_dispatch — manual "Run workflow" button for an instant refresh
+#   • repository_dispatch (type: kereeb-publish) — instant rebuild when Kereeb
+#     publishes, edits, unpublishes, or deletes content for the site
+#
+# Secrets required (repo → Settings → Secrets and variables → Actions):
+#   KEREEB_API_URL   e.g. https://kereeb-clone-production.up.railway.app
+#   KEREEB_API_KEY   the site's kereeb_live_… key
+
+on:
+  schedule:
+    - cron: "0 * * * *" # hourly fallback — instant dispatch should handle normal changes
+  workflow_dispatch: {} # manual "Run workflow" button = instant refresh on demand
+  repository_dispatch:
+    types: [kereeb-publish] # instant: Kereeb POSTs here when content changes
+
+# Allow the job to commit generated files back to the repo.
+permissions:
+  contents: write
+
+# Never let two rebuilds race each other into a push conflict.
+concurrency:
+  group: rebuild-blog
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify Kereeb API is reachable (fail fast, do NOT publish a broken site)
+        env:
+          KEREEB_API_URL: ${{ secrets.KEREEB_API_URL }}
+          KEREEB_API_KEY: ${{ secrets.KEREEB_API_KEY }}
+        run: python3 lp/shared/verify-kereeb.py
+
+      - name: Rebuild /blog from the Content API
+        env:
+          KEREEB_API_URL: ${{ secrets.KEREEB_API_URL }}
+          KEREEB_API_KEY: ${{ secrets.KEREEB_API_KEY }}
+        run: python3 lp/shared/blog-build.py
+
+      - name: Commit & push if the blog changed
+        run: |
+          if [ -n "$(git status --porcelain blog sitemap.xml)" ]; then
+            git config user.name  "kereeb-blog-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git add blog sitemap.xml
+            git commit -m "chore(blog): rebuild from Kereeb Content API [skip ci]"
+            # Explicit refspec: scheduled/dispatch runs can check out in detached
+            # HEAD, where a bare `git push` has no upstream. This always targets main.
+            git push origin HEAD:main
+            echo "Pushed blog update — Sevalla will auto-deploy."
+          else
+            echo "No blog changes; nothing to deploy."
+          fi
