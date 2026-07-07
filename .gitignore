@@ -3,3 +3,9 @@
 __pycache__/
 *.pyc
 .vercel
+
+# Blog / Kereeb: never commit secrets or the generated Sevalla artifact
+.env
+.env.local
+_sevalla_public/
+.github/BLOG-CREDENTIALS.md
