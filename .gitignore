@@ -1,0 +1,13 @@
+.DS_Store
+**/.DS_Store
+__pycache__/
+*.pyc
+.vercel
+
+# Local secrets — Kereeb Content API credentials (build-time only, never commit)
+.env
+.env.local
+.github/BLOG-CREDENTIALS.md
+
+# Generated deploy output
+_sevalla_public/

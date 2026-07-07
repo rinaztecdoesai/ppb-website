@@ -1,0 +1,153 @@
+/* =====================================================================
+   Prime Property Buyers — shared OFFER POPUP injector.
+   Injects the cash-offer modal into any page, then the shared script.js
+   wires it (Fetchify lookup + 3-step form + submit). Load order on a page:
+     offer-modal.css  (styles)
+     offer-modal.js   (this — injects markup)
+     script.js        (wires it; its other features self-guard/no-op)
+   Buttons open it with  data-open-modal="leadModal".
+   ===================================================================== */
+(function () {
+  if (document.getElementById('leadModal')) return;   // already on the page (the LP itself)
+  var HTML = `<div class="modal" id="leadModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+  <button class="modal-backdrop" data-close-modal aria-label="Close popup"></button>
+  <div class="modal-card" role="document">
+    <button class="modal-close" data-close-modal aria-label="Close" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <form class="lead-form modal-form" id="leadModalForm" data-stage="1"
+          data-submit-to="/middle-form/"
+          novalidate>
+      <div class="form-progress" aria-hidden="true">
+        <span class="step active" data-step="1">1</span>
+        <span class="step-line"></span>
+        <span class="step" data-step="2">2</span>
+        <span class="step-line"></span>
+        <span class="step" data-step="3">3</span>
+      </div>
+
+      <fieldset class="stage stage-active" data-stage="1">
+        <legend class="form-legend" id="modalTitle">
+          <span class="form-headline">Get your cash offer</span>
+        </legend>
+        <ul class="form-benefits">
+          <li><span class="fb-ico">⚡</span> <strong>30 seconds</strong></li>
+          <li><span class="fb-ico">✓</span> <strong>Real buyer</strong> calls you</li>
+          <li><span class="fb-ico">✓</span> Any condition</li>
+        </ul>
+        <div class="field-with-lookup">
+          <label class="field">
+            <span class="field-label">Property postcode</span>
+            <input type="text" name="postcode"
+                   placeholder="e.g. SW1A 1AA"
+                   autocomplete="postal-code"
+                   autocapitalize="characters"
+                   enterkeyhint="search"
+                   spellcheck="false"
+                   required>
+            <span class="field-spinner" data-postcode-spinner aria-hidden="true"></span>
+            <span class="field-error" data-error-for="postcode"></span>
+          </label>
+
+          <ul class="postcode-results" data-postcode-results role="listbox" hidden></ul>
+
+          <input type="hidden" name="address_line_1" data-address-line1>
+          <input type="hidden" name="address_line_2" data-address-line2>
+          <input type="hidden" name="locality"       data-address-locality>
+
+          <div class="address-confirmed" data-address-confirmed hidden>
+            <span class="ac-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </span>
+            <span class="ac-text" data-address-confirmed-text></span>
+            <button type="button" class="ac-change" data-clear-address>Change</button>
+          </div>
+
+          <div class="address-manual" data-address-manual hidden>
+            <p class="am-prompt">Can't find your address? Enter it manually:</p>
+            <label class="field am-field">
+              <span class="field-label">House number &amp; street</span>
+              <input type="text" data-manual-line1 placeholder="e.g. 10 Downing Street">
+            </label>
+            <label class="field am-field">
+              <span class="field-label">Town / City</span>
+              <input type="text" data-manual-town placeholder="e.g. London">
+            </label>
+            <button type="button" class="am-apply" data-use-manual>Use this address →</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary btn-block btn-xl" data-next="1">
+          Get my cash offer
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form-foot">🔒 We do not share your personal information with any third party companies.</p>
+      </fieldset>
+
+      <fieldset class="stage" data-stage="2">
+        <legend>About your property</legend>
+        <label class="field">
+          <span class="field-label">Property type</span>
+          <select name="property_type" required>
+            <option value="">Choose…</option>
+            <option>Terraced</option><option>End-of-terrace</option><option>Semi-detached</option>
+            <option>Detached</option><option>Bungalow</option><option>Flat / Apartment</option>
+            <option>Maisonette</option><option>Other</option>
+          </select>
+        </label>
+        <label class="field field-half">
+          <span class="field-label">Bedrooms</span>
+          <select name="bedrooms" required>
+            <option value="">Choose…</option>
+            <option>Studio</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option>
+          </select>
+        </label>
+        <label class="field field-half">
+          <span class="field-label">Condition</span>
+          <select name="condition" required>
+            <option value="">Choose…</option>
+            <option>Excellent</option><option>Good</option><option>Fair</option><option>Needs work</option><option>Major refurb</option>
+          </select>
+        </label>
+        <div class="form-row">
+          <button type="button" class="btn-ghost" data-prev="2">← Back</button>
+          <button type="button" class="btn-primary" data-next="2">Continue →</button>
+        </div>
+      </fieldset>
+
+      <fieldset class="stage" data-stage="3">
+        <legend>Where do we send your offer?</legend>
+        <label class="field">
+          <span class="field-label">Your name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label class="field">
+          <span class="field-label">Phone number</span>
+          <input type="tel" name="phone" autocomplete="tel" required>
+        </label>
+        <label class="field">
+          <span class="field-label">Email <span class="muted">(optional)</span></span>
+          <input type="email" name="email" autocomplete="email">
+        </label>
+        <div class="form-row">
+          <button type="button" class="btn-ghost" data-prev="3">← Back</button>
+          <button type="submit" class="btn-primary">Get my cash offer →</button>
+        </div>
+      </fieldset>
+
+      <div class="stage stage-success" data-stage="success">
+        <div class="success-icon" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3>Got it. We'll be in touch within 24 hours.</h3>
+        <p>One of our buyers will review your property and call you with a no-obligation cash offer.</p>
+        <a class="phone-link-big" href="tel:08000122239">Or call us now: <strong>0800 0122 239</strong></a>
+      </div>
+    </form>
+  </div>
+</div>`;
+  function inject(){ document.body.insertAdjacentHTML('beforeend', HTML); }
+  if (document.body) inject();
+  else document.addEventListener('DOMContentLoaded', inject);
+})();

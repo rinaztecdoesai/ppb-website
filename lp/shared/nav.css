@@ -1,0 +1,214 @@
+/* =====================================================================
+   Prime Property Buyers — SHARED SITE HEADER (one source for every page).
+   Loaded by BOTH landing pages (styles.css) and content pages (pp-pages.css).
+   Markup is propagated by build.py; the sticky bar + toggle are wired by
+   nav.js. Desktop = the cash-offer LP / home header (two-row: logo left,
+   phone pill top-right, menu beneath). Mobile = full-screen overlay menu
+   with the focus CTAs. Edit the header in ONE place — here + build.py + nav.js.
+   ===================================================================== */
+
+/* ---- static top bar ---- */
+.site-nav{position:relative; z-index:50; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 1px 0 rgba(1,0,128,.04);}
+.nav-inner{max-width:var(--max-w); margin:0 auto; padding:.85rem 1.5rem; display:flex; align-items:center; gap:1.1rem;}
+.nav-brand img{width:172px; height:auto; display:block;}
+.nav-menu{display:flex; align-items:center; gap:2.1rem; margin:0 0 0 auto; list-style:none; padding:0;}
+.nav-menu li{margin:0;}
+.nav-menu a{font-weight:600; font-size:.95rem; color:var(--text-soft); position:relative; padding:.25rem 0; letter-spacing:.005em; transition:color .15s ease;}
+.nav-menu a:hover{color:var(--navy);}
+.nav-menu a[aria-current="page"]{color:var(--navy); font-weight:700;}
+.nav-menu a[aria-current="page"]::after{content:""; position:absolute; left:0; right:0; bottom:-8px; height:3px; border-radius:3px; background:var(--lime);}
+
+/* LP-style phone pill */
+.nav-phone{display:inline-flex; align-items:center; gap:.55rem; padding:.42rem .9rem .42rem .7rem; background:#fff; border:1px solid var(--border); border-radius:999px; box-shadow:0 2px 8px rgba(1,0,128,.07); color:var(--navy); white-space:nowrap; transition:transform .2s, box-shadow .2s, border-color .2s;}
+.nav-phone:hover{transform:translateY(-1px); box-shadow:0 4px 12px rgba(1,0,128,.1); border-color:var(--green);}
+.nav-phone .icon{width:18px; height:18px; color:var(--navy); flex:none;}
+.nav-phone .num{display:inline-flex; align-items:baseline; gap:.5rem; line-height:1.15; font-weight:800; font-size:.9rem; color:var(--navy); letter-spacing:.02em;}
+.nav-phone small{font-weight:500; font-size:.62rem; color:var(--text-muted); letter-spacing:.04em; text-transform:uppercase;}
+
+.nav-menu-cta{display:none;}                  /* the focus CTAs show only inside the mobile overlay */
+.nav-toggle{display:none; flex:0 0 auto; margin-left:auto; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; cursor:pointer; align-items:center; justify-content:center; color:var(--navy);}
+.nav-toggle svg{width:22px; height:22px;}
+.nav-ico-close{display:none;}
+
+/* nav icons are inline SVGs (no sprite dependency, so they work on every
+   page). Force stroke-style fill regardless of either stylesheet's .icon rule;
+   the WhatsApp glyph is the one filled icon. */
+.site-nav svg, .sticky-nav svg{fill:none;}
+.site-nav .btn-wa svg{fill:currentColor;}
+
+/* WhatsApp green button (here so the menu CTA works on every page type) */
+.btn-wa{background:#25D366; color:#fff; box-shadow:0 6px 18px rgba(37,211,102,.35);}
+.btn-wa:hover{background:#20bd5a; transform:translateY(-2px);}
+
+/* ---- Desktop: two-row right side (logo spans both rows) = home header ---- */
+@media (min-width:1001px){
+  .nav-inner{display:grid; grid-template-columns:auto 1fr;
+             grid-template-areas:"logo phone" "logo menu";
+             align-items:center; column-gap:1.5rem; row-gap:.7rem;
+             padding:1.05rem 1.5rem 1.15rem;}
+  .nav-brand{grid-area:logo; align-self:center;}
+  .nav-brand img{width:230px;}
+  .nav-actions{grid-area:phone; justify-self:end; display:flex; align-items:center; gap:1.1rem;}
+  .nav-menu{grid-area:menu; justify-self:end; margin:0;}
+}
+
+/* ---- Mobile (<=1000px): full-screen overlay menu ---- */
+@media (max-width:1000px){
+  .nav-actions{display:flex; gap:.8rem; align-items:center; flex-direction:row; inset:auto; position:static; transform:none; background:none; border:none; padding:0; box-shadow:none; order:2; margin-left:auto;}
+  /* mobile phone = a clean circle (icon only; full number is in the menu) */
+  .nav-actions .nav-phone{width:42px; height:42px; padding:0; justify-content:center; border-radius:50%;}
+  .nav-actions .nav-phone small, .nav-actions .nav-phone .num{display:none;}
+
+  /* toggle stays clickable above the overlay; flips to a white X when open.
+     When open it goes fixed top-right so the X is visible even if the menu was
+     opened from the scrolled sticky bar. */
+  .nav-toggle{display:flex; order:3; margin-left:.1rem; position:relative; z-index:110; transition:color .2s ease, border-color .2s ease, background .2s ease;}
+  .site-nav.open .nav-toggle{position:fixed; top:.95rem; right:1.2rem; background:transparent; border-color:rgba(255,255,255,.45); color:#fff;}
+  .site-nav.open .nav-ico-open{display:none;}
+  .site-nav.open .nav-ico-close{display:block;}
+
+  .nav-menu{
+    position:fixed; inset:0; z-index:100;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:.1rem; margin:0; padding:5.5rem 1.5rem 2.5rem; list-style:none; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain;
+    background:radial-gradient(125% 80% at 50% 0%, var(--navy) 0%, var(--navy-dark) 78%);
+    opacity:0; visibility:hidden; transform:translateY(-10px);
+    transition:opacity .3s ease, transform .35s ease, visibility 0s linear .35s;
+  }
+  .site-nav.open .nav-menu{opacity:1; visibility:visible; transform:none;
+    transition:opacity .3s ease, transform .35s ease;}
+
+  /* loading state — while a tapped menu link loads the next page, KEEP this
+     overlay up, dim the items + show a spinner, so the old page never flashes
+     underneath. Cleared automatically when the new page renders. */
+  .site-nav.open.nav-loading .nav-menu > li{opacity:.16; transition:opacity .2s ease;}
+  .site-nav.open.nav-loading .nav-menu::after{
+    content:""; position:fixed; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px;
+    border:3px solid rgba(255,255,255,.28); border-top-color:#fff; border-radius:50%;
+    animation:navspin .6s linear infinite; z-index:120;
+  }
+  @keyframes navspin{ to{ transform:rotate(360deg); } }
+
+  /* big centred links — DIRECT children only, so the Services submenu links
+     (nested in .nav-sub) keep their own smaller styling. */
+  .nav-menu li{width:100%; max-width:340px; text-align:center;}
+  .nav-menu > li:not(.nav-menu-cta) > a{display:block; padding:.72rem 0; font-size:1.5rem; font-weight:700;
+    color:#fff; letter-spacing:.01em; border-bottom:1px solid rgba(255,255,255,.09);}
+  .nav-menu > li:not(.nav-menu-cta) > a:hover,
+  .nav-menu > li:not(.nav-menu-cta) > a[aria-current="page"]{color:var(--lime);}
+  .nav-menu > li:not(.nav-menu-cta) > a[aria-current="page"]::after{display:none;}
+
+  /* CTAs at the foot of the overlay — crisp, on-brand, full-width */
+  /* `.nav-menu li.nav-menu-cta` (not just .nav-menu-cta) so the margin beats
+     the base `.nav-menu li{margin:0}` reset — otherwise the buttons sit flush */
+  .nav-menu li.nav-menu-cta{display:block; max-width:340px; margin-top:1.1rem;}
+  .nav-menu li.nav-menu-cta:nth-child(6){margin-top:2.2rem;}   /* first CTA — extra gap from the links */
+  .nav-menu-cta a.btn{display:inline-flex; width:100%; justify-content:center; gap:.55rem; font-size:1.05rem; font-weight:800; padding:.95rem 1.4rem; border-radius:999px;}
+  .nav-menu-cta a.btn .icon{width:20px; height:20px;}
+  .nav-menu-cta a.btn-primary{background:var(--lime); color:var(--navy-dark); box-shadow:0 8px 22px rgba(165,200,68,.4);}
+  .nav-menu-cta a.btn-wa{background:#25D366; color:#fff; box-shadow:0 8px 22px rgba(37,211,102,.4);}
+  .nav-menu-cta a.btn-call{background:#fff; color:var(--navy); border:none; box-shadow:0 6px 18px rgba(0,0,0,.22);}
+  .nav-menu-cta a.btn-call .icon{color:var(--navy);}
+
+  /* staggered entrance for every item (links + CTAs) */
+  .nav-menu > li > a{opacity:0; transform:translateY(16px); transition:opacity .45s ease, transform .45s ease;}
+  .site-nav.open .nav-menu > li > a{opacity:1; transform:none;}
+  .site-nav.open .nav-menu > li:nth-child(1) > a{transition-delay:.07s;}
+  .site-nav.open .nav-menu > li:nth-child(2) > a{transition-delay:.12s;}
+  .site-nav.open .nav-menu > li:nth-child(3) > a{transition-delay:.17s;}
+  .site-nav.open .nav-menu > li:nth-child(4) > a{transition-delay:.22s;}
+  .site-nav.open .nav-menu > li:nth-child(5) > a{transition-delay:.27s;}
+  .site-nav.open .nav-menu > li:nth-child(6) > a{transition-delay:.34s;}
+  .site-nav.open .nav-menu > li:nth-child(7) > a{transition-delay:.4s;}
+  .site-nav.open .nav-menu > li:nth-child(8) > a{transition-delay:.46s;}
+}
+@media (max-width:1000px) and (prefers-reduced-motion:reduce){
+  .nav-menu, .nav-menu > li > a{transition:opacity .15s ease !important; transform:none !important;}
+}
+@media (max-width:560px){ .nav-brand img{width:119px;} .nav-actions .nav-phone .num{display:none;} }
+body.nav-open{overflow:hidden;}
+/* hide the floating bottom widgets while the full-screen menu is open */
+body.nav-open .cta-bar, body.nav-open .chatbot-launcher, body.nav-open .chatbot-tease{display:none !important;}
+
+/* ---- thin sticky bar (injected + scroll-toggled by nav.js) ---- */
+.sticky-nav{position:fixed; top:0; left:0; right:0; z-index:60; background:#fff; border-bottom:1px solid var(--border); box-shadow:0 6px 20px rgba(1,0,128,.08); transform:translateY(-100%); transition:transform .32s ease;}
+.sticky-nav.show{transform:translateY(0);}
+.sticky-inner{max-width:var(--max-w); margin:0 auto; padding:.5rem 1.5rem; display:flex; align-items:center; gap:1.1rem;}
+.sn-logo img{width:144px; height:auto; display:block;}
+.sn-menu{display:flex; align-items:center; gap:1.7rem; margin:0 0 0 auto; list-style:none; padding:0;}
+.sn-menu li{margin:0;}
+.sn-menu a{font-weight:600; font-size:.9rem; color:var(--text-soft); transition:color .15s ease;}
+.sn-menu a:hover, .sn-menu a[aria-current="page"]{color:var(--navy);}
+.sn-cta{flex:0 0 auto; background:var(--lime); color:var(--navy-dark); font-weight:800; font-size:.9rem; padding:.55rem 1.15rem; border-radius:999px; box-shadow:0 4px 12px rgba(165,200,68,.3); transition:background .15s ease, transform .15s ease;}
+.sn-cta:hover{background:var(--lime-dark); transform:translateY(-1px);}
+.sn-phone, .sn-toggle{display:none;}                 /* desktop sticky bar: menu + CTA */
+@media (max-width:1000px){
+  .sn-menu, .sn-cta{display:none;}                    /* mobile sticky bar: logo + phone + hamburger */
+  .sn-logo img{width:124px;}
+  .sn-phone{display:inline-flex; margin-left:auto; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:50%; background:#fff; color:var(--navy); box-shadow:0 2px 8px rgba(1,0,128,.07);}
+  .sn-phone svg{width:18px; height:18px;}
+  .sn-toggle{display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; border:1px solid var(--border); border-radius:10px; background:#fff; color:var(--navy); cursor:pointer;}
+  .sn-toggle svg{width:22px; height:22px;}
+}
+
+/* =====================================================================
+   SERVICES DROPDOWN — "Services" after Home. Desktop = hover/focus panel;
+   mobile = tap to expand inline inside the full-screen overlay (nav.js
+   toggles .open). Works in both the main nav and the sticky sn-menu.
+   ===================================================================== */
+.nav-sub-wrap{position:relative;}
+.nav-sub-btn{display:inline-flex; align-items:center; gap:.32rem; font-family:inherit; font-weight:600; font-size:.95rem; color:var(--text-soft); background:none; border:none; padding:.25rem 0; cursor:pointer; letter-spacing:.005em; transition:color .15s ease;}
+.sn-menu .nav-sub-btn{font-size:.9rem;}
+.nav-sub-btn:hover, .nav-sub-wrap:hover .nav-sub-btn, .nav-sub-wrap:focus-within .nav-sub-btn{color:var(--navy);}
+.nav-caret{width:15px; height:15px; transition:transform .2s ease;}
+.nav-sub-wrap:hover .nav-caret{transform:rotate(180deg);}
+/* Desktop dropdown — hover-opened panel. Scoped to desktop ONLY so its
+   :hover/translateX rules never apply on touch (where tap fires :hover). */
+@media (min-width:1001px){
+  .nav-sub{list-style:none; margin:0; padding:.4rem; position:absolute; top:calc(100% + .55rem); left:50%; transform:translateX(-50%) translateY(-6px); min-width:236px; background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:0 16px 44px rgba(1,0,128,.14); opacity:0; visibility:hidden; transition:opacity .2s ease, transform .2s ease, visibility 0s linear .2s; z-index:70;}
+  .nav-sub::before{content:""; position:absolute; top:-.55rem; left:0; right:0; height:.55rem;}  /* hover bridge over the gap */
+  .nav-sub-wrap:hover .nav-sub, .nav-sub-wrap:focus-within .nav-sub{opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); transition:opacity .2s ease, transform .2s ease;}
+  .nav-sub li{margin:0; width:auto; max-width:none; text-align:left;}
+  .nav-sub a{display:flex; align-items:center; gap:.65rem; padding:.6rem .7rem; border-radius:9px; font-size:.9rem; font-weight:600; color:var(--navy); white-space:nowrap; transition:background .15s ease, color .15s ease;}
+  .nav-sub a:hover, .nav-sub a[aria-current="page"]{background:var(--navy-tint); color:var(--navy);}
+  .nav-sub-ico{width:18px; height:18px; flex:none; color:var(--green); fill:none;}
+}
+.nav-sub-back-li{display:none;}   /* drill-down Back control — mobile only */
+
+@media (max-width:1000px){
+  /* full-screen overlay: Services is a big centred row that taps open */
+  .nav-sub-wrap{width:100%; max-width:340px; text-align:center;}
+  .nav-sub-btn{justify-content:center; gap:.45rem; width:100%; padding:.72rem 0; font-size:1.5rem; font-weight:700; color:#fff; border-bottom:1px solid rgba(255,255,255,.09);}
+  /* SMART FIX: the desktop rule turns the button navy on :hover/:focus-within,
+     which is INVISIBLE on the navy overlay (and touch fires :hover). Keep it
+     white on touch; only go lime when the Services panel is actually open. */
+  .nav-sub-btn:hover, .nav-sub-wrap:hover .nav-sub-btn, .nav-sub-wrap:focus-within .nav-sub-btn{color:#fff;}
+  .nav-sub-wrap.open .nav-sub-btn{color:var(--lime);}
+  /* Drill-down (panel slides right) → caret points RIGHT and never rotates on
+     tap (the desktop hover-rotate doesn't make sense here). */
+  .nav-caret{width:22px; height:22px; transform:rotate(-90deg);}
+  .nav-sub-wrap:hover .nav-caret, .nav-sub-wrap.open .nav-caret{transform:rotate(-90deg);}
+  /* SERVICES opens as its OWN full-screen panel sliding in from the right,
+     with a Back button (drill-down) — NOT an inline accordion, which shoved
+     the other menu items around and messed up the view. */
+  .nav-sub{position:fixed; inset:0; z-index:106; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:.1rem; margin:0; padding:5.5rem 1.5rem 2.5rem;
+    list-style:none; overflow-y:auto; overflow-x:hidden; overscroll-behavior:contain;
+    background:radial-gradient(125% 80% at 50% 0%, var(--navy) 0%, var(--navy-dark) 78%);
+    transform:translateX(100%); transition:transform .32s ease; visibility:hidden;
+    min-width:0; max-height:none; opacity:1; border:none; box-shadow:none;}
+  .nav-sub::before{display:none;}
+  .nav-sub-wrap.open .nav-sub{transform:translateX(0); visibility:visible;}
+  .nav-sub li{width:100%; max-width:340px; text-align:center;}
+  .nav-sub a{display:flex; justify-content:center; align-items:center; gap:.6rem;
+    color:rgba(255,255,255,.9); font-size:1.25rem; font-weight:600; padding:.7rem 0;
+    border-bottom:1px solid rgba(255,255,255,.08);}
+  .nav-sub a:hover, .nav-sub a[aria-current="page"]{background:none; color:var(--lime);}
+  .nav-sub-ico{width:22px; height:22px; color:var(--lime);}
+  /* Back control pinned top-left of the Services panel */
+  .nav-sub-back-li{display:block; position:absolute; top:1.15rem; left:1rem; width:auto; max-width:none; margin:0;}
+  .nav-sub-back{display:inline-flex; align-items:center; gap:.3rem; background:none; border:none;
+    color:#fff; font:inherit; font-size:1.05rem; font-weight:700; cursor:pointer; padding:.4rem;}
+  .nav-sub-back svg{width:24px; height:24px;}
+  .nav-sub-back:hover{color:var(--lime);}
+}

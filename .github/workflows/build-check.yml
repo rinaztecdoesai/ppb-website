@@ -1,0 +1,26 @@
+name: build-check
+
+# Fails a PR (or a push to main) if the shared NAV / FOOTER / TESTIMONIALS /
+# LEAD-MODAL regions have drifted out of sync with lp/shared/build.py — i.e.
+# someone edited the canonical markup but forgot to run the build before
+# committing. build.py is stdlib-only, so there's nothing to install.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check shared regions are in sync (python3 lp/shared/build.py check)
+        run: python3 lp/shared/build.py check
+
+      - name: Check Sevalla public artifact excludes private tooling
+        run: scripts/build-sevalla-public.sh

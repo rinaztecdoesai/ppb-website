@@ -1,0 +1,3871 @@
+/* =====================================================================
+   Prime Property Buyers — Landing Page
+   Calm, trust-focused, white-dominant. For sellers in difficult
+   situations (probate, divorce, urgency, problem properties).
+   Brand: navy #010080 (text + accents), lime #a5c844 (CTAs only),
+          dark green #2d6a3e (ticks + sub-accents)
+   ===================================================================== */
+
+:root {
+  --navy: #010080;
+  --navy-dark: #00006b;
+  --navy-soft: #2c2c8c;
+  --navy-tint: #f4f4fb;
+  --lime: #a5c844;
+  --lime-dark: #8aaa30;
+  --green: #2d6a3e;
+  --green-dark: #1f4d2c;
+  --green-tint: #e8f1eb;
+  --red: #c0392b;
+  --red-tint: #fce9e7;
+  --text: #222232;
+  --text-soft: #4a4a5e;
+  --text-muted: #7a7a8e;
+  --bg: #ffffff;
+  --bg-alt: #f8f8fb;
+  --border: #e6e6ee;
+  --border-soft: #f0f0f5;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(1, 0, 128, 0.04);
+  --shadow-md: 0 4px 16px rgba(1, 0, 128, 0.06);
+  --shadow-lg: 0 12px 36px rgba(1, 0, 128, 0.10);
+  --max-w: 1200px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+
+
+/* ========== Reveal-on-scroll animation (subtle) ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+
+/* ===============================================================
+   HERO — calm, white-dominant. Property photo on the right that
+   fades into white on the left so the headline copy stays clean.
+   =============================================================== */
+.hero {
+  position: relative;
+  padding: 2.75rem 1.5rem 4rem;
+  background: white;
+  border-bottom: 1px solid var(--border-soft);
+  isolation: isolate;
+  /* NO overflow:hidden here — would make .hero the sticky scroll-container
+     and the form would never stick. The hero photo is on ::before with
+     inset:0 so it doesn't overflow anyway. */
+}
+/* Background photo: pulled 100px tighter to the right so the focal area
+   sits behind the form. More transparent so the white page tone bleeds
+   through everywhere (subtle scene, not a hard photo). */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("assets/hero.jpg?v=2");
+  background-size: cover;
+  background-position: right -100px center;
+  background-repeat: no-repeat;
+  opacity: 1;  /* full-strength photo — the left-to-right ::after white-fade keeps the
+                  headline legible on the left while the image reads vivid around the form.
+                  (Was 0.72, which ghosted the whole photo.) Mobile keeps a light veil below. */
+}
+/* Left-to-right white-fade overlay so headline copy stays clean */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 1.0) 0%,
+      rgba(255, 255, 255, 0.95) 28%,
+      rgba(255, 255, 255, 0.55) 52%,
+      rgba(255, 255, 255, 0.25) 80%,
+      rgba(255, 255, 255, 0.15) 100%);
+}
+.hero-bar {
+  max-width: var(--max-w);
+  margin: 0 auto 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.4rem;
+  /* border-bottom removed — Jamie wanted a cleaner header without the line */
+}
+.brand img {
+  /* Logo locked to 250px wide (Jamie's spec). Height auto-scales from
+     the PNG's intrinsic 136×44 aspect ratio → about 81px tall. */
+  width: 250px;
+  height: auto;
+  display: block;
+}
+.phone-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .42rem .9rem .42rem .7rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(1, 0, 128, 0.07);
+  color: var(--navy);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.phone-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(1, 0, 128, 0.1);
+  border-color: var(--green);
+}
+.phone-link svg {
+  flex: none;
+  color: var(--navy);
+}
+.phone-stack {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: .5rem;
+  line-height: 1.15;
+}
+.phone-meta {
+  font-size: .62rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.phone-number {
+  font-size: .88rem;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: .02em;
+}
+@media (max-width: 600px) {
+  .phone-meta { display: none; }   /* mobile: just the number */
+  .phone-number { font-size: .82rem; }
+}
+
+.hero-grid {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.kicker {
+  display: inline-block;
+  padding: .35rem .85rem;
+  background: var(--navy-tint);
+  color: var(--navy);
+  font-size: .76rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.7rem);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+  color: var(--navy);
+}
+/* Highlighted phrase — lime gradient on second line of headline.
+   The padding-bottom + line-height fix is critical: without them, the
+   inline-block bounding box stops AT the line-height boundary, so
+   descenders (the tail of "y" in "buyer", "p" in "property", "g" in
+   "agreement") fall OUTSIDE the box. Because background-clip:text only
+   fills the gradient within the box, the descender tails render as
+   transparent — looking like cropped letters. */
+.hl {
+  display: inline-block;
+  background: linear-gradient(120deg, var(--lime-dark) 0%, var(--lime) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 1.15;
+  padding-bottom: 0.12em;
+}
+/* Two layered gradients clipped to text:
+   1. (top) transparent→white→transparent sparkle band, animated across
+   2. (bottom) static navy→lime-dark base gradient
+   The base never moves — only the shine sweeps periodically. */
+.hl-dark {
+  background-image:
+    linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 44%,
+      rgba(255, 255, 255, 0.55) 47%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0.55) 53%,
+      transparent 56%,
+      transparent 100%
+    ),
+    linear-gradient(120deg, var(--navy) 0%, var(--lime-dark) 100%);
+  background-size: 300% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hl-shimmer 4.5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+@keyframes hl-shimmer {
+  /* Long pauses at each end so the text reads as the base gradient most
+     of the time; mid-cycle the sparkle sweeps left across the headline. */
+  0%, 22%   { background-position: 0% 0, 0 0; }     /* sparkle offscreen right */
+  78%, 100% { background-position: 100% 0, 0 0; }   /* sparkle offscreen left */
+}
+@media (prefers-reduced-motion: reduce) {
+  .hl-dark { animation: none; }
+}
+
+.lede {
+  font-size: 1.08rem;
+  line-height: 1.6;
+  color: var(--text-soft);
+  margin: 0 0 1.75rem;
+  max-width: 540px;
+}
+.lede strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.hero-ticks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+}
+.hero-ticks li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: .98rem;
+  color: var(--text);
+}
+.hero-ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .15rem;
+  width: 22px; height: 22px;
+  background: var(--green);
+  border-radius: 50%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hero-proof {
+  display: inline-flex;
+  align-items: center;
+  gap: .85rem;
+  padding: .75rem 1.1rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.stars {
+  display: inline-flex;
+  gap: 1px;
+  font-size: 1.05rem;
+  color: #ffb800;
+  letter-spacing: 1px;
+}
+.proof-text {
+  font-size: .88rem;
+  color: var(--text-soft);
+}
+.proof-text strong { color: var(--text); font-weight: 700; }
+
+
+/* The .form-col wrapper takes the full grid-cell height so position:
+   sticky on the form inside has somewhere to actually stick. Without
+   this, the form's grid cell shrinks to its own content height and
+   sticky has zero scroll-room. */
+.form-col {
+  align-self: stretch;
+  height: 100%;
+}
+
+/* Mobile-only compact lead-in above the form. Hidden on desktop because
+   the .hero-text column already carries the value prop on wider screens. */
+.hero-mobile-lead { display: none; }
+@media (max-width: 600px) {
+  .hero-mobile-lead {
+    display: block;
+    text-align: center;
+    margin: 0 0 1.1rem;
+    padding: 0 0.25rem;
+  }
+  .hml-stars {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 0.5rem;
+    margin-bottom: 0.65rem;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+  }
+  .hml-stars > span[aria-hidden] {
+    color: var(--lime-dark);
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .hml-stars strong {
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 0.92rem;
+  }
+  .hml-count { color: var(--text-muted); }
+  .hml-head {
+    margin: 0 0 0.5rem;
+    /* Bumped from clamp(1.5–1.85rem) so the mobile hero title reads
+       like a proper headline, not a sub-line above the form. */
+    font-size: clamp(1.9rem, 7.8vw, 2.4rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  .hml-sub {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+}
+
+/* ========================================================
+   LEAD FORM — glassy semi-transparent white card, lime CTA.
+   Sits over the hero photo with a frosted backdrop blur so the
+   image bleeds through softly behind the form. Subtle shimmer
+   sweeps across the surface every few seconds for visual interest.
+   ======================================================== */
+.lead-form {
+  position: sticky;
+  top: 1.5rem;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.6rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Shimmer — diagonal white sheen sweeps across the form every 5 seconds.
+   Uses background-position animation (GPU-friendly and unaffected by
+   the form's backdrop-filter stacking context). z-index: 2 keeps it
+   above the form's own background blur. */
+.lead-form::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    115deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.85) 50%,
+    transparent 65%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-position: -120% 0;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 2;
+  animation: form-shimmer 5s ease-in-out infinite;
+}
+@keyframes form-shimmer {
+  0%, 30% { background-position: -120% 0; }
+  85%, 100% { background-position: 220% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lead-form::after { animation: none; opacity: 0; }
+}
+/* Lift the form's children above the shimmer layer */
+.lead-form > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Hide the progress 1-2-3 dots on stage 1 (the simple postcode entry).
+   They reappear when the user advances to stage 2 or 3 where we ask
+   for property details and contact info. */
+.lead-form[data-stage="1"] .form-progress {
+  display: none;
+}
+.form-progress {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+  justify-content: center;
+}
+.form-progress .step {
+  width: 26px; height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-alt);
+  border: 2px solid var(--border);
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all .25s;
+}
+.form-progress .step.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.form-progress .step.done {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: white;
+}
+.form-progress .step-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  max-width: 32px;
+  transition: background .25s;
+}
+.form-progress .step-line.done { background: var(--green); }
+
+/* Form's first-stage hero — bold single-line promise. Tight, scannable. */
+.lead-form .form-legend {
+  padding: 0;
+  margin: 0 0 .85rem;
+  line-height: 1.05;
+}
+.lead-form .form-headline {
+  display: block;
+  font-size: clamp(1.6rem, 2.6vw, 2.05rem);
+  font-weight: 900;
+  color: var(--navy);
+  letter-spacing: -0.025em;
+}
+
+/* Quick benefit chips — horizontal row, no borders, tight under headline */
+.form-benefits {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .65rem;
+}
+.form-benefits li {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  color: var(--text-soft);
+  padding: .25rem 0;
+}
+.form-benefits .fb-ico {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  font-size: .68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.form-benefits strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* Legacy form-sub kept for back-compat (used in stages 2/3 if needed) */
+.lead-form .form-sub {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+/* XL CTA button — used on the form's first stage, where this is THE
+   primary lead-conversion action. Bigger than .btn-large for prominence. */
+.btn-xl {
+  padding: 1.25rem 1.75rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: .005em;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(165, 200, 68, 0.4);
+}
+.btn-xl:hover {
+  box-shadow: 0 8px 22px rgba(165, 200, 68, 0.55);
+}
+.lead-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.stage {
+  display: none;
+  animation: stage-in .4s cubic-bezier(.18, .89, .32, 1.28);
+}
+.stage.stage-active { display: block; }
+@keyframes stage-in {
+  from { opacity: 0; transform: translateX(28px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage { animation: none; }
+}
+
+.field {
+  display: block;
+  margin-bottom: .9rem;
+}
+.field-half {
+  display: inline-block;
+  width: calc(50% - .35rem);
+}
+.field-half:first-of-type { margin-right: .55rem; }
+.field-label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: .35rem;
+}
+.field-label .muted { color: var(--text-muted); font-weight: 400; }
+
+/* ─── Postcode lookup (Fetchify) ─── */
+.field-with-lookup {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.field-with-lookup .field { margin-bottom: 0; position: relative; }
+
+/* Tiny spinner inside the postcode input while the API is in flight */
+.field-spinner {
+  position: absolute;
+  right: 1rem;
+  bottom: 2.1rem;   /* vertically centred on the input (the label above + error span below shift .field's box) */
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(1, 0, 128, 0.15);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.field-spinner.is-visible {
+  opacity: 1;
+  animation: fieldSpin .8s linear infinite;
+}
+@keyframes fieldSpin { to { transform: rotate(360deg); } }
+
+/* Results dropdown — sits directly under the postcode input */
+.postcode-results {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0.3rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(1, 0, 128, 0.12);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 5;
+}
+.pc-result {
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+  line-height: 1.35;
+}
+.pc-result:hover,
+.pc-result:focus {
+  background: var(--green-tint);
+  color: var(--green-dark);
+  outline: 0;
+}
+.pc-result + .pc-result { margin-top: 1px; }
+
+/* Flash animation when the user clicks the button before picking an
+   address — draws their eye up to the results dropdown so they
+   understand what they need to do. */
+.postcode-results.is-flash {
+  animation: pcFlash 0.9s ease-out;
+}
+@keyframes pcFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(165, 200, 68, 0.0), 0 12px 28px rgba(1, 0, 128, 0.12); }
+  30%  { box-shadow: 0 0 0 5px rgba(165, 200, 68, 0.55), 0 12px 28px rgba(1, 0, 128, 0.12); }
+  100% { box-shadow: 0 0 0 0 rgba(165, 200, 68, 0.0), 0 12px 28px rgba(1, 0, 128, 0.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .postcode-results.is-flash { animation: none; }
+}
+
+/* Confirmation pill — shown once an address is selected from the dropdown.
+   The [hidden] guards override our explicit display rules so the HTML
+   `hidden` attribute can hide the elements until JS shows them. */
+.address-confirmed[hidden],
+.postcode-results[hidden] {
+  display: none !important;
+}
+.address-confirmed {
+  margin-top: 0.55rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--green-tint);
+  border: 1px solid rgba(45, 106, 62, 0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: var(--green-dark);
+}
+.ac-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  flex: none;
+}
+.ac-text {
+  flex: 1;
+  color: var(--text);
+  font-weight: 500;
+}
+.ac-change {
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  cursor: pointer;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  transition: background .15s ease;
+}
+.ac-change:hover { background: rgba(45, 106, 62, 0.12); }
+
+/* Manual address fallback — shown when Fetchify returns no results or
+   fails. Lets the user enter their address by hand so they're never
+   stuck. Styled with a soft amber tint so it reads as "fallback" not
+   "error". */
+.address-manual {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: rgba(255, 248, 235, 0.95);
+  border: 1px solid rgba(217, 165, 32, 0.28);
+  border-radius: 10px;
+}
+.address-manual[hidden] { display: none !important; }
+.am-prompt {
+  margin: 0 0 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.am-field {
+  margin-bottom: 0.65rem !important;
+}
+.am-field:last-of-type {
+  margin-bottom: 0.85rem !important;
+}
+.am-apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  background: var(--navy);
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease;
+}
+.am-apply:hover {
+  background: var(--navy-dark);
+  transform: translateY(-1px);
+}
+.am-apply:active { transform: translateY(0); }
+.field input,
+.field select {
+  width: 100%;
+  padding: .85rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  transition: border-color .2s, box-shadow .2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.field select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237a7a8e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 4px var(--green-tint);
+}
+.field-error {
+  display: block;
+  font-size: .78rem;
+  color: var(--red);
+  margin-top: .3rem;
+  min-height: 1em;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .9rem 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--lime);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  letter-spacing: .01em;
+}
+.btn-primary:hover {
+  background: var(--lime-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(165, 200, 68, 0.4);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ─── Button loading state ─── */
+/* Applied while a form submit is in flight (1-3s for the Zoho push).
+   The button shows a spinning ring + rotating reassurance text so the
+   user knows the click registered and something is happening. */
+.btn-primary.is-loading {
+  cursor: progress;
+  pointer-events: none;
+  opacity: 0.92;
+  background: var(--lime-dark);
+}
+.btn-primary.is-loading:hover {
+  transform: none;
+  box-shadow: none;
+}
+.btn-primary.is-loading > svg {
+  display: none;   /* hide the arrow icon during loading */
+}
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(1, 0, 128, 0.20);
+  border-top-color: var(--navy);
+  border-radius: 50%;
+  animation: btnSpin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes btnSpin { to { transform: rotate(360deg); } }
+.btn-loading-text {
+  display: inline-block;
+  transition: opacity .25s ease;
+}
+.btn-loading-text.is-swapping {
+  opacity: 0;
+}
+
+.btn-block { width: 100%; }
+.btn-large {
+  padding: 1.1rem 1.75rem;
+  font-size: 1.05rem;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border: 1.5px solid var(--border);
+  padding: .85rem 1.25rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.btn-ghost:hover {
+  background: var(--bg-alt);
+  border-color: var(--text-soft);
+  color: var(--text);
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+  padding: 1.1rem 1.75rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 700;
+  transition: background .2s, color .2s;
+}
+.btn-outline:hover {
+  background: var(--navy);
+  color: white;
+}
+
+.form-or {
+  position: relative;
+  text-align: center;
+  margin: 1rem 0 .85rem;
+  color: var(--text-muted);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.form-or::before,
+.form-or::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: var(--border);
+}
+.form-or::before { left: 0; }
+.form-or::after  { right: 0; }
+.form-or span {
+  background: white;
+  padding: 0 .65rem;
+  position: relative;
+}
+.form-call-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  width: 100%;
+  padding: .85rem 1rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: .98rem;
+  font-weight: 600;
+  transition: background .2s, color .2s;
+}
+.form-call-cta:hover {
+  background: var(--navy);
+  color: white;
+}
+.form-call-cta strong {
+  font-weight: 800;
+}
+
+.form-row {
+  display: flex;
+  gap: .65rem;
+  margin-top: .5rem;
+}
+.form-row .btn-primary { flex: 1; }
+.form-foot {
+  font-size: .76rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 1rem 0 0;
+  line-height: 1.5;
+}
+.form-foot-sub {
+  display: inline-block;
+  margin-top: .25rem;
+  font-size: .72rem;
+  color: var(--text-muted);
+  opacity: .85;
+}
+/* Helper hint shown under the locked Stage-1 button until the user picks
+   an address. Lime accent so it reads as a friendly nudge, not an error. */
+.form-foot-hint {
+  margin: .65rem 0 0;
+  color: var(--green-dark);
+  font-weight: 600;
+  font-size: .8rem;
+}
+.form-foot-hint[hidden] { display: none !important; }
+
+.stage-success {
+  text-align: center;
+  padding: 1rem 0 .5rem;
+}
+.success-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop .5s cubic-bezier(.18,.89,.32,1.28);
+}
+@keyframes pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.stage-success h3 {
+  font-size: 1.3rem;
+  color: var(--navy);
+  margin: .5rem 0 .5rem;
+}
+.stage-success p {
+  color: var(--text-soft);
+  margin: 0 0 1.25rem;
+}
+.phone-link-big {
+  display: inline-block;
+  padding: .85rem 1.5rem;
+  background: var(--navy-tint);
+  border-radius: 8px;
+  color: var(--navy);
+  font-size: 1rem;
+}
+
+
+/* ===============================================================
+   Section heading shared style
+   =============================================================== */
+.sec-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 3rem;
+}
+h2 {
+  font-size: clamp(1.95rem, 3.8vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+  color: var(--navy);
+}
+.sec-head .lede {
+  font-size: 1.05rem;
+  color: var(--text-soft);
+  margin: 0 auto;
+  max-width: 560px;
+}
+
+
+/* ===============================================================
+   WE ARE THE BUYER — most companies vs us
+   =============================================================== */
+.buyer {
+  padding: 5rem 0;
+}
+.buyer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.buyer-text h2 {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+.buyer-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.bc h4 {
+  font-size: .95rem;
+  margin: 0 0 1rem;
+  font-weight: 700;
+  letter-spacing: .01em;
+}
+.bc-cross h4 { color: var(--red); }
+.bc-tick h4 { color: var(--green); }
+.bc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bc li {
+  display: flex;
+  gap: .75rem;
+  padding: .5rem 0;
+  font-size: .98rem;
+  color: var(--text);
+}
+.ico-x,
+.ico-v {
+  flex: none;
+  display: inline-block;
+  width: 22px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  text-align: center;
+}
+.ico-x { color: var(--red); }
+.ico-v { color: var(--green); }
+
+.buyer-photo {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 4 / 3;
+}
+.bp-img {
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/wearebuyer.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: transform .8s ease;
+}
+.buyer-photo:hover .bp-img { transform: scale(1.04); }
+
+
+/* ===============================================================
+   PROPERTIES OTHERS WON'T BUY — infinite carousel
+   - Cards are full-bleed (track scrolls past .container edges)
+   - 6 cards duplicated → 12 total → seamless loop on -50% translateX
+   - Pauses on hover so users can read
+   - Edge gradients fade cards in/out at the page boundaries
+   =============================================================== */
+.props {
+  padding: 5rem 0;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  overflow: hidden;
+}
+.props-carousel {
+  position: relative;
+  width: 100%;
+  margin: 1rem 0 2.5rem;
+  overflow: hidden;
+  /* Soft fade-out at left + right edges */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.props-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  padding: .5rem 1.25rem;
+  animation: props-scroll 60s linear infinite;
+}
+.props-carousel:hover .props-track {
+  animation-play-state: paused;
+}
+@keyframes props-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .props-track { animation: none; }
+}
+
+.prop-card {
+  flex: none;
+  width: 340px;
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+  display: flex;
+  flex-direction: column;
+}
+.prop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--green);
+}
+.prop-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-alt);
+}
+.prop-badge {
+  position: absolute;
+  bottom: -22px;
+  left: 1.25rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: background .3s, color .3s, transform .3s;
+}
+.prop-card:hover .prop-badge {
+  background: var(--green);
+  color: white;
+  transform: scale(1.05);
+}
+.prop-body {
+  padding: 2rem 1.5rem 1.65rem;
+  flex: 1;
+}
+.prop-card h3 {
+  font-size: 1.08rem;
+  color: var(--navy);
+  margin: 0 0 .5rem;
+  font-weight: 700;
+}
+.prop-card p {
+  color: var(--text-soft);
+  margin: 0;
+  font-size: .92rem;
+  line-height: 1.55;
+}
+/* Manifesto pull-quote — white card on the cream .props bg.
+   The contrast (white card + lime accents on cream surround) makes
+   the quote pop as a deliberate "manifesto moment". */
+.props-foot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 820px;
+  margin: 3rem auto 1rem;
+  padding: 3rem 2.25rem 2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: -0.015em;
+}
+/* Top lime ribbon — anchors it as a signature moment */
+.props-foot::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--lime) 0%, var(--lime-dark) 100%);
+}
+/* Giant stylised left-double-quote in the background */
+.props-foot::after {
+  content: "\201C";
+  position: absolute;
+  top: -2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: var(--lime);
+  opacity: .14;
+  line-height: 1;
+  pointer-events: none;
+}
+.pf-kicker {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  padding: .35rem .75rem;
+  background: var(--green-tint);
+  color: var(--green-dark);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.pf-line {
+  display: block;
+  font-size: clamp(1.35rem, 2.8vw, 1.95rem);
+  line-height: 1.32;
+}
+.pf-line + .pf-line { margin-top: .25rem; }
+/* The middle line — the punchline — gets the lime gradient + slight scale */
+.pf-highlight {
+  background: linear-gradient(120deg, var(--navy) 0%, var(--lime-dark) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 800;
+  font-size: clamp(1.65rem, 3.4vw, 2.4rem);
+  position: relative;
+  padding: 0 .1em;
+}
+/* Lime underline accent under the highlight line */
+.pf-highlight::after {
+  content: "";
+  display: block;
+  width: 56%;
+  height: 4px;
+  background: var(--lime);
+  border-radius: 2px;
+  margin: .35rem auto 0;
+  opacity: .85;
+}
+.pf-quote {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pf-sig {
+  display: block;
+  margin-top: 1.25rem;
+  font-size: .85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Divider between manifesto and CTA — soft horizontal line with a
+   small lime dot in the middle to tie the two halves together visually. */
+.pf-divider {
+  width: 100%;
+  max-width: 360px;
+  margin: 2rem auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border) 25%, var(--border) 75%, transparent 100%);
+  position: relative;
+}
+.pf-divider::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 4px white;
+}
+
+/* CTA section nested inside the manifesto card */
+.pf-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pf-cta-head {
+  margin: 0 0 .5rem;
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.pf-cta-sub {
+  margin: 0 0 1.5rem;
+  font-size: .98rem;
+  color: var(--text-soft);
+  font-weight: 400;
+  max-width: 480px;
+  line-height: 1.5;
+}
+.pf-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+}
+
+@media (max-width: 640px) {
+  .props-foot { padding: 2.5rem 1.5rem 1.75rem; margin-top: 2rem; }
+  .props-foot::after { font-size: 7rem; top: -1.75rem; }
+  .pf-divider { margin: 1.5rem auto; }
+  .pf-cta-actions { flex-direction: column; align-self: stretch; }
+  .pf-cta-actions .btn-primary,
+  .pf-cta-actions .btn-outline { justify-content: center; width: 100%; }
+}
+
+
+/* ===============================================================
+   WHY PEOPLE SELL TO US — empathetic situation cards
+   =============================================================== */
+.reasons {
+  /* Top padding tightened by 20px (Rahul: "move title 20px closer to line"). */
+  padding: calc(2.5rem - 20px) 0 5rem;
+  background: var(--bg-alt);
+}
+/* Remove the bottom divider line + tighten the spacing between
+   the .advice-continued ("Sounds like you? Let's talk") closing card
+   and the .reasons section below (Rahul: "weird line and space"). */
+.advice.advice-continued {
+  border-bottom: none;
+  padding-bottom: 1.5rem;
+}
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.reason {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: transform .3s, box-shadow .3s, border-color .3s;
+}
+.reason:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--green);
+}
+.reason-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: var(--green-tint);
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .3s, transform .3s;
+}
+.reason:hover .reason-icon {
+  background: var(--green);
+  color: white;
+  transform: scale(1.05);
+}
+.reason h3 {
+  font-size: 1rem;
+  color: var(--navy);
+  margin: 0 0 .5rem;
+  font-weight: 700;
+}
+.reason p {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+
+/* 10th card variant — lime CTA fills the grid + drives conversion */
+.reason.reason-cta {
+  background: linear-gradient(160deg, var(--lime) 0%, var(--lime-dark) 100%);
+  border-color: var(--lime-dark);
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.reason.reason-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 0%, rgba(255,255,255,0.18), transparent 60%);
+  pointer-events: none;
+}
+.reason.reason-cta .reason-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+}
+.reason.reason-cta h3 {
+  color: white;
+  font-size: 1.05rem;
+}
+.reason.reason-cta p {
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+}
+.reason-cta-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.55rem 1rem;
+  background: var(--navy);
+  color: white;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: background .25s ease, transform .25s ease;
+}
+.reason.reason-cta:hover {
+  transform: translateY(-4px);
+  border-color: var(--navy);
+  box-shadow: 0 12px 28px rgba(165, 200, 68, 0.35);
+}
+.reason.reason-cta:hover .reason-icon {
+  background: white;
+  color: var(--lime-dark);
+  transform: scale(1.05);
+}
+.reason.reason-cta:hover .reason-cta-btn {
+  background: var(--navy-dark);
+  transform: translateY(-1px);
+}
+
+
+/* ===============================================================
+   WE REMOVE EVERYTHING THAT SLOWS A SALE
+   Compact inline strip — sits directly under the hero. 4 icon+label
+   pairs across, vertical divider, two-line tagline on the right.
+   =============================================================== */
+.remove {
+  padding: 2.25rem 0;
+  background: var(--navy);
+  border-bottom: 1px solid var(--navy-dark);
+}
+.remove-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.rem {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: white;
+  letter-spacing: .005em;
+}
+.rem svg {
+  color: var(--lime);
+  flex: none;
+}
+.remove-tag {
+  font-size: .92rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 400;
+  text-align: left;
+  border-left: 1.5px solid rgba(255, 255, 255, 0.18);
+  padding-left: 1.5rem;
+  line-height: 1.5;
+  margin-left: .5rem;
+}
+
+
+/* ===============================================================
+   INHERITANCE EMPATHY BLOCK
+   =============================================================== */
+.empathy {
+  padding: 5rem 0;
+}
+.empathy-card {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.empathy-card h2 {
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  text-transform: none;
+  margin-bottom: 1rem;
+}
+.empathy-card p {
+  font-size: 1.05rem;
+  color: var(--text-soft);
+  margin: 0 0 1.75rem;
+}
+.empathy-or {
+  margin: 1rem 0 0 !important;
+  font-size: .95rem;
+  color: var(--text-muted);
+}
+.empathy-or a strong {
+  color: var(--navy);
+  text-decoration: underline;
+}
+
+
+/* ===============================================================
+   HOW IT WORKS — 4 numbered steps
+   =============================================================== */
+.how {
+  padding: 5rem 0;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.how-text h2 {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+.steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.steps-list li {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+.step-num {
+  flex: none;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+.steps-list h3 {
+  font-size: 1.08rem;
+  color: var(--navy);
+  margin: 0 0 .25rem;
+  font-weight: 700;
+}
+.steps-list p {
+  margin: 0;
+  font-size: .94rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+.how-photo {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  aspect-ratio: 4 / 5;
+  max-height: 540px;
+}
+.hp-img {
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/howwework.jpg?v=2");
+  background-size: cover;
+  background-position: center;
+}
+
+
+/* ===============================================================
+   OTHER COMPANIES vs PRIME PROPERTY BUYERS — split panel
+   =============================================================== */
+.versus {
+  padding: 5rem 0;
+}
+.vs-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.vs-panel {
+  padding: 2.25rem 1.85rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  /* Clip the .vs-tag's negative margins so it reads as a full-width band
+     at the bottom of the panel instead of a centred button. */
+  overflow: hidden;
+}
+.vs-them {
+  background: var(--red-tint);
+  border-color: #f5c6c0;
+}
+.vs-us {
+  background: var(--green-tint);
+  border-color: #c1ddca;
+}
+.vs-panel h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0 0 1.25rem;
+}
+.vs-them h3 { color: var(--red); }
+.vs-us h3 { color: var(--green-dark); }
+.vs-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  flex: 1;
+}
+.vs-panel li {
+  display: flex;
+  gap: .75rem;
+  padding: .5rem 0;
+  font-size: .98rem;
+  color: var(--text);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.vs-panel li:last-child { border-bottom: none; }
+.vs-tag {
+  /* Full-width band at the bottom of the panel (not a button).
+     Negative margins cancel the .vs-panel padding so the band touches
+     the panel's inner edges; overflow:hidden on .vs-panel clips its
+     bottom corners to the panel's border-radius. */
+  margin: auto -1.85rem -2.25rem;
+  text-align: center;
+  padding: 1rem 1.25rem;
+  border-radius: 0;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-size: .88rem;
+  line-height: 1.35;
+}
+.vs-tag-bad {
+  background: var(--red);
+  color: white;
+}
+.vs-tag-good {
+  background: var(--green);
+  color: white;
+}
+.vs-divider {
+  align-self: center;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  letter-spacing: .04em;
+  font-size: .85rem;
+  border: 4px solid white;
+  box-shadow: var(--shadow-md);
+}
+
+
+/* ===============================================================
+   STATS STRIP — specific numbers as a credibility band
+   =============================================================== */
+.stats {
+  padding: 3.5rem 0;
+  background: var(--navy);
+  color: white;
+}
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+  text-align: center;
+}
+.stat {
+  padding: 0.5rem 0.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+.stat:first-child { border-left: 0; }
+.stat-num {
+  font-size: clamp(2rem, 4.4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--lime);
+  line-height: 1;
+  margin-bottom: 0.55rem;
+}
+.stat-label {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+  font-weight: 500;
+}
+@media (max-width: 820px) {
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
+  .stat { border-left: 0; }
+  .stat:nth-child(2) { border-left: 0; }
+}
+@media (max-width: 460px) {
+  .stat-row { grid-template-columns: 1fr; gap: 1.75rem; }
+  .stats { padding: 2.75rem 0; }
+}
+
+
+/* ===============================================================
+   HERO TRUST STRIP — micro badges that live INSIDE the sticky form
+   so they scroll-stick together. Styled as a form footer (transparent
+   with a top divider) rather than a separate card.
+   =============================================================== */
+.hero-trust {
+  margin: 1.1rem -1.6rem -1.25rem;   /* bleed to the form's inner edges */
+  padding: 0.85rem 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.55);
+  border-top: 1px solid rgba(1, 0, 128, 0.08);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  position: relative;
+  z-index: 3;
+}
+.ht-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+.ht-badge svg { color: var(--green); flex-shrink: 0; }
+.ht-sep {
+  width: 1px;
+  height: 12px;
+  background: rgba(1, 0, 128, 0.12);
+}
+.ht-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: dotPulse 2s infinite;
+}
+@media (max-width: 720px) {
+  .hero-trust { font-size: 0.74rem; padding: 0.7rem 0.85rem; gap: 0.4rem 0.55rem; }
+  .ht-sep { display: none; }
+}
+
+
+/* ===============================================================
+   TRADE BODIES — regulatory credibility strip
+   =============================================================== */
+.trade-bodies {
+  /* Centred block, with 15px extra top and 5px extra bottom (Rahul note). */
+  padding: calc(2.4rem + 15px) 0 calc(2.4rem + 5px);
+  background: white;
+}
+.tb-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.tb-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.7;
+}
+.tb-logos {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  filter: grayscale(20%);
+  transition: filter .25s ease;
+}
+.tb-logos:hover { filter: grayscale(0%); }
+.tb-note {
+  max-width: 580px;
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .trade-bodies { padding: 2.5rem 0; }
+  .tb-kicker { font-size: 0.72rem; }
+  .tb-logos { max-width: 320px; }
+  .tb-note { font-size: 0.88rem; }
+}
+
+
+/* ===============================================================
+   TESTIMONIALS — infinite-scroll marquee on navy background
+   Same pattern as .props: track scrolls 0 → -50% so the duplicate
+   set lands exactly where the first started. Pauses on hover.
+   =============================================================== */
+.testimonials {
+  padding: 5rem 0 5.5rem;
+  background: var(--navy);
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+.testimonials::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(165, 200, 68, 0.10), transparent 65%);
+  pointer-events: none;
+}
+.sec-head-inverse h2 { color: white; }
+.sec-head-inverse .lede { color: rgba(255, 255, 255, 0.78); }
+
+.testimonials-carousel {
+  position: relative;
+  width: 100%;
+  margin: 1rem 0 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.testimonials-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  padding: 1rem 0;
+  animation: testimonials-scroll 40s linear infinite;
+  will-change: transform;
+  /* Force a GPU layer — this fixes the sub-pixel rendering hitch at the
+     loop point where the browser was occasionally rounding -50% to a
+     position that didn't quite land on set 2's start, leaving a visible
+     gap. translate3d kicks compositing onto the GPU + sub-pixel-stable. */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+.testimonials-carousel:hover .testimonials-track {
+  animation-play-state: paused;
+}
+/* drag/swipe enhancement (JS adds .js-carousel and drives the scroll) */
+.testimonials-carousel.js-carousel { cursor: grab; touch-action: pan-y; user-select: none; }
+.testimonials-carousel.js-carousel.is-grabbing { cursor: grabbing; }
+.testimonials-carousel.js-carousel .testimonials-track { animation: none; }
+/* margin-right on each card (instead of gap on the track) means every
+   card has identical width-including-trailing-gap. With 2 identical
+   sets back-to-back, translate3d(-50%) lands set 2 precisely where set
+   1 began. No calc tricks, no half-gap mismatch. translate3d (rather
+   than translateX) keeps the GPU layer alive throughout the animation. */
+@keyframes testimonials-scroll {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-track { animation: none; }
+}
+
+.testimonial {
+  flex: none;
+  width: 380px;
+  margin-right: .9rem;
+  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+  position: relative;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.testimonial:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.30);
+}
+.t-stars {
+  display: flex;
+  gap: 2px;
+  color: var(--lime-dark);
+  margin-bottom: 1rem;
+}
+.testimonial blockquote {
+  margin: 0 0 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--text);
+  flex: 1;
+  position: relative;
+  padding-left: 1.1rem;
+}
+.testimonial blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: -0.1rem;
+  top: -0.65rem;
+  font-size: 2.7rem;
+  color: var(--lime);
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+  font-weight: 700;
+}
+.testimonial figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-soft);
+}
+.testimonial figcaption strong {
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.testimonial figcaption span {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+@media (max-width: 640px) {
+  .testimonials { padding: 4rem 0 4.5rem; }
+  .testimonial { width: 300px; margin-right: 1rem; padding: 1.5rem 1.25rem 1.25rem; }
+  .testimonials-track { animation-duration: 50s; }
+}
+
+
+/* ===============================================================
+   CTA hours strip (final CTA + reusable)
+   =============================================================== */
+/* High specificity (.cta-card .cta-hours) needed to override the generic
+   .cta-card p { margin: 0 0 2rem } rule that would otherwise zero out
+   the top margin. Adds a subtle top divider for visual separation. */
+.cta-card .cta-hours {
+  margin: 1.75rem 0 0;
+  padding-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  line-height: 1.2;
+  text-align: center;
+  border-top: 1px solid var(--border-soft);
+}
+.cta-hours-text {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.dot-live {
+  display: inline-block;
+  vertical-align: middle;
+  width: 8px;
+  height: 8px;
+  margin-right: 0.45rem;
+  margin-top: -1px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+  animation: dotPulse 2s infinite;
+}
+@keyframes dotPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+
+/* ===============================================================
+   FAQS, native <details>/<summary> accordion (no JS needed)
+   =============================================================== */
+.faqs {
+  padding: 5rem 0;
+  background: white;
+  border-top: 1px solid var(--border-soft);
+}
+.faq-list {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.faq-item {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow .25s ease, border-color .25s ease, background .25s ease;
+}
+.faq-item:hover {
+  border-color: var(--navy-soft);
+}
+.faq-item[open] {
+  background: white;
+  border-color: var(--navy);
+  box-shadow: var(--shadow-md);
+}
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--navy);
+  line-height: 1.35;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::marker { content: ''; }
+.faq-q { flex: 1; }
+.faq-icon {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  flex-shrink: 0;
+}
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  background: var(--navy);
+  border-radius: 2px;
+  transition: transform .25s ease;
+}
+.faq-icon::before { /* horizontal bar */
+  top: 10px; left: 0; right: 0; height: 2px;
+}
+.faq-icon::after { /* vertical bar — collapses to make a minus when open */
+  top: 0; bottom: 0; left: 10px; width: 2px;
+}
+.faq-item[open] .faq-icon::after {
+  transform: scaleY(0);
+}
+.faq-a {
+  padding: 0 1.4rem 1.3rem;
+  color: var(--text-soft);
+  line-height: 1.65;
+  font-size: 1rem;
+}
+.faq-a p { margin: 0; }
+.faq-a p + p { margin-top: 0.75rem; }
+.faq-a strong { color: var(--text); }
+.faq-more {
+  text-align: center;
+  margin: 2rem auto 0;
+  color: var(--text-soft);
+  font-size: 0.98rem;
+}
+.faq-more a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.faq-more a:hover { color: var(--lime-dark); }
+
+@media (max-width: 640px) {
+  .faqs { padding: 4rem 0; }
+  .faq-item summary { padding: 1rem 1.15rem; font-size: 0.98rem; }
+  .faq-a { padding: 0 1.15rem 1.15rem; font-size: 0.97rem; }
+}
+
+
+/* ===============================================================
+   FINAL CTA
+   =============================================================== */
+.final-cta {
+  padding: 5rem 0 6rem;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border-soft);
+}
+.cta-card {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.cta-card h2 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  margin: 0 0 .85rem;
+}
+.cta-card p {
+  color: var(--text-soft);
+  font-size: 1.08rem;
+  margin: 0 0 2rem;
+}
+.cta-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .85rem;
+}
+
+
+/* ===============================================================
+   Brand bar (mini-footer)
+   Extra bottom padding leaves a navy "buffer zone" so the slide-up
+   CTA bar (position: fixed bottom: 0) sits within the navy area
+   instead of covering the logo/text content.
+   =============================================================== */
+.brand-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 2rem 1.5rem 7rem;   /* tall navy footer; bottom = CTA-bar room */
+  background: var(--navy);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: .82rem;
+  text-align: center;
+  line-height: 1.5;
+}
+.brand-bar-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+.brand-bar-logo {
+  /* Show ONLY the icon portion (house + tick) of the logo PNG. The
+     original 136×44 PNG has the icon on the left + a thin vertical
+     separator + "PRIME PROPERTY BUYERS" text on the right. At 50px
+     tall it scales to ~155×50 wide. width:62px crops the icon-plus-
+     tick cleanly while hiding the separator line (Rahul note). */
+  height: 50px;
+  width: 62px;
+  object-fit: cover;
+  object-position: left center;
+  /* brightness(0) invert(1) recolours the navy-on-transparent icon
+     to solid white against the navy footer. */
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+.brand-bar-tagline {
+  margin: 0;
+  color: #fff;
+  font-weight: 500;
+}
+.brand-bar-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.6rem;
+  margin-top: 0.25rem;
+}
+.brand-bar-links a,
+.brand-bar-link {
+  color: rgba(255, 255, 255, 0.85);
+  font: inherit;
+  font-weight: 600;
+  background: transparent;
+  border: 0;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+.brand-bar-links a:hover,
+.brand-bar-link:hover {
+  color: var(--lime);
+  text-decoration-color: var(--lime);
+}
+.brand-bar-sep {
+  color: rgba(255, 255, 255, 0.3);
+}
+.brand-bar-fineprint {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 680px;
+}
+@media (max-width: 520px) {
+  .brand-bar { padding: 1.75rem 1rem 7rem; gap: 0.75rem; }
+  .brand-bar-top { flex-direction: column; gap: 0.5rem; }
+  .brand-bar-links { font-size: 0.78rem; }
+  .brand-bar-fineprint { font-size: 0.72rem; line-height: 1.55; }
+}
+
+
+/* ===============================================================
+   RESPONSIVE
+   =============================================================== */
+@media (max-width: 960px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .lead-form { position: static; }
+  .buyer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .buyer-text h2 { text-align: center; }
+  .buyer-cols { gap: 1.5rem; }
+  .prop-card { width: 290px; }
+  .reason-grid { grid-template-columns: repeat(3, 1fr); }
+  .how-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .how-text h2 { text-align: center; }
+  .vs-grid { grid-template-columns: 1fr; }
+  /* On mobile the two .vs-panel cards stack vertically. Originally we rotated
+     the "VS" divider 90deg between them, which made it look like the whole
+     section was sideways. Keep it horizontal — sits cleanly as a divider
+     between the stacked panels instead. */
+  .vs-divider { transform: none; margin: 0.5rem auto; }
+  .remove-strip { gap: 1rem 1.75rem; }
+  .remove-tag {
+    width: 100%;
+    border-left: none;
+    border-top: 1.5px solid var(--border);
+    padding: 1rem 0 0;
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  /* Keep header horizontal on mobile: logo left, phone pill right */
+  .hero-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  /* width:auto preserves aspect ratio when the HTML width attribute
+     would otherwise lock the box wider than the scaled height.
+     Logo width-locked at 160px on mobile (scaled-down from the 250px
+     desktop spec, leaves room for the phone pill on a 375px viewport). */
+  .brand img { width: 160px; height: auto; }
+  .phone-link { padding: .35rem .7rem .35rem .55rem; gap: .4rem; }
+  .phone-link svg { width: 14px; height: 14px; }
+
+  /* Reorder hero on mobile so the form appears BEFORE the headline/text.
+     Switching to flex with `order` is cleaner than rewriting the DOM. */
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .form-col { order: 1; }
+  .hero-text { order: 2; }
+
+  /* Kicker is redundant on mobile (the new .hero-mobile-lead carries
+     the value prop above the form). Hide it to tighten the layout.
+     Same goes for the duplicate H1 — the .hml-head above the form
+     already says "Sell your property directly to a real cash buyer",
+     no need to repeat it below. Keep the lede + ticks (extra info). */
+  .hero-text .kicker,
+  .hero-text h1 { display: none; }
+
+  /* Non-solo form heroes (home, sell-house-fast) keep a light photo veil on
+     mobile — the lede + ticks sit full-width over the photo here. hero-solo
+     pages keep full strength (higher specificity). */
+  .hero::before { opacity: .4; }   /* 50% lighter on mobile so the photo doesn't fight the form/text */
+
+  /* Visible green frame around the form on mobile so it pops cleanly
+     instead of melting into the hero photo behind it. The 4px top
+     accent stays; the other three sides become a soft green tint. */
+  .lead-form {
+    border: 1.5px solid rgba(45, 106, 62, 0.35);
+    border-top: 4px solid var(--green);
+    box-shadow:
+      0 12px 32px rgba(1, 0, 128, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  }
+
+  .buyer-cols { grid-template-columns: 1fr; }
+  .prop-card { width: 260px; }
+  .props-track { animation-duration: 80s; }
+  .reason-grid { grid-template-columns: 1fr 1fr; }
+  .field-half { width: 100%; display: block; margin-right: 0; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .cta-actions .btn-primary,
+  .cta-actions .btn-outline { justify-content: center; }
+
+  /* Remove-strip on mobile: 2x2 grid of icons, no tag-text underneath.
+     Overrides the 960px rule that turned the tag into a stacked banner. */
+  .remove-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 0.75rem;
+    justify-items: center;
+  }
+  .rem { font-size: 0.95rem; }
+  .remove-tag { display: none; }
+
+  /* .brand-bar mobile rules are defined in the footer block above */
+}
+
+
+/* ===============================================================
+   SLIDE-UP CTA BAR — visible when lead form scrolls out of view
+   =============================================================== */
+.cta-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  padding: 0 1rem 1rem;
+  pointer-events: none;
+  transform: translateY(110%);
+  transition: transform .45s cubic-bezier(.18, .89, .32, 1.18);
+}
+.cta-bar.is-visible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.cta-bar-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 14px 40px rgba(1, 0, 128, 0.18);
+  backdrop-filter: blur(8px);
+}
+.cta-bar-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+.cta-bar-text strong {
+  font-size: 1rem;
+  color: var(--navy);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.cta-bar-text span {
+  font-size: .76rem;
+  color: var(--text-muted);
+  margin-top: .15rem;
+}
+.cta-bar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  flex: none;
+}
+.cta-bar-btn {
+  padding: .7rem 1.1rem;
+  font-size: .92rem;
+  font-weight: 700;   /* explicit so it matches on content pages (no styles.css there) */
+  border-radius: 8px;
+}
+.cta-bar-call {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .7rem .95rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: .92rem;
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+}
+.cta-bar-call:hover {
+  background: var(--navy);
+  color: white;
+}
+
+/* Phone link on the CTA bar — desktop hides this (we have phone in header
+   already); mobile shows it as an icon-only call button */
+.cta-bar-phone {
+  display: none;
+  align-items: center;
+  gap: .45rem;
+  padding: .65rem .8rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: .9rem;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.cta-bar-phone svg { flex-shrink: 0; }
+.cta-bar-phone:hover { background: var(--navy); color: white; }
+
+/* Live-chat button on the CTA bar — mobile only (desktop has the floating
+   launcher already). White with a navy outline, like the old phone button. */
+.cta-bar-chat {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  padding: .65rem .8rem;
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: .9rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.cta-bar-chat svg { flex-shrink: 0; }
+.cta-bar-chat:hover { background: var(--navy); color: #fff; }
+.cta-bar-chat:active { transform: scale(.96); }
+.cta-bar-chat-label { display: inline; }
+
+/* Hide the slide-up CTA bar entirely whenever the chatbot panel is open —
+   keeps the footer area clean and stops the bar competing for attention. */
+body:has(.chatbot.is-open) .cta-bar.is-visible {
+  transform: translateY(120%);
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .cta-bar { padding: 0 .5rem .5rem; }
+  .cta-bar-inner {
+    padding: .55rem .65rem;
+    gap: .45rem;
+    border-radius: 12px;
+    flex-wrap: nowrap;
+  }
+  /* On mobile we drop the wordy headline and show 3 compact buttons:
+     phone (icon-only), chat (icon-only), cash offer (label) */
+  .cta-bar-text { display: none; }
+  .cta-bar-phone {
+    display: inline-flex;
+    padding: .6rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+  }
+  .cta-bar-phone span { display: none; }   /* icon-only on mobile */
+  .cta-bar-chat {
+    display: inline-flex;
+    padding: .6rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  .cta-bar-chat-label { display: none; }   /* icon-only on mobile */
+  .cta-bar-actions { flex: 1; justify-content: flex-end; }
+  .cta-bar-btn {
+    padding: .65rem .9rem;
+    font-size: .85rem;
+    width: 100%;
+    justify-content: center;
+  }
+  .cta-bar-call-num { display: none; }
+  .cta-bar-call { padding: .65rem .75rem; }
+}
+
+
+/* ===============================================================
+   IMPORTANT ADVICE — USP block (text + YouTube video)
+   =============================================================== */
+.advice {
+  padding: 5rem 0 4.5rem;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+.advice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+/* Video on the left, text on the right (HTML order is kept text-first
+   for screen readers; visual order is flipped via CSS order) */
+.advice-grid > .advice-video { order: 1; }
+.advice-grid > .advice-text  { order: 2; }
+.advice-kicker {
+  background: #fef0e8;
+  color: #b85522;
+  border: 1px solid #f6d2c0;
+}
+.advice-text h2 {
+  text-align: left;
+  font-size: clamp(1.85rem, 3.4vw, 2.4rem);
+  margin: 0 0 1.25rem;
+}
+.advice-text .lede {
+  margin-bottom: 1.75rem;
+  max-width: 580px;
+}
+.advice-text .lede em {
+  color: var(--navy);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* "Concern → answer" pair rows. Each row has the industry warning on
+   the left (white card with numbered badge) and our differentiator on
+   the right (green-tinted, ✓ tagged). Reads as a 1-2 punch per point. */
+.advice-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 0 1rem;
+}
+.ap-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform .25s, box-shadow .25s;
+}
+.ap-row:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.ap-warn {
+  display: flex;
+  gap: .85rem;
+  align-items: flex-start;
+  padding: 1.1rem 1.25rem;
+  background: white;
+}
+.ap-num {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .9rem;
+  line-height: 1;
+  margin-top: .1rem;
+}
+.ap-warn h4 {
+  font-size: 1rem;
+  color: var(--navy);
+  font-weight: 700;
+  margin: 0 0 .35rem;
+  line-height: 1.3;
+}
+.ap-warn p {
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.ap-warn em {
+  font-style: italic;
+  color: var(--text);
+}
+.ap-answer {
+  padding: 1.1rem 1.25rem;
+  background: var(--green-tint);
+  border-left: 3px solid var(--green);
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+.ap-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: .2rem .55rem;
+  background: var(--green);
+  color: white;
+  border-radius: 6px;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ap-answer p {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: #2e3d34;
+}
+.ap-answer strong {
+  color: var(--green-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .ap-row { grid-template-columns: 1fr; }
+  .ap-answer { border-left: none; border-top: 3px solid var(--green); }
+}
+
+/* Native HTML5 video card. Self-hosted MP4, plays inline, no embed errors. */
+.advice-video {
+  position: sticky;
+  /* sits below the condensed sticky header (~57px) so they don't overlap */
+  top: 4.75rem;
+}
+.video-card {
+  display: block;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.video-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #000;
+}
+.video-card-text {
+  display: block;
+  padding: 1rem 1.25rem 1.1rem;
+  border-top: 1px solid var(--border);
+}
+.video-card-text strong {
+  display: block;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: .15rem;
+}
+.video-card-text span {
+  display: block;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+
+/* ─── Advice sub-blocks: questions, warnings, promises, CTA ─── */
+.advice-sub {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+.advice-sub-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+.advice-sub-head h3 {
+  font-size: clamp(1.5rem, 2.6vw, 1.85rem);
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.015em;
+  margin: 0 0 .85rem;
+}
+.advice-sub-head p {
+  font-size: 1rem;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.55;
+}
+.advice-kicker-red {
+  background: var(--red-tint);
+  color: var(--red);
+  border-color: #f5c6c0;
+}
+.advice-kicker-green {
+  background: var(--green-tint);
+  color: var(--green-dark);
+  border-color: #c1ddca;
+}
+
+/* Question cards — neutral, looks like an FAQ section */
+.advice-questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+.aq {
+  display: flex;
+  gap: .85rem;
+  padding: 1.1rem 1.25rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  align-items: flex-start;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.aq:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--green);
+}
+.aq-num {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .82rem;
+  letter-spacing: .04em;
+}
+.aq h4 {
+  font-size: 1rem;
+  color: var(--navy);
+  font-weight: 700;
+  margin: 0 0 .35rem;
+}
+.aq p {
+  font-size: .9rem;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Warning cards — red-tinted, with ⚠ icon */
+.advice-warnings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+.aw {
+  position: relative;
+  padding: 1.25rem 1.25rem 1.25rem 1.25rem;
+  background: var(--red-tint);
+  border: 1px solid #f5c6c0;
+  border-left: 4px solid var(--red);
+  border-radius: var(--radius);
+}
+.aw-ico {
+  display: inline-block;
+  font-size: 1.15rem;
+  margin-bottom: .35rem;
+}
+.aw h4 {
+  font-size: 1rem;
+  color: #8c2515;
+  font-weight: 700;
+  margin: 0 0 .4rem;
+}
+.aw p {
+  font-size: .9rem;
+  color: #6b3127;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Promise cards — green-tinted, with ✓ icon */
+.advice-promises {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+.ap {
+  display: flex;
+  gap: .85rem;
+  padding: 1.25rem;
+  background: white;
+  border: 1px solid #c1ddca;
+  border-radius: var(--radius);
+  align-items: flex-start;
+  transition: transform .25s, box-shadow .25s;
+}
+.ap:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+.ap-ico {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: .95rem;
+  line-height: 1;
+}
+.ap h4 {
+  font-size: .98rem;
+  color: var(--navy);
+  font-weight: 700;
+  margin: 0 0 .35rem;
+}
+.ap p {
+  font-size: .88rem;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* End-of-section CTA */
+.advice-cta {
+  margin-top: 4rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: white;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.advice-cta h3 {
+  font-size: clamp(1.55rem, 2.8vw, 2rem);
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0 0 .65rem;
+  letter-spacing: -0.015em;
+}
+.advice-cta p {
+  font-size: 1.05rem;
+  color: var(--text-soft);
+  margin: 0 0 1.5rem;
+}
+.advice-cta-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .85rem;
+}
+
+@media (max-width: 960px) {
+  .advice-questions,
+  .advice-warnings,
+  .advice-promises {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 960px) {
+  .advice-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .advice-video { position: static; }
+}
+@media (max-width: 600px) {
+  .advice-list li { padding: .85rem 1rem; font-size: .9rem; }
+}
+
+
+/* ===============================================================
+   LEAD MODAL — popup version of the form, opens from any out-of-hero
+   "Get cash offer" CTA. Backdrop fade + card scale-in animation.
+   =============================================================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(1, 0, 60, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 2.5rem);
+  overflow-y: auto;
+  background: white;
+  border-top: 4px solid var(--green);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  transform: scale(0.94) translateY(12px);
+  transition: transform .35s cubic-bezier(.18,.89,.32,1.18);
+}
+.modal.is-open .modal-card {
+  transform: scale(1) translateY(0);
+}
+.modal-close {
+  position: absolute;
+  top: .65rem;
+  right: .65rem;
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, color .2s, transform .15s;
+}
+.modal-close:hover {
+  background: var(--navy);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Modal-form variant — sits inside the modal card. Override the hero
+   form's sticky/glassy treatment since the modal is its own frame. */
+.modal-form {
+  position: static !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  padding: 1.85rem 1.85rem 1.5rem !important;
+}
+.modal-form::after { display: none !important; } /* no shimmer in modal */
+.modal-form[data-stage="1"] .form-progress { display: none; }
+
+/* Lock body scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .modal { padding: .65rem; }
+  .modal-card { max-height: calc(100vh - 1.3rem); }
+  .modal-form { padding: 1.5rem 1.25rem 1.15rem !important; }
+}
+
+
+/* Modal-trigger cards (property cards + reason cards) — make clickable feel */
+.is-modal-trigger {
+  cursor: pointer;
+}
+.is-modal-trigger:focus-visible {
+  outline: 3px solid var(--lime);
+  outline-offset: 3px;
+}
+
+
+/* ============================================================
+   CHATBOT WIDGET — "Sarah" virtual assistant
+   ============================================================ */
+
+.chatbot {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1100;
+  font-family: var(--ff);
+}
+
+
+/* ─── Cookie consent — mirrors the .cta-bar pill exactly ───
+   Sits in the same fixed-bottom slot. Hides the .cta-bar while
+   visible so they never overlap. After accept/decline, the CTA
+   bar resumes its scroll-triggered behaviour. */
+.cta-bar.is-suppressed {
+  transform: translateY(110%) !important;
+  pointer-events: none !important;
+}
+
+.cookie-banner {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 1200;
+  padding: 0 1rem 1rem;
+  pointer-events: none;
+  transform: translateY(110%);
+  transition: transform .45s cubic-bezier(.18, .89, .32, 1.18);
+  font-family: var(--ff);
+}
+.cookie-banner.is-visible {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.cookie-banner.is-dismissing {
+  transform: translateY(110%);
+  pointer-events: none;
+}
+.cookie-banner-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .85rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 14px 40px rgba(1, 0, 128, 0.18);
+  backdrop-filter: blur(8px);
+}
+.cookie-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+  min-width: 0;
+  flex: 1;
+}
+.cookie-text strong {
+  font-size: 1rem;
+  color: var(--navy);
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.cookie-text span {
+  font-size: .82rem;
+  color: var(--text-soft);
+  margin-top: .2rem;
+}
+.cookie-text a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cookie-text a:hover { color: var(--lime-dark); }
+
+.cookie-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  flex: none;
+}
+.cookie-btn {
+  padding: .65rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .15s ease;
+}
+.cookie-decline {
+  background: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.cookie-decline:hover {
+  background: var(--border-soft);
+  border-color: var(--border);
+}
+.cookie-accept {
+  background: var(--lime);
+  color: var(--navy);
+  box-shadow: 0 4px 12px rgba(165, 200, 68, 0.30);
+}
+.cookie-accept:hover {
+  background: var(--lime-dark);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(165, 200, 68, 0.38);
+}
+.cookie-btn:active { transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .cookie-banner { padding: 0 .5rem .5rem; }
+  .cookie-banner-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: .65rem;
+    padding: .85rem 1rem;
+  }
+  .cookie-actions { display: flex; }
+  .cookie-decline, .cookie-accept { flex: 1; }
+  .cookie-text strong { font-size: .95rem; }
+  .cookie-text span { font-size: .78rem; }
+}
+/* No CTA-bar collision lift: the desktop CTA bar is a centred max-720px
+   pill that doesn't reach the right edge, and on mobile we hide the
+   launcher entirely when the CTA bar shows (rule lower in this file). */
+
+/* ─── Tease bubble (preview message that pops up after a delay) ─── */
+.chatbot-tease {
+  position: absolute;
+  right: 0;
+  bottom: 80px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  padding: 12px 36px 12px 12px;
+  background: #ffffff;
+  border: 1px solid rgba(1, 0, 128, 0.08);
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 16px 40px rgba(1, 0, 128, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  animation: chatbotTeaseIn .5s cubic-bezier(.18, .89, .32, 1.28) both;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.chatbot-tease.is-visible { display: flex; }
+.chatbot-tease:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 48px rgba(1, 0, 128, 0.22), 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+.tease-avatar {
+  flex-shrink: 0;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--navy);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.tease-avatar img {
+  width: 28px; height: 28px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+.tease-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+.tease-body strong {
+  font-size: .92rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.tease-body span {
+  font-size: .8rem;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+.tease-close {
+  position: absolute;
+  top: 6px; right: 8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.tease-close:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ink);
+}
+
+@keyframes chatbotTeaseIn {
+  0% { opacity: 0; transform: translateY(8px) scale(.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── Floating launcher button ─── */
+.chatbot-launcher {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--navy);
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 12px 32px rgba(1, 0, 128, 0.35), 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: transform .25s cubic-bezier(.18, .89, .32, 1.28), box-shadow .25s ease, background .2s ease;
+  z-index: 2;
+}
+.chatbot-launcher:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 16px 40px rgba(1, 0, 128, 0.45), 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+.chatbot-launcher:active { transform: translateY(0) scale(.98); }
+
+.launcher-icon {
+  display: grid;
+  place-items: center;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.launcher-icon-close {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: rotate(-90deg) scale(.8);
+}
+/* When chat is open, launcher shows the X icon */
+.chatbot.is-open .chatbot-launcher .launcher-icon-chat {
+  opacity: 0;
+  transform: rotate(90deg) scale(.8);
+}
+.chatbot.is-open .chatbot-launcher .launcher-icon-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Pulsing ring to draw attention */
+.launcher-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--lime);
+  opacity: 0;
+  animation: launcherPulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+.chatbot.is-open .launcher-pulse { display: none; }
+@keyframes launcherPulse {
+  0% { opacity: .9; transform: scale(1); }
+  80% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* Unread badge (shown when there's a new bot message and panel is closed) */
+.launcher-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--red);
+  color: #ffffff;
+  font-size: .7rem;
+  font-weight: 700;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+.launcher-badge.is-visible { display: flex; }
+.chatbot.is-open .launcher-badge { display: none; }
+
+/* ─── Chat panel ─── */
+.chatbot-panel {
+  position: absolute;
+  right: 0;
+  bottom: 80px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 580px;
+  max-height: calc(100vh - 120px);
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(1, 0, 128, 0.28), 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: translateY(16px) scale(.96);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity .2s ease, transform .26s cubic-bezier(.18, .89, .32, 1.28), visibility 0s linear .26s;
+}
+.chatbot.is-open .chatbot-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity .2s ease, transform .26s cubic-bezier(.18, .89, .32, 1.28);
+}
+
+@media (max-width: 600px) {
+  /* On mobile the chat panel takes over the whole viewport — no rounded
+     corners, no offset, edge-to-edge. */
+  .chatbot-panel {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    transform-origin: center;
+  }
+  /* Tighter open animation on mobile (slide up rather than scale) */
+  .chatbot-panel { transform: translateY(20px); }
+  .chatbot.is-open .chatbot-panel { transform: translateY(0); }
+  /* Hide the floating launcher while the panel is open on mobile —
+     the panel header has its own close button. */
+  .chatbot.is-open .chatbot-launcher { display: none; }
+  /* Hide the tease bubble on mobile (avoid covering content); they can tap the launcher. */
+  .chatbot-tease { display: none !important; }
+
+  /* When the slide-up CTA bar is visible, it has its own chat button —
+     hide the floating launcher to avoid duplicating the entry point. */
+  body:has(.cta-bar.is-visible) .chatbot-launcher { display: none; }
+}
+
+/* Body scroll lock when the chat is open on mobile only.
+   Prevents the page scrolling behind the full-screen panel and stops iOS
+   from zooming. Desktop keeps normal scroll because the panel is a small
+   box bottom-right rather than full-screen. */
+@media (max-width: 600px) {
+  body.chat-open {
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    touch-action: none;
+  }
+}
+
+/* ─── Header ─── */
+.chatbot-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 14px;
+  background: linear-gradient(135deg, var(--navy) 0%, #1e1cb0 100%);
+  color: #ffffff;
+  flex-shrink: 0;
+}
+.chatbot-avatar {
+  position: relative;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.chatbot-avatar img {
+  width: 30px; height: 30px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+.status-dot {
+  position: absolute;
+  bottom: 1px; right: 1px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: #2ecc71;
+  border: 2px solid var(--navy);
+}
+.chatbot-id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.chatbot-id strong {
+  font-size: .98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.chatbot-id span {
+  font-size: .72rem;
+  opacity: 0.85;
+  letter-spacing: 0.01em;
+}
+.chatbot-id em { font-style: normal; opacity: 0.85; }
+.chatbot-min {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background .15s ease;
+}
+.chatbot-min:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* ─── Messages area ─── */
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(180deg, #f7f8fc 0%, #ffffff 60%);
+  scroll-behavior: smooth;
+}
+.chatbot-messages::-webkit-scrollbar { width: 6px; }
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: rgba(1, 0, 128, 0.15);
+  border-radius: 3px;
+}
+
+/* Message bubble */
+.chat-msg {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: .92rem;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  word-wrap: break-word;
+  animation: chatMsgIn .26s cubic-bezier(.18, .89, .32, 1.28) both;
+}
+.chat-msg p { margin: 0; }
+.chat-msg p + p { margin-top: 6px; }
+.chat-msg ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+.chat-msg ul li { margin-bottom: 2px; }
+.chat-msg strong { font-weight: 700; }
+
+.chat-msg-bot {
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid rgba(1, 0, 128, 0.07);
+  color: var(--ink);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(1, 0, 128, 0.04);
+}
+.chat-msg-user {
+  align-self: flex-end;
+  background: var(--navy);
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg-system {
+  align-self: center;
+  background: rgba(165, 200, 68, 0.16);
+  color: var(--green);
+  font-size: .78rem;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+@keyframes chatMsgIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Typing indicator */
+.chat-typing {
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid rgba(1, 0, 128, 0.07);
+  border-bottom-left-radius: 4px;
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  gap: 4px;
+  animation: chatMsgIn .2s ease both;
+}
+.chat-typing span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(1, 0, 128, 0.4);
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.chat-typing span:nth-child(2) { animation-delay: .15s; }
+.chat-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ─── Quick reply chips ─── */
+.chatbot-chips {
+  padding: 6px 14px 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+  /* Cap the chip area so 10 situation options can't push the conversation
+     completely out of view. If chips overflow this height, scroll inside
+     the chip strip rather than pushing messages off-screen. */
+  max-height: 35vh;
+  overflow-y: auto;
+}
+.chatbot-chips:empty { display: none; }
+.chatbot-chips::-webkit-scrollbar { width: 6px; }
+.chatbot-chips::-webkit-scrollbar-thumb {
+  background: rgba(1, 0, 128, 0.15);
+  border-radius: 3px;
+}
+.chip {
+  border: 1.5px solid var(--navy);
+  background: rgba(1, 0, 128, 0.04);
+  color: var(--navy);
+  padding: 7px 14px;
+  border-radius: 100px;
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .12s ease;
+  white-space: nowrap;
+}
+.chip:hover {
+  background: var(--navy);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.chip:active { transform: translateY(0); }
+.chip-skip {
+  border-color: rgba(1, 0, 128, 0.25);
+  color: var(--ink-soft);
+}
+
+/* ─── Input area ─── */
+.chatbot-input {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  background: #ffffff;
+  border-top: 1px solid rgba(1, 0, 128, 0.07);
+  flex-shrink: 0;
+}
+.chatbot-input input {
+  flex: 1;
+  border: 1.5px solid rgba(1, 0, 128, 0.12);
+  background: #f7f8fc;
+  border-radius: 100px;
+  padding: 10px 16px;
+  font: inherit;
+  font-size: .92rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+.chatbot-input input:focus {
+  border-color: var(--navy);
+  background: #ffffff;
+}
+.chatbot-input input::placeholder { color: var(--ink-soft); }
+.chatbot-input.is-disabled input {
+  pointer-events: none;
+  background: #f3f3f5;
+  color: var(--ink-soft);
+}
+.chatbot-send {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--navy);
+  color: #ffffff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: background .15s ease, transform .12s ease;
+}
+.chatbot-send:hover { background: #1e1cb0; transform: scale(1.06); }
+.chatbot-send:active { transform: scale(.96); }
+.chatbot-input.is-disabled .chatbot-send {
+  pointer-events: none;
+  background: rgba(1, 0, 128, 0.3);
+}
+
+/* ─── Footer ─── */
+.chatbot-footer {
+  padding: 8px 14px 10px;
+  font-size: .68rem;
+  text-align: center;
+  color: var(--ink-soft);
+  background: #ffffff;
+  border-top: 1px solid rgba(1, 0, 128, 0.04);
+  flex-shrink: 0;
+}
+.chatbot-footer a {
+  color: var(--navy);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Hide on print */
+@media print {
+  .chatbot { display: none !important; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-tease,
+  .chatbot-panel,
+  .chat-msg,
+  .chat-typing,
+  .launcher-pulse {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Prevent iOS Safari from zooming the page when an input is focused.
+   iOS auto-zooms on any input with font-size < 16px. Override the .92rem
+   default with a hard 16px on small viewports. Placed at end of file so
+   it wins the cascade against the regular rule above. */
+@media (max-width: 600px) {
+  .chatbot-input input { font-size: 16px; }
+}
+
+/* ─── MMA CROSS-LINK CALLOUT BAND ────────────────────────────────
+   Navy band on pp-cash-offer that sends visitors to the Modern
+   Method of Auction guide page. Mid-page, between .versus and
+   .props, so it catches the "comparing my options" mindset.
+   Full-width (navy gradient spans the entire viewport, content
+   stays centered within at the max-width). */
+.mma-callout {
+  padding: 4.5rem 0;
+  background: linear-gradient(135deg, #010080 0%, #1a1a9e 100%);
+  color: #fff;
+}
+.mma-callout-card {
+  /* No card chrome — let the section's full-width navy gradient
+     do the visual work. Just centre and constrain the content. */
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 1.5rem;
+}
+.mma-callout .mma-callout-kicker {
+  display: inline-block;
+  background: #c62828;
+  color: #fff;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 1.3rem;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.35);
+}
+.mma-callout h2 {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  color: #fff;
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+.mma-callout p {
+  font-size: 1.08rem;
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto 1.8rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+.mma-callout p strong { color: #fff; font-weight: 700; }
+.mma-callout-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  /* Slight override of .btn-primary so the lime button reads well
+     against the navy card (no shadow needed — card has its own) */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 600px) {
+  .mma-callout { padding: 3.5rem 0; }
+  .mma-callout-card { padding: 0 1rem; }
+}
+
+/* Inline cross-link from MMA closing pitch → pp-cash-offer page.
+   Subtle styling so it doesn't compete with the main CTA button. */
+.mma-inline-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(1, 0, 128, 0.35);
+  text-underline-offset: 3px;
+  font-weight: 700;
+  transition: text-decoration-color .2s;
+}
+.mma-inline-link:hover { text-decoration-color: var(--lime); }
+
+/* ─── COOKIEBOT renew-consent floating widget ────────────────────
+   Moved to lp/shared/footer.css (loaded by EVERY page) so the widget
+   is left-anchored site-wide, not just on styles.css pages. */
+
+
+/* SITE HEADER NAV + condensed sticky bar moved to the shared lp/shared/nav.css
+   (one source for landing + content pages). Markup via build.py, JS via nav.js. */
+
+
+/* =====================================================================
+   IMAGE-LED HERO ("for now") — body.hero-solo on the non-home landing
+   pages (the 5 situation pages + Modern Method of Auction). Hides the
+   hero lead form so the photo reads at full strength, keeps the headline
+   on the readable left (the white left-fade .hero::after still applies).
+   Fully reversible: remove the hero-solo class to bring the form back.
+   ===================================================================== */
+body.hero-solo .form-col { display: none; }
+body.hero-solo .hero-grid { display: block; max-width: var(--max-w); }
+body.hero-solo .hero-text { max-width: 700px; }   /* wide enough that long first lines (e.g. "Sell your house due to") don't orphan a word */
+body.hero-solo .hero-text h1 { text-wrap: balance; }   /* even out the line lengths so no single word ("fast", "to") gets stranded */
+body.hero-solo .hero::before { opacity: 1; }   /* photo at full strength (desktop) */
+/* Tablet + mobile: the headline + lede stack directly OVER the photo here (no
+   side-by-side white left-fade like desktop), so the full-strength image fights
+   the text. Fade it right back for legibility. Desktop (>1024px) keeps it full. */
+@media (max-width: 1024px) {
+  body.hero-solo .hero::before { opacity: 0.3; }
+}
+@media (max-width: 600px) {
+  /* the form column carried the mobile headline; with it gone, bring the
+     real H1 + kicker back in the text column so the page still has a title */
+  body.hero-solo .hero-text .kicker { display: inline-block; }
+  body.hero-solo .hero-text h1 { display: block; }
+  body.hero-solo .hero-text { max-width: none; }
+}
+
+/* ip-strip CTA — replaces the old note text on the service pages: trust
+   items on the left, a "Get my cash offer" button pushed to the right,
+   all on one line (wraps + centres on mobile). */
+.ip-strip .ipx-cta { margin-left: auto; display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--lime); color: var(--navy-dark); font-weight: 800; font-size: 1rem;
+  padding: .68rem 1.4rem; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(165, 200, 68, .35); transition: background .15s ease, transform .15s ease; }
+.ip-strip .ipx-cta:hover { background: var(--lime-dark); transform: translateY(-2px); }
+.ip-strip .ipx-cta svg { width: 18px; height: 18px; flex: none; }
+@media (max-width: 900px) { .ip-strip .ipx-cta { margin-left: 0; } }
+
+/* Connected step timeline (icon circles + "Step" pills + dotted connector) —
+   ported from the content-page .timeline component so the landing pages get
+   a richer "How it works" than plain numbered boxes. Horizontal on desktop,
+   stacks to an icon-left list on mobile. */
+.timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+.tl-step { text-align: center; padding: 0 .8rem; position: relative; }
+.tl-step:not(:last-child)::after { content: ""; position: absolute; top: 32px; right: -1px; width: 100%; height: 2px; background: repeating-linear-gradient(90deg, var(--border) 0 8px, transparent 8px 14px); transform: translateX(50%); z-index: 0; }
+.tl-ico { position: relative; z-index: 1; width: 64px; height: 64px; margin: 0 auto .9rem; border-radius: 50%; background: #fff; border: 2px solid var(--lime); color: var(--navy); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+.tl-ico svg { width: 28px; height: 28px; fill: none; }
+.tl-day { display: inline-block; background: var(--navy); color: #fff; font-weight: 800; font-size: .78rem; letter-spacing: .03em; padding: .2rem .7rem; border-radius: 999px; margin-bottom: .4rem; }
+.tl-step h3 { font-size: 1.05rem; margin: 0; color: var(--navy); }
+.tl-step p { margin: .4rem 0 0; color: var(--text-soft); font-size: .95rem; }
+.ip-sec.navy .tl-ico { background: rgba(255,255,255,.06); border-color: var(--lime); color: #fff; }
+.ip-sec.navy .tl-day { background: var(--lime); color: var(--navy-dark); }
+.ip-sec.navy .tl-step h3 { color: #fff; }
+.ip-sec.navy .tl-step:not(:last-child)::after { background: repeating-linear-gradient(90deg, rgba(255,255,255,.3) 0 8px, transparent 8px 14px); }
+@media (max-width: 760px) {
+  .timeline { grid-template-columns: 1fr; text-align: left; max-width: 440px; margin: 0 auto; }
+  .tl-step { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 1rem; padding: .6rem 0; text-align: left; }
+  .tl-ico { margin: 0; }
+  .tl-step:not(:last-child)::after { top: 64px; left: 31px; right: auto; width: 2px; height: 100%; transform: none; background: repeating-linear-gradient(180deg, var(--border) 0 8px, transparent 8px 14px); }
+  .tl-meta { display: flex; flex-direction: column; gap: .2rem; }
+}
+@media (min-width: 761px) { .timeline.timeline-3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* Card grids: keep ~3-up but CENTRE the last row, so a 4- or 5-card grid
+   no longer strands its leftover cards to the left with an empty gap.
+   Higher specificity (.ip-sec .ip-grid) overrides the inline 3-col grid. */
+.ip-sec .ip-grid { display: flex; flex-wrap: wrap; justify-content: center; }
+.ip-sec .ip-grid > * { flex: 0 1 calc(33.333% - 1rem); }
+@media (max-width: 900px) { .ip-sec .ip-grid > * { flex-basis: 100%; } }
+
+/* Comparison cards: equal height (the middle 'Auction' col is shorter, so
+   stretch all three to the tallest instead of each sizing to its content). */
+.ip-sec .ip-opts { align-items: stretch; }
+
+/* Hero (desktop 2-col, >=961px): align the lead form's TOP with the H1
+   headline by clearing the kicker eyebrow above it (1.916rem box + 1.5rem
+   margin = 3.42rem). The form keeps its NATURAL height + scroll-stick — it
+   sits shorter than the text column, which is the clean look (stretching it
+   to the proof line left a big empty gap in the card). Below 961px the hero
+   stacks, so no offset applies. */
+@media (min-width: 961px) {
+  /* margin-top: clear the kicker so the form top lines up with the H1.
+     padding-bottom: a 30px buffer so the sticky form stops short of the
+     column's bottom edge as you scroll (it never butts flush against it). */
+  .form-col { margin-top: 3.42rem; padding-bottom: 30px; }
+}
