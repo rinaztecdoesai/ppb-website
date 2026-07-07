@@ -1,0 +1,9 @@
+{
+  "name": "ppb-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing site. Build is a pure file-copy: scripts/build-sevalla-public.sh. This package.json exists only so Sevalla's mandatory npm install step is a no-op (the site has no JS dependencies).",
+  "scripts": {
+    "build": "bash scripts/build-sevalla-public.sh"
+  }
+}
