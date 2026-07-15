@@ -20,8 +20,10 @@ USAGE:
     python3 lp/shared/build.py                         # base chrome + sitemap
     python3 lp/shared/blog-build.py                    # then the blog
 
-Fails CLOSED: if the API is unreachable / unconfigured, the index renders its
-empty state and no article pages are written (the last good ones stay).
+Fails SAFE: if the API is unreachable / rate-limited / unconfigured, the build
+PRESERVES the last-good blog untouched (index, article pages and sitemap) rather
+than blanking it — a transient 429 can never wipe the live blog. The empty state
+is only written on a first build when no index exists yet.
 """
 from __future__ import annotations
 
@@ -432,26 +434,41 @@ def main() -> int:
     load_env(os.path.join(ROOT, ".env.local"))
     out_dir = os.path.join(ROOT, "blog")
     os.makedirs(out_dir, exist_ok=True)
+    index_path = os.path.join(out_dir, "index.html")
 
     configured = kereeb.is_kereeb_configured()
     api_reachable = configured and kereeb.is_content_api_reachable()
     if not configured:
-        print("• Kereeb not configured — writing empty-state index only "
+        print("• Kereeb not configured — preserving existing blog "
               "(set .env.local, then re-run).")
     elif not api_reachable:
-        print("• Kereeb unreachable — preserving existing article pages.")
+        print("• Kereeb unreachable — preserving existing blog (index + articles).")
 
-    summaries = kereeb.list_all_posts() if api_reachable else []
+    # Fail-safe: without a trustworthy API response we must NEVER blank the live
+    # blog. A transient 429/outage must leave the last-good index, article pages
+    # AND sitemap entries exactly as they are. Only when there is genuinely no
+    # index yet (first build) do we emit the empty state so the route exists.
+    if not api_reachable:
+        if os.path.exists(index_path):
+            print("  preserved existing blog/index.html + article pages + sitemap.")
+        else:
+            with open(index_path, "w", encoding="utf-8") as fh:
+                fh.write(build_index([]))
+            print("  wrote empty-state blog/index.html (first build, no API).")
+        print("Done. Blog preserved (Content API unavailable).")
+        return 0
+
+    summaries = kereeb.list_all_posts()
     print(f"• {len(summaries)} post summary(ies) from the Content API.")
 
-    if api_reachable:
-        current_slugs = {
-            s["slug"] for s in summaries if isinstance(s.get("slug"), str)
-        }
-        prune_stale_article_dirs(out_dir, current_slugs)
+    current_slugs = {
+        s["slug"] for s in summaries if isinstance(s.get("slug"), str)
+    }
+    prune_stale_article_dirs(out_dir, current_slugs)
 
-    # Index (always written — empty state when there are no posts).
-    with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as fh:
+    # Index (written from a trusted response — empty state only when the API
+    # genuinely returned zero published posts).
+    with open(index_path, "w", encoding="utf-8") as fh:
         fh.write(build_index(summaries))
     print("  wrote blog/index.html")
 

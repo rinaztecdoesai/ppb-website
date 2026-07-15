@@ -21,6 +21,13 @@ refresh. Stop with Ctrl-C.
 
 This is a dev convenience only. It does NOT change how production works and it
 keeps the API key build-time (never shipped to the browser).
+
+WARNING: NEVER point this at the PRODUCTION Content API. It re-runs blog-build.py
+every INTERVAL seconds (~15s), and each rebuild GETs the Content API. Pointed at
+prod that is thousands of authenticated reads per day that drain the shared read
+quota and can 429 the real deploy pipeline. This watcher refuses to poll a
+non-local KEREEB_API_URL unless you pass --allow-remote-api (don't, in normal
+dev). See BLOG-DEPLOYMENT.md.
 """
 
 from __future__ import annotations
@@ -33,10 +40,63 @@ import subprocess
 import sys
 import threading
 import time
+import urllib.parse
 
 # repo root = two levels up from lp/shared/
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 BUILD = os.path.join(ROOT, "lp", "shared", "blog-build.py")
+
+# Hosts the poller is allowed to hammer. Anything else is treated as production.
+_LOCAL_HOSTS = {"localhost", "127.0.0.1", "0.0.0.0", "::1", ""}
+
+
+def _kereeb_api_host() -> str:
+    """Resolve the configured KEREEB_API_URL host from the env or .env.local.
+
+    blog-dev.py doesn't otherwise read .env.local (blog-build.py does), so we do
+    a minimal parse here purely to guard against pointing the 15s poll loop at
+    production.
+    """
+    api_url = os.environ.get("KEREEB_API_URL", "").strip()
+    if not api_url:
+        env_path = os.path.join(ROOT, ".env.local")
+        if os.path.exists(env_path):
+            with open(env_path, encoding="utf-8") as fh:
+                for raw in fh:
+                    line = raw.strip()
+                    if line.startswith("KEREEB_API_URL") and "=" in line:
+                        api_url = line.partition("=")[2].strip().strip('"').strip("'")
+                        break
+    if not api_url:
+        return ""
+    return (urllib.parse.urlsplit(api_url).hostname or "").lower()
+
+
+def guard_against_prod_api(allow_remote: bool) -> None:
+    """Abort loudly if the watcher would poll a non-local (production) API.
+
+    The 15s rebuild loop makes thousands of Content API reads/day; against prod
+    that drains the shared read quota and can 429 the real deploy. Local hosts
+    are fine; anything else needs an explicit, deliberate --allow-remote-api.
+    """
+    host = _kereeb_api_host()
+    if host in _LOCAL_HOSTS or allow_remote:
+        if allow_remote and host not in _LOCAL_HOSTS:
+            print(f"[blog-dev] WARNING --allow-remote-api set: polling REMOTE API '{host}'. "
+                  "This spends real read quota every ~15s — stop it when done.")
+        return
+    sys.stderr.write(
+        "\n[blog-dev] REFUSING TO START — KEREEB_API_URL points at a non-local host:\n"
+        f"    {host}\n\n"
+        "blog-dev.py polls the Content API every ~15s. Against PRODUCTION that is\n"
+        "thousands of authenticated reads/day draining the shared read quota, which\n"
+        "can 429 and abort the real blog deploy pipeline.\n\n"
+        "Do one of:\n"
+        "  • point KEREEB_API_URL at a local Kereeb instance (localhost) for dev, or\n"
+        "  • just run `python3 lp/shared/blog-build.py` once by hand, or\n"
+        "  • (only if you REALLY mean it) re-run with --allow-remote-api.\n\n"
+    )
+    raise SystemExit(2)
 
 
 def rebuild_loop(interval: int, stop: threading.Event) -> None:
@@ -83,7 +143,13 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=8770)
     parser.add_argument("--interval", type=int, default=15,
                         help="seconds between automatic blog rebuilds (default 15)")
+    parser.add_argument("--allow-remote-api", action="store_true",
+                        help="DANGER: permit polling a non-local (production) "
+                             "KEREEB_API_URL. Drains the shared read quota; avoid.")
     args = parser.parse_args()
+
+    # Never let the 15s poll loop hammer the production Content API.
+    guard_against_prod_api(args.allow_remote_api)
 
     # One rebuild up front so the site is current the moment the server is up.
     print("[blog-dev] initial blog build…")
