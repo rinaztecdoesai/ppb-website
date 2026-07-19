@@ -56,7 +56,7 @@ CSS_LINKS = """<link rel="stylesheet" href="/lp/shared/pp-pages-v2.css?v=33">
 <link rel="stylesheet" href="/lp/shared/footer.css?v=9">
 <link rel="stylesheet" href="/lp/shared/offer-modal.css?v=2">
 <link rel="stylesheet" href="/lp/shared/widgets.css?v=8">
-<link rel="stylesheet" href="/lp/shared/blog.css?v=1">"""
+<link rel="stylesheet" href="/lp/shared/blog.css?v=2">"""
 
 GTM_NOSCRIPT = (
     '<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5D9NNXQ" '
@@ -110,7 +110,8 @@ def _first(post: dict[str, Any], *keys: str) -> Optional[str]:
 
 
 def hero_url(post: dict[str, Any]) -> Optional[str]:
-    raw = _first(post, "heroImage", "coverImage", "image", "ogImage", "featuredImage")
+    raw = _first(post, "heroImageUrl", "heroImage", "coverImageUrl", "coverImage",
+                 "image", "ogImage", "featuredImage")
     return kereeb.absolutize_image_url(raw)
 
 
