@@ -66,3 +66,23 @@ If you would rather not use a token, skip this section. The hourly schedule keep
 4. Within a few minutes the post is live at `https://primepropertybuyers.uk/blog/`.
 
 If you want to trigger a rebuild by hand at any time, open the Actions tab, choose `rebuild-blog`, and press Run workflow.
+
+## 7. Resilience: a transient rate limit can never blank the blog
+
+The blog build is hardened so a temporary Content API hiccup (an HTTP 429 rate limit, or a brief 5xx) can never abort a deploy or wipe the live blog:
+
+- **Retry with backoff.** Both the pre-build check (`lp/shared/verify-kereeb.py`) and the API client (`lp/shared/kereeb.py`) retry transient 429/5xx responses with exponential backoff, honouring a `Retry-After` header when the API sends one.
+- **Soft-skip instead of abort.** If the API is still rate-limited after the retries, `verify-kereeb.py` prints a warning and exits `0` so the deploy proceeds. A genuine misconfiguration (a bad key → 401/403, or an unreachable host → DNS error) still hard-fails, because a retry would not fix it.
+- **Preserve the last-good blog.** If the API is unreachable when the build runs, `lp/shared/blog-build.py` preserves the existing `blog/index.html`, all article pages, and the sitemap exactly as they are, instead of overwriting the index with an empty state. The empty state is only ever written on a first build when no blog exists yet.
+
+The net effect: publishing in Kereeb reliably appears on the live blog, and a transient limit at most delays a rebuild — it never takes the blog down.
+
+## 8. Local development: never point the dev watcher at production
+
+`lp/shared/blog-dev.py` is a **local-only** convenience: it serves the site and re-runs the blog build every ~15 seconds so newly published articles appear on refresh without retyping a command.
+
+That 15-second loop makes thousands of authenticated Content API reads per day. Pointed at the **production** Content API (`https://kereeb-clone-production.up.railway.app`) it would drain the shared read quota and could 429 the real deploy pipeline. So:
+
+- **Do not** set `KEREEB_API_URL` to the production URL when running `blog-dev.py`. The script now **refuses to start** against any non-local `KEREEB_API_URL` unless you deliberately pass `--allow-remote-api` (don't, in normal dev).
+- To update the live blog, just let the GitHub Action do it (instant on publish, hourly fallback), or run `python3 lp/shared/blog-build.py` **once** by hand — not the polling watcher.
+- There should be **no other automated poller** of the live Content API: the only scheduled reader is the hourly `rebuild-blog` workflow. If you add an uptime monitor or a second Sevalla environment, do not have it hit `/api/content/*` on a tight loop.
